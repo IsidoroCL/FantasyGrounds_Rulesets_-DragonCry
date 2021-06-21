@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="reference_skillchallengeitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<numberfield name="myfilter">
+				<invisible />
+				<bounds>5,0,20,20</bounds>
+			</numberfield>
+
+			<stringfield name="name">
+				<bounds>0,2,200,15</bounds>
+				<font>narratorfont</font>
+				<script> 
+					function onClickDown(button, x, y)
+						window.text.setVisible(not window.text.isVisible());
+					end
+				</script>
+			</stringfield>
+			<jpgnumberfield name="numberdata">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<anchor>right</anchor>
+						<offset>15</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</jpgnumberfield>
+			<stringfield name="text">
+				<anchored>
+					<top>
+						<anchor>bottom</anchor>
+						<parent>name</parent>
+					</top>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+				</anchored>
+				<multilinespacing>15</multilinespacing>
+				<right />
+				<font>chatfont</font>
+				<invisible />
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="skillchallenge_description">
+		<sheetdata>
+			<!-- DESCRIPTION -->
+			<genericcontrol name="spacer">
+				<anchored>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<bottom>
+						<anchor>top</anchor>
+					</bottom>
+				</anchored>
+			</genericcontrol>
+			<stringfield name="flavorlab">
+				<anchored>
+					<top>
+						<anchor>bottom</anchor>
+						<parent>spacer</parent>
+						<relation>relative</relation>
+					</top>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+				</anchored>
+				<font>narratorfont</font>
+				<static>Flavor</static>
+				<selectioncolor>#FFD296</selectioncolor>
+				<script> 
+					function onClickDown(button, x, y)
+						window.flavor.setVisible(not window.flavor.isVisible());
+					end
+				</script>
+			</stringfield>
+			<stringfield name="flavor">
+				<anchored>
+					<top>
+						<anchor>bottom</anchor>
+						<parent>spacer</parent>
+						<relation>relative</relation>
+					</top>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+				</anchored>
+				<multilinespacing>15</multilinespacing>
+				<font>chatitalicfont</font>
+				<selectioncolor>#FFD296</selectioncolor>
+				<invisible />
+			</stringfield>
+			<stringfield name="detaillab">
+				<anchored>
+					<top>
+						<anchor>bottom</anchor>
+						<parent>spacer</parent>
+						<relation>relative</relation>
+					</top>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+				</anchored>
+				<font>narratorfont</font>
+				<static>Details</static>
+				<selectioncolor>#FFD296</selectioncolor>
+				<script> 
+					function onClickDown(button, x, y)
+						window.details.setVisible(not window.details.isVisible());
+					end
+				</script>
+			</stringfield>
+			<stringfield name="details">
+				<anchored>
+					<top>
+						<anchor>bottom</anchor>
+						<parent>spacer</parent>
+						<relation>relative</relation>
+					</top>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+				</anchored>
+				<multilinespacing>15</multilinespacing>
+				<font>chatfont</font>
+				<selectioncolor>#FFD296</selectioncolor>
+				<invisible />
+			</stringfield>
+
+			<windowlist name="itemlist">
+				<anchored>
+					<top>
+						<anchor>bottom</anchor>
+						<parent>spacer</parent>
+						<relation>relative</relation>
+					</top>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+				</anchored>
+				<datasource>.items</datasource>
+				<class>reference_skillchallengeitem</class>
+				<noscroll />
+				<script file="scripts/reference_list.lua" />
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_skillchallenge">
+		<frame>charsheet</frame>
+		<placement>
+			<size>
+				<width>340</width>
+				<height>410</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<minimum>
+				<width>340</width>
+				<height>410</height>
+			</minimum>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_npc</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<!-- NAME -->
+			<genericcontrol name="nameframe">
+				<bounds>38,20,-35,35</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<stringfield name="name">
+				<anchored>
+					<top>
+						<parent>nameframe</parent>
+						<anchor>top</anchor>
+						<offset>9</offset>
+					</top>
+					<left>
+						<parent>nameframe</parent>
+						<anchor>left</anchor>
+						<offset>35</offset>
+					</left>
+					<right>
+						<parent>nameframe</parent>
+						<anchor>right</anchor>
+						<offset>-15</offset>
+					</right>
+				</anchored>
+				<empty>&#171; New Personality &#187;</empty>
+				<font>sheettext</font>
+			</stringfield>
+
+			<genericcontrol name="tabcontentframe">
+				<bounds>10,54,-10,-15</bounds>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>0,1,0,0</offset>
+				</frame>
+			</genericcontrol>
+
+			<stringfield name="levellab">
+				<anchored>
+					<top>
+						<parent>tabcontentframe</parent>
+						<anchor>top</anchor>
+						<offset>9</offset>
+					</top>
+					<left>
+						<parent>tabcontentframe</parent>
+						<anchor>left</anchor>
+						<offset>15</offset>
+					</left>
+					<right>
+						<parent>tabcontentframe</parent>
+						<anchor>left</anchor>
+						<offset>45</offset>
+					</right>
+				</anchored>
+				<static>Level</static>
+				<font>sheetlabel</font>
+			</stringfield>
+
+			<stringfield name="level">
+				<anchored>
+					<top>
+						<parent>levellab</parent>
+						<anchor>top</anchor>
+					</top>
+					<left>
+						<parent>levellab</parent>
+						<anchor>right</anchor>
+						<offset>15</offset>
+					</left>
+					<right>
+						<parent>levellab</parent>
+						<anchor>right</anchor>
+						<offset>45</offset>
+					</right>
+				</anchored>
+				<static />
+				<font>sheetlabel</font>
+			</stringfield>
+
+			<stringfield name="xp">
+				<anchored>
+					<top>
+						<parent>tabcontentframe</parent>
+						<anchor>top</anchor>
+						<offset>9</offset>
+					</top>
+					<left>
+						<parent>tabcontentframe</parent>
+						<anchor>right</anchor>
+						<offset>-60</offset>
+					</left>
+					<right>
+						<parent>tabcontentframe</parent>
+						<anchor>right</anchor>
+						<offset>-15</offset>
+					</right>
+				</anchored>
+				<static />
+				<font>sheetlabel</font>
+			</stringfield>
+			
+			<stringfield name="xplab">
+				<anchored>
+					<top>
+						<parent>xp</parent>
+						<anchor>top</anchor>
+					</top>
+					<left>
+						<parent>xp</parent>
+						<anchor>left</anchor>
+						<offset>-45</offset>
+					</left>
+					<right>
+						<parent>xp</parent>
+						<anchor>left</anchor>
+						<offset>-15</offset>
+					</right>
+				</anchored>
+				<static>XP</static>
+				<font>sheetlabel</font>
+			</stringfield>
+
+			<!-- SUBWINDOWS -->
+			<subwindow name="description">
+				<anchored>
+					<to>tabcontentframe</to>
+					<position>over</position>
+					<offset>-15,-30</offset>
+				</anchored>
+				<activate />
+				<class>skillchallenge_description</class>
+			</subwindow>
+
+			<scrollercontrol name="description_scroller">
+				<bounds>-79,-50,45,27</bounds>
+				<target>description</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<closebutton_charsheetmini />
+		</sheetdata>
+	</windowclass>
+</root>

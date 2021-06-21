@@ -1,0 +1,65 @@
+<!-- The Box -->
+
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root version="2.0">
+	<icon name="thebox_icon">icons/thebox_icon.png</icon>
+
+	<framedef name="thebox_normal">
+		<bitmap>icons/thebox_normal.png</bitmap>
+		<middle>0,0,60,40</middle>
+	</framedef>
+
+	<framedef name="thebox_drop">
+		<bitmap>icons/thebox_drop.png</bitmap>
+		<middle>0,0,60,40</middle>
+	</framedef>
+
+	<windowclass name="thebox">
+		<sheetdata>
+			<genericcontrol>
+				<tooltip>
+					<text>The Box</text>
+				</tooltip>
+				<bounds>0,0,60,40</bounds>
+				<frame>
+					<name>thebox_normal</name>
+				</frame>
+				<droptypes>
+					<type>dice</type>
+					<type>attack</type>
+					<type>damage</type>
+					<type>init</type>
+				</droptypes>
+				<stateframe>
+					<drophover>
+						<name>thebox_drop</name>
+						<nobaseframe />
+					</drophover>
+				</stateframe>
+						
+				<script file="scripts/thebox.lua" />
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<panel name="thebox" modes="host,client">
+		<class>thebox</class>
+		<bounds>
+			<anchored>
+				<bottom>
+					<anchor>bottom</anchor>
+					<offset>-43</offset>
+				</bottom>
+				<right>
+					<anchor>right</anchor>
+					<offset>-113</offset>
+				</right>
+				<size>
+					<width>60</width>
+					<height>40</height>
+				</size>
+			</anchored>
+		</bounds>
+	</panel>
+</root>
+		

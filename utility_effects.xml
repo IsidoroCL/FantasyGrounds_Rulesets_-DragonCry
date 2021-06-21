@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="effectsmall">
+		<playercontrol />
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<script>
+			function onInit()
+				if User.isHost() then
+					registerMenuItem("Delete Item", "delete", 6);
+					show_on_client.setVisible(true);
+				end
+			end
+
+			function onMenuSelection(selection)
+				if selection == 6 then
+					getDatabaseNode().delete();
+				end
+			end
+
+			function onDrop(x, y, draginfo)
+				return windowlist.onDrop(x, y, draginfo);
+			end
+			
+			function onDrag(button, x, y, draginfo)
+				if label.getValue() ~= "" then
+					draginfo.setType("effect");
+					draginfo.setDescription(label.getValue());
+					draginfo.setStringData(label.getValue());
+					
+					draginfo.setSlot(2);
+					draginfo.setStringData(getDatabaseNode().getNodeName());
+				end
+
+				return true;
+			end
+		</script>
+		<sheetdata>
+			<checkbox name="show_on_client">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>4</offset>
+					</top>
+					<size>
+						<width>24</width>
+						<height>21</height>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Show on Client</text>
+				</tooltip>
+				<checked />
+				<gmonly />
+				<invisible />
+			</checkbox>
+
+			<jpgnumberfield name="effectsavemod">
+				<anchored>
+					<right>
+						<parent>show_on_client</parent>
+						<anchor>left</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>30</width>
+						<height>22</height>
+					</size>
+				</anchored>
+				<font>sheetnumbersmall</font>
+				<frame>
+					<name>bonus</name>
+					<offset>2,2,2,1</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>2,2,2,2</offset>
+				</keyeditframe>
+				<stateframe>
+					<drophilight>
+						<name>sheetfocus</name>
+						<offset>2,2,2,2</offset>
+					</drophilight>
+				</stateframe>
+				<displaysign />
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<invisible />
+				<gmonly />
+				<script>
+					function onDrag(button, x, y, draginfo)
+						return window.onDrag(button, x, y, draginfo);
+					end
+
+					function onDrop(x, y, draginfo)
+						if draginfo.getType() ~= "number" then
+							return false;
+						end
+					end
+				</script>
+			</jpgnumberfield>
+
+			<labelcycler name="expiration">
+				<anchored>
+					<right>
+						<parent>show_on_client</parent>
+						<anchor>left</anchor>
+						<offset>-30</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>2</offset>
+					</top>
+					<size>
+						<width>45</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheettextsmall</font>
+				<center />
+				<frame>
+					<name>durationadjustment</name>
+					<offset>2,3,2,2</offset>
+				</frame>
+				<stateframe>
+					<hover>
+						<name>sheetfocus</name>
+						<offset>2,3,2,2</offset>
+					</hover>
+				</stateframe>
+				<sourcefields>
+					<labels>Save|Enc|End N|Start|End</labels>
+					<values>save|encounter|endnext|start|end</values>
+					<srcnode>expiration</srcnode>
+				</sourcefields>
+				<gmonly />
+				<script>
+					function onValueChanged()
+						local val = getSourceValue();
+						if val == "save" then
+							window.effectsavemod.setVisible(true);
+						else
+							window.effectsavemod.setVisible(false);
+						end
+					end
+					
+					function onDrag(button, x, y, draginfo)
+						return window.onDrag(button, x, y, draginfo);
+					end
+				</script>
+			</labelcycler>
+
+			<textlistitemvalue name="label">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>2</offset>
+					</left>
+					<right>
+						<parent>expiration</parent>
+						<anchor>left</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<height>17</height>
+					</size>
+				</anchored>
+				<gmonly />
+				<script>
+					function onDrag(button, x, y, draginfo)
+						return window.onDrag(button, x, y, draginfo);
+					end
+
+					function onDoubleClick(x, y)
+						ChatManager.reportEffect(window.getDatabaseNode());
+					end
+				</script>
+			</textlistitemvalue>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="effectlist">
+		<frame>charsheet</frame>
+		<playercontrol />
+		<nodelete />
+		<tooltip>
+			<text>Effect list</text>
+		</tooltip>
+		<placement>
+			<size>
+				<width>275</width>
+				<height>350</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum>
+				<width>200</width>
+				<height>220</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<genericcontrol name="nameframe">
+				<bounds>10,20,-15,35</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol name="name">
+				<anchored>
+					<to>nameframe</to>
+					<position>over</position>
+					<offset>-15,-10</offset>
+				</anchored>
+				<center />
+				<static>EFFECTS</static>
+				<font>narratorfont</font>
+			</stringcontrol>
+
+			<genericcontrol name="listframe">
+				<bounds>10,54,-15,-15</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<windowlist name="list">
+				<anchored>
+					<to>listframe</to>
+					<position>over</position>
+					<offset>-15,-8</offset>
+				</anchored>
+				<datasource>.</datasource>
+				<class>effectsmall</class>
+				<footer>footer_narrow</footer>
+				<script>
+					function onInit()
+						if User.isHost() then
+							registerMenuItem("Create Item", "insert", 5);
+						end
+					end
+					
+					function createItem()
+						local wnd = NodeManager.createSafeWindow(self);
+						if wnd then
+							wnd.label.setFocus();
+						end
+						return wnd;
+					end
+					
+					function onMenuSelection(selection)
+						if selection == 5 then
+							createItem();
+						end
+					end
+					
+					function onClickDown(button, x, y)
+						return true;
+					end
+					
+					function onClickRelease(button, x, y)
+						if User.isHost() then
+							if not getNextWindow(nil) then
+								createItem();
+							end
+						end
+						return true;
+					end
+					
+					function onSortCompare(w1, w2)
+						return w1.label.getValue() &gt; w2.label.getValue();
+					end
+
+					function onFilter(w)
+						if not User.isHost() and not w.show_on_client.getState() then
+							return false;
+						end
+
+						local f = string.lower(window.filter.getValue());
+						if f == "" then
+							return true;
+						end
+						
+						if string.find(string.lower(w.label.getValue()), f, 0, true) then
+							return true;
+						end
+						
+						return false;
+					end
+					
+					function onDrop(x, y, draginfo)
+						if User.isHost() then
+							if draginfo.getType() == "effect" then
+								draginfo.setSlot(2);
+								local node = DB.findNode(draginfo.getStringData());
+								if node then
+									local wnd = NodeManager.createSafeWindow(self);
+									if wnd then
+										wnd.label.setValue(NodeManager.getSafeChildValue(node, "label", ""));
+										wnd.expiration.setSourceValue(NodeManager.getSafeChildValue(node, "expiration", ""));
+										wnd.effectsavemod.setValue(NodeManager.getSafeChildValue(node, "effectsavemod", 0));
+									end
+									return true;
+								end
+							elseif draginfo.getType() == "number" then
+								local eff_name, eff_exp = string.match(draginfo.getDescription(), "%[EFFECT%] (.+) EXPIRES ?(.*)");
+								if eff_name and eff_exp then
+									local wnd = NodeManager.createSafeWindow(self);
+									if wnd then
+										wnd.label.setValue(eff_name);
+										wnd.expiration.setSourceValue(eff_exp);
+										wnd.effectsavemod.setValue(draginfo.getNumberData());
+									end
+									return true;
+								end
+							end
+						end
+					end
+				</script>
+			</windowlist>
+
+			<scrollercontrol>
+				<anchored>
+					<to>list</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>list</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			<filter name="filter">
+				<bounds>55,-40,-50,20</bounds>
+				<target>list</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>20,-55,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>			
+			
+			<closebutton_charsheetmini />
+		</sheetdata>
+	</windowclass>
+</root>

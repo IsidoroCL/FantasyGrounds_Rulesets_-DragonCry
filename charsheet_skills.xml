@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="Charsheet_claseshab">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<windowreferencefield name="nota_clase">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<checkcounter name="hab_clase">
+				<anchored>
+					<right>
+						<parent>nota_clase</parent>
+						<anchor>left</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>clase.hab</current>
+					<maximum>clase.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(5);
+					end
+				</script>
+			</checkcounter>
+			
+						
+			<specialabilitydice name="dice">
+				<anchored>
+					<right>
+						<parent>hab_clase</parent>
+						<anchor>left</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>35</width>
+						<height>15</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>4,4,4,5</offset>
+				</frame>
+			</specialabilitydice>
+
+			<textlistitemvalue name="value">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>2</offset>
+					</left>
+					<right>
+						<parent>dice</parent>
+						<anchor>left</anchor>
+						<offset>-3</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("number") then
+							window.number.enable(true);
+							window.number.setSourceValue(draginfo.getNumberData());
+							return true;
+						end
+
+						if draginfo.isType("dice") then
+							window.dice.enable(true);
+							window.dice.setSourceValue(draginfo.getDieList());
+							return true;
+						end
+					end
+				</script>
+			</textlistitemvalue>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_specialabilityitem">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<windowreferencefield name="detalle">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+
+			<checkcounter name="fm">
+				<anchored>
+					<right>
+						<parent>detalle</parent>
+						<anchor>left</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>fm.hab</current>
+					<maximum>fm.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(3);
+					end
+				</script>
+			</checkcounter>
+
+			<specialabilitydice name="dice">
+				<anchored>
+					<right>
+						<parent>fm</parent>
+						<anchor>left</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>35</width>
+						<height>15</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>4,4,4,5</offset>
+				</frame>
+			</specialabilitydice>
+
+			<textlistitemvalue name="value">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>2</offset>
+					</left>
+					<right>
+						<parent>dice</parent>
+						<anchor>left</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("number") then
+							window.number.enable(true);
+							window.number.setSourceValue(draginfo.getNumberData());
+							return true;
+						end
+
+						if draginfo.isType("dice") then
+							window.dice.enable(true);
+							window.dice.setSourceValue(draginfo.getDieList());
+							return true;
+						end
+					end
+				</script>
+			</textlistitemvalue>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="charsheet_skills">
+		<placement>
+			<size>
+				<width>252</width>
+				<height>611</height>
+			</size>
+		</placement>
+		<nodelete />
+		<sheetdata>
+			<!-- NAME / RACE -->
+			<genericcontrol name="overviewframe">
+				<bounds>15,20,480,45</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<labeledstring name="name">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>15,10</offset>
+					<size>
+						<width>250</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<label>Nombre</label>
+				<tabtarget>
+					<next>race</next>
+					<prev>notes</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="race">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>275,10</offset>
+					<size>
+						<width>195</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>Raza</label>
+				<tabtarget>
+					<next>gender</next>
+					<prev>name</prev>
+				</tabtarget>
+			</labeledstring>
+			
+			<!-- FEATS -->
+			<genericcontrol name="featframe">
+				<bounds>15,65,240,285</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>featframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<center />
+				<font>sheetlabel</font>
+				<static>Clase</static>
+			</stringcontrol>
+			
+			<windowlist name="claselist">
+				<anchored>
+					<to>featframe</to>
+					<position>over</position>
+					<offset>-12,-12</offset>
+					<top>
+						<parent>featframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.habclase</datasource>
+				<class>Charsheet_claseshab</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_abilities.lua" />
+			</windowlist>
+			
+			<sheetnumber name="clase_puntos" source="clase.puntos">
+				<anchored>
+					<to>featframe</to>
+					<position>insidetopleft</position>
+					<offset>140,250</offset>
+					<size>
+						<width>45</width>
+						<height>20</height>
+					</size>
+				</anchored>	
+				
+				<font>sheetnumber</font>
+			</sheetnumber>
+			
+			<stringcontrol name="puntoslabel">
+				<anchored>
+					<to>clase_puntos</to>
+					<position>left</position>
+					<offset>0,-2</offset>
+					<size>
+						<width>83</width>
+					</size>
+				</anchored>
+				
+				<font>sheetlabelsmall</font>
+				<static>Puntos sin gastar</static>
+			</stringcontrol>
+
+			<!-- SPECIAL ABILITIES -->
+			<genericcontrol name="specialabilityframe">
+				<bounds>255,65,240,135</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>specialabilityframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<center />
+				<static>Habilidades Físicas</static>
+			</stringcontrol>
+¨
+			<windowlist name="specialabilitylist">
+				<anchored>
+					<to>specialabilityframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>specialabilityframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.habfisica</datasource>
+				<class>charsheet_specialabilityitem</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_abilities.lua" />
+			</windowlist>
+			
+			<genericcontrol name="mentalabilityframe">
+				<bounds>255,200,240,150</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>mentalabilityframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<center />
+				<static>Habilidades Mentales</static>
+			</stringcontrol>
+¨
+			<windowlist name="mentalabilitylist">
+				<anchored>
+					<to>mentalabilityframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>mentalabilityframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.habmental</datasource>
+				<class>charsheet_specialabilityitem</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_abilities.lua" />
+			</windowlist>
+			
+			<!--RASGOS-->
+			<genericcontrol name="rasgosframe">
+				<bounds>15,350,140,240</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>rasgosframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<center />
+				<static>Rasgos</static>
+			</stringcontrol>
+			
+			<sheetnumber name="rasgosmenores">
+				<anchored>
+					<to>rasgosframe</to>
+					<position>insidetopleft</position>
+					<offset>20,40</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>rasgosmenores</to>
+					<position>above</position>
+					<offset>-2,4</offset>
+					<size>
+						<width>70</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Menores</static>
+			</stringcontrol>
+			
+			<sheetnumber name="rasgosmayores">
+				<anchored>
+					<to>rasgosframe</to>
+					<position>insidetopleft</position>
+					<offset>80,40</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>rasgosmayores</to>
+					<position>above</position>
+					<offset>-2,4</offset>
+					<size>
+						<width>70</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Mayores</static>
+			</stringcontrol>
+¨
+			<windowlist name="rasgoslist">
+				<anchored>
+					<to>rasgosframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>rasgosframe</parent>
+						<offset>65</offset>
+					</top>
+				</anchored>
+				<datasource>.rasgos</datasource>
+				<class>charsheet_profitem</class>
+				<allowcreate />
+				<allowdelete />
+				<script>
+					function onSortCompare(w1, w2)
+						if w1.value.getValue() == "" then
+							return true;
+						elseif w2.value.getValue() == "" then
+							return false;
+						end
+					
+						return w1.value.getValue() &gt; w2.value.getValue();
+					end
+					
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						if not getNextWindow(nil) then
+							local wnd = NodeManager.createSafeWindow(self);
+							if wnd then
+								wnd.value.setFocus();
+							end
+						end
+						return true;
+					end
+				</script>
+			</windowlist>
+
+			<genericcontrol name="sframe">
+				<bounds>155,350,340,240</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol name="slabel">
+				<anchored>
+					<to>sframe</to>
+					<position>insidetop</position>
+					<offset>0,9</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Meritos y Defectos</static>
+				<center />
+			</stringcontrol>
+
+			<stringfield name="tes">
+				<anchored>
+					<to>sframe</to>
+					<position>over</position>
+					<offset>-14,-10</offset>
+					<top>
+						<offset>22</offset>
+					</top>
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>sheettext</font>
+				<frame>
+					<name>textline</name>
+					<offset>2,0,2,0</offset>
+				</frame>
+				<tabtarget>
+					<next>appearance</next>
+					<prev>name</prev>
+				</tabtarget>
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+</root>

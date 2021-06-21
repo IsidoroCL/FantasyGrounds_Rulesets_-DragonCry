@@ -1,0 +1,2666 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<!-- ARMOR -->
+	<windowclass name="referencearmorcontent">
+		<sheetdata>
+			<stringcontrol name="typeleftbracket">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<height>20</height>
+						<width>5</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>[</static>
+			</stringcontrol>
+			<stringfield name="type">
+				<anchored>
+					<to>typeleftbracket</to>
+					<position>right</position>
+				</anchored>
+				<font>sheetlabel</font>
+			</stringfield>
+			<stringcontrol name="typerightbracket">
+				<anchored>
+					<to>type</to>
+					<position>right</position>
+				</anchored>
+				<font>sheetlabel</font>
+				<size>
+					<width>10</width>
+				</size>
+				<static>]</static>
+			</stringcontrol>
+
+			<columnnumberfield name="cost">
+				<anchor>type</anchor>
+				<tabtarget next="weight" prev="description" />
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>cost</anchor>
+				<static>Cost (gp)</static>
+			</columnfieldlabel>
+			
+			<columnnumberfield name="weight">
+				<anchor>cost</anchor>
+				<tabtarget next="ac" prev="cost" />
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>weight</anchor>
+				<static>Weight (lbs)</static>
+			</columnfieldlabel>
+
+			<columnnumberfield name="ac">
+				<anchor>weight</anchor>
+				<tabtarget next="min_enhance" prev="weight" />
+				<displaysign />
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>ac</anchor>
+				<static>Armor Bonus</static>
+			</columnfieldlabel>
+			
+			<columnnumberfield name="min_enhance">
+				<anchor>ac</anchor>
+				<tabtarget next="checkpenalty" prev="ac" />
+				<displaysign />
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>min_enhance</anchor>
+				<static>Min. Bonus</static>
+			</columnfieldlabel>
+			
+			<columnnumberfield name="checkpenalty">
+				<anchor>min_enhance</anchor>
+				<tabtarget next="speed" prev="min_enhance" />
+				<displaysign />
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>checkpenalty</anchor>
+				<static>Check Penalty</static>
+			</columnfieldlabel>
+			
+			<columnnumberfield name="speed">
+				<anchor>checkpenalty</anchor>
+				<tabtarget next="special" prev="checkpenalty" />
+				<displaysign />
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>speed</anchor>
+				<static>Speed</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="special">
+				<anchor>speed</anchor>
+				<tabtarget next="description" prev="speed" />
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>special</anchor>
+				<static>Special</static>
+			</columnfieldlabel>
+
+			<stringcontrol name="label_desc">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>special</parent>
+						<anchor>bottom</anchor>
+						<offset>10</offset>
+					</top>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Description</static>
+			</stringcontrol>
+			<referenceformattedtextfield name="description">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>label_desc</parent>
+						<anchor>bottom</anchor>
+					</top>
+				</anchored>
+				<script>
+					function onInit()
+						if isEmpty() then
+							setVisible(false);
+							window.label_desc.setVisible(false);
+						end
+					end
+				</script>
+			</referenceformattedtextfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="referencearmor">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>400</width>
+				<height>350</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<windowreferencecontrol>
+				<bounds>20,16,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+				</icon>
+				<class>referencearmor</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowreferencecontrol>
+			<stringfield name="name">
+				<bounds>45,20,-25,20</bounds>
+				<font>sheetlabel</font>
+			</stringfield>
+
+			<subwindow name="content">
+				<bounds>20,40,-25,-14</bounds>
+				<class>referencearmorcontent</class>
+				<activate />
+			</subwindow>
+
+			<scrollercontrol>
+				<anchored>
+					<to>content</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>content</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- WEAPON -->
+	<windowclass name="referenceweaponcontent">
+		<sheetdata>
+			<stringcontrol name="typeleftbracket">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<height>20</height>
+						<width>5</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>[</static>
+			</stringcontrol>
+			<stringcontrol name="category">
+				<anchored>
+					<to>typeleftbracket</to>
+					<position>right</position>
+				</anchored>
+				<font>sheetlabel</font>
+				<script>
+					function onInit()
+						profnode = window.getDatabaseNode().getChild("prof");
+						heftnode = window.getDatabaseNode().getChild("heft");
+						typenode = window.getDatabaseNode().getChild("type");
+						
+						local value = profnode.getValue() .. "; " .. typenode.getValue() .. "; " .. heftnode.getValue();
+						setValue(value);
+					end
+				</script>
+			</stringcontrol>
+			<stringcontrol name="typerightbracket">
+				<anchored>
+					<to>category</to>
+					<position>right</position>
+				</anchored>
+				<font>sheetlabel</font>
+				<size>
+					<width>10</width>
+				</size>
+				<static>]</static>
+			</stringcontrol>
+
+			<columnnumberfield name="cost">
+				<anchor>category</anchor>
+				<tabtarget next="weight" prev="description" />
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>cost</anchor>
+				<static>Cost (gp)</static>
+			</columnfieldlabel>
+			
+			<columnnumberfield name="weight">
+				<anchor>cost</anchor>
+				<tabtarget next="profbonus" prev="cost" />
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>weight</anchor>
+				<static>Weight (lbs)</static>
+			</columnfieldlabel>
+			
+			<columnnumberfield name="profbonus">
+				<anchor>weight</anchor>
+				<tabtarget next="damage" prev="weight" />
+				<displaysign />
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>profbonus</anchor>
+				<static>Prof.</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="damage">
+				<anchor>profbonus</anchor>
+				<tabtarget next="range" prev="profbonus" />
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>damage</anchor>
+				<static>Damage</static>
+			</columnfieldlabel>
+			
+			<columnnumberfield name="range">
+				<anchor>damage</anchor>
+				<tabtarget next="group" prev="damage" />
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>range</anchor>
+				<static>Range</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="group">
+				<anchor>range</anchor>
+				<tabtarget next="properties" prev="range" />
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>group</anchor>
+				<static>Group</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="properties">
+				<anchor>group</anchor>
+				<tabtarget next="description" prev="group" />
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>properties</anchor>
+				<static>Properties</static>
+			</columnfieldlabel>
+			
+			<stringcontrol name="label_desc">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>properties</parent>
+						<anchor>bottom</anchor>
+						<offset>10</offset>
+					</top>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Benefit</static>
+			</stringcontrol>
+			<referenceformattedtextfield name="description">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>label_desc</parent>
+						<anchor>bottom</anchor>
+					</top>
+				</anchored>
+				<script>
+					function onInit()
+						if isEmpty() then
+							setVisible(false);
+							window.label_desc.setVisible(false);
+						end
+					end
+				</script>
+			</referenceformattedtextfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="referenceweapon">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>400</width>
+				<height>350</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<windowreferencecontrol>
+				<bounds>20,16,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+				</icon>
+				<class>referenceweapon</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowreferencecontrol>
+			<stringfield name="name">
+				<bounds>45,20,-25,20</bounds>
+				<font>sheetlabel</font>
+			</stringfield>
+
+			<subwindow name="content">
+				<bounds>20,40,-25,-14</bounds>
+				<class>referenceweaponcontent</class>
+				<activate />
+			</subwindow>
+
+			<scrollercontrol>
+				<anchored>
+					<to>content</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>content</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- EQUIPMENT -->
+	<windowclass name="referenceequipmentcontent">
+		<sheetdata>
+			<stringcontrol name="typeleftbracket">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<height>20</height>
+						<width>5</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>[</static>
+			</stringcontrol>
+			<stringfield name="type">
+				<anchored>
+					<to>typeleftbracket</to>
+					<position>right</position>
+				</anchored>
+				<font>sheetlabel</font>
+			</stringfield>
+			<stringcontrol name="typerightbracket">
+				<anchored>
+					<to>type</to>
+					<position>right</position>
+				</anchored>
+				<font>sheetlabel</font>
+				<size>
+					<width>10</width>
+				</size>
+				<static>]</static>
+			</stringcontrol>
+
+			<columnnumberfield name="cost">
+				<anchor>type</anchor>
+				<tabtarget next="weight" prev="description" />
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>cost</anchor>
+				<static>Cost (gp)</static>
+			</columnfieldlabel>
+			
+			<columnnumberfield name="weight">
+				<anchor>cost</anchor>
+				<tabtarget next="description" prev="cost" />
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>weight</anchor>
+				<static>Weight (lbs)</static>
+			</columnfieldlabel>
+			
+			<stringcontrol name="label_desc">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>weight</parent>
+						<anchor>bottom</anchor>
+						<offset>10</offset>
+					</top>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Description</static>
+			</stringcontrol>
+			<referenceformattedtextfield name="description">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>label_desc</parent>
+						<anchor>bottom</anchor>
+					</top>
+				</anchored>
+				<script>
+					function onInit()
+						if isEmpty() then
+							setVisible(false);
+							window.label_desc.setVisible(false);
+						end
+					end
+				</script>
+			</referenceformattedtextfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="referenceequipment">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>400</width>
+				<height>350</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<windowreferencecontrol>
+				<bounds>20,16,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+				</icon>
+				<class>referenceequipment</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowreferencecontrol>
+			<stringfield name="name">
+				<bounds>45,20,-25,20</bounds>
+				<font>sheetlabel</font>
+			</stringfield>
+
+			<subwindow name="content">
+				<bounds>20,40,-25,-14</bounds>
+				<class>referenceequipmentcontent</class>
+				<activate />
+			</subwindow>
+
+			<scrollercontrol>
+				<anchored>
+					<to>content</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>content</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- WEAPON LINKS -->
+	<windowclass name="reference_weapontablelistitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+				<width>650</width>
+			</minimum>
+		</sizelimits>
+		<script file="scripts/reference_listitem.lua" />
+		<sheetdata>
+			<numberfield name="myfilter">
+				<invisible />
+				<bounds>5,0,20,20</bounds>
+			</numberfield>
+
+			<windowreferencefield name="link">
+				<bounds>5,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<script>
+					function onDrag(button, x, y, draginfo)
+						draginfo.setType("shortcut");
+						draginfo.setIcon(icon[1].normal[1]);
+						draginfo.setShortcutData(getValue());
+						draginfo.setDescription(getTargetDatabaseNode().getChild("name").getValue());
+						
+						return true;
+					end
+				</script>
+			</windowreferencefield>
+			<staticlinkstringfield name="name">
+				<bounds>30,2,100,15</bounds>
+				<font>chatfont</font>
+				<underlineoffset>0</underlineoffset>
+				<linktarget>link</linktarget>
+			</staticlinkstringfield>
+			<jpgnumberfield name="profbonus">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>105</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<left />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</jpgnumberfield>
+			<stringfield name="damage">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>155</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<font>chatfont</font>
+			</stringfield>
+			<jpgnumberfield name="range">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>205</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<hideonvalue>0</hideonvalue>
+				<font>chatfont</font>
+			</jpgnumberfield>
+			<stringfield name="cost">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>255</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<font>chatfont</font>
+			</stringfield>
+			<stringfield name="weight">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>305</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<font>chatfont</font>
+			</stringfield>
+			<stringfield name="group">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>355</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>90</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>chatfont</font>
+				<center />
+			</stringfield>
+			<stringfield name="properties">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>445</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>130</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>chatfont</font>
+				<center />
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_weapontablegroupitem">
+		<sizelimits>
+			<minimum>
+				<width>650</width>
+				<height>0</height>
+			</minimum>
+			<maximum>
+				<height>100000</height>
+			</maximum>
+		</sizelimits>
+		<script>
+			function showFullHeaders(show_flag)
+				description.setVisible(show_flag);
+				spacer.setVisible(show_flag);	
+				subdescription.setVisible(show_flag);
+				spacer2.setVisible(show_flag);
+
+				showListHeaders(show_flag);
+			end
+
+			function showList(show_flag)
+				weapontablelist.setVisible(show_flag);
+
+				showListHeaders(show_flag);
+			end
+
+			function showListHeaders(show_flag)
+				headername.setVisible(show_flag);
+				headerprofbonus.setVisible(show_flag);
+				headerdamage.setVisible(show_flag);
+				headerrange.setVisible(show_flag);
+				headercost.setVisible(show_flag);
+				headerweight.setVisible(show_flag);
+				headergroup.setVisible(show_flag);
+				headerproperties.setVisible(show_flag);
+				myfooter.setVisible(show_flag);
+			end
+		</script>
+		<sheetdata>
+			<genericcontrol name="spacer">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<bottom>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</bottom>
+				</anchored>
+			</genericcontrol>
+			
+			<stringfield name="description">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>spacer</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						window.showList(not window.weapontablelist.isVisible());
+						return true;
+					end
+				</script>
+				<static />
+			</stringfield>
+			<stringfield name="subdescription">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>description</parent>
+						<anchor>bottom</anchor>
+					</top>
+				</anchored>
+				<font>chatitalicfont</font>
+			</stringfield>
+
+			<stringfield name="headername">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>10</offset>
+					</left>
+					<top>
+						<parent>subdescription</parent>
+						<anchor>bottom</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Name</static>
+				<left />
+			</stringfield>
+			<stringfield name="headerprofbonus">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>85</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<font>sheetlabelsmallbold</font>
+				<static>Prof.</static>
+			</stringfield>
+			<stringfield name="headerdamage">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>120</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Damage</static>
+				<right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headerrange">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>175</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Range</static>
+				<right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headercost">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>220</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>70</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Cost</static>
+				<right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headerweight">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>265</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Weight</static>
+				<right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headergroup">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>325</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>90</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Group</static>
+				<center />
+			</stringfield>
+			<stringfield name="headerproperties">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>415</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>130</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Properties</static>
+				<font>sheetlabelsmallbold</font>
+				<center />
+			</stringfield>
+
+			<windowlist name="weapontablelist">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>headername</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<datasource>.weapons</datasource>
+				<class>reference_weapontablelistitem</class>
+				<noscroll />
+				<script file="scripts/reference_list.lua" />
+			</windowlist>
+
+			<genericcontrol name="spacer2">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>weapontablelist</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+					<bottom>
+						<parent>weapontablelist</parent>
+						<anchor>bottom</anchor>
+						<offset>10</offset>
+					</bottom>
+				</anchored>
+			</genericcontrol>
+			<referenceformattedtextfield name="myfooter">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>25</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-25</offset>
+					</right>
+					<top>
+						<parent>spacer2</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<footer>footer_wide</footer>
+			</referenceformattedtextfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_classweapontablelist">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>650</width>
+				<height>650</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic>
+				<resize>vertical</resize>
+			</dynamic>
+			<minimum>
+				<width>650</width>
+			</minimum>
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>description</field>
+		</tooltip>
+		<sheetdata>
+			<stringfield name="description">
+				<bounds>17,20,-20,20</bounds>
+				<font>sheetlabel</font>
+				<center />
+				<static />
+			</stringfield>
+			<windowlist name="grouplist">
+				<bounds>17,40,-20,-14</bounds>
+				<datasource>.groups</datasource>
+				<class>reference_weapontablegroupitem</class>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>grouplist</to>
+					<position>insidebottomright</position>
+					<offset>-10</offset>
+				</anchored>
+				<target>grouplist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<filter name="filter">
+				<bounds>55,-50,-50,20</bounds>
+				<target>grouplist,weapontablelist</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>-43,-83,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>
+
+			<genericcontrol name="expand">
+				<icon>expand_icon</icon>				
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>20</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Expand All</text>
+				</tooltip>
+				<script>
+					function onClickDown(button, x, y)
+  						return true;
+					end
+
+					function onClickRelease(button, x, y)
+  						for k, topwin in pairs(window.grouplist.getWindows()) do
+							topwin.showList(true);
+  						end
+  						return true;
+					end
+				</script>
+			</genericcontrol>
+			<genericcontrol name="collapse">
+				<icon>collapse_icon</icon>
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>40</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Collapse All</text>
+				</tooltip>
+				<script>
+					function onClickDown(button, x, y)
+  						return true;
+					end
+
+					function onClickRelease(button, x, y)
+  						for k, topwin in pairs(window.grouplist.getWindows()) do
+							topwin.showList(false);
+  						end
+  						return true;
+					end
+				</script>
+			</genericcontrol>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- ARMOR LINKS -->
+	<windowclass name="reference_armortablelistitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+				<width>550</width>
+			</minimum>
+		</sizelimits>
+		<script file="scripts/reference_listitem.lua" />
+		<sheetdata>
+			<numberfield name="myfilter">
+				<invisible />
+				<bounds>5,0,20,20</bounds>
+			</numberfield>
+
+			<windowreferencefield name="link">
+				<bounds>5,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<script>
+					function onDrag(button, x, y, draginfo)
+						draginfo.setType("shortcut");
+						draginfo.setIcon(icon[1].normal[1]);
+						draginfo.setShortcutData(getValue());
+						draginfo.setDescription(getTargetDatabaseNode().getChild("name").getValue());
+						
+						return true;
+					end
+				</script>
+			</windowreferencefield>
+			<staticlinkstringfield name="name">
+				<bounds>30,2,100,15</bounds>
+				<font>chatfont</font>
+				<underlineoffset>0</underlineoffset>
+				<linktarget>link</linktarget>
+			</staticlinkstringfield>
+			<jpgnumberfield name="ac">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>105</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<right />
+				<readonly />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</jpgnumberfield>
+			<jpgnumberfield name="min_enhance">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>185</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<right />
+				<readonly />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</jpgnumberfield>
+			<jpgnumberfield name="checkpenalty">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>245</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<right />
+				<readonly />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</jpgnumberfield>
+			<jpgnumberfield name="speed">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>305</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<right />
+				<readonly />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</jpgnumberfield>
+			<jpgnumberfield name="cost">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>355</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<readonly />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</jpgnumberfield>
+			<jpgnumberfield name="weight">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>400</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>90</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<readonly />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</jpgnumberfield>
+			<stringfield name="special">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>500</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>120</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<readonly />
+				<font>chatfont</font>
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_armortablegroupitem">
+		<sizelimits>
+			<minimum>
+				<width>550</width>
+				<height>0</height>
+			</minimum>
+			<maximum>
+				<height>100000</height>
+			</maximum>
+		</sizelimits>
+		<script>
+			function showFullHeaders(show_flag)
+				description.setVisible(show_flag);
+				spacer.setVisible(show_flag);	
+				subdescription.setVisible(show_flag);
+				spacer2.setVisible(show_flag);
+
+				showListHeaders(show_flag);
+			end
+
+			function showList(show_flag)
+				armortablelist.setVisible(show_flag);
+
+				showListHeaders(show_flag);
+			end
+
+			function showListHeaders(show_flag)
+				headername.setVisible(show_flag);
+				headerarmorbonus1.setVisible(show_flag);
+				headerminenh1.setVisible(show_flag);
+				headerarmorbonus2.setVisible(show_flag);
+				headerminenh2.setVisible(show_flag);
+				headercheck.setVisible(show_flag);
+				headerspeed.setVisible(show_flag);
+				headerprice.setVisible(show_flag);
+				headerweight.setVisible(show_flag);
+				headerspecial.setVisible(show_flag);
+				myfooter.setVisible(show_flag);
+			end
+		</script>
+		<sheetdata>
+			<genericcontrol name="spacer">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<bottom>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</bottom>
+				</anchored>
+			</genericcontrol>
+			
+			<stringfield name="description">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>spacer</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						window.showList(not window.armortablelist.isVisible());
+						return true;
+					end
+				</script>
+
+				<static />
+			</stringfield>
+			<stringfield name="subdescription">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>description</parent>
+						<anchor>bottom</anchor>
+					</top>
+				</anchored>
+				<font>chatitalicfont</font>
+			</stringfield>
+
+			<stringfield name="headername">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>10</offset>
+					</left>
+					<top>
+						<parent>subdescription</parent>
+						<anchor>bottom</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Name</static>
+				<left />
+			</stringfield>
+
+			<stringfield name="headerarmorbonus1">
+				<anchored>
+					<left>
+						<parent>subdescription</parent>
+						<offset>100</offset>
+					</left>
+					<top>
+						<parent>subdescription</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+                <right />
+				<font>sheetlabelsmallbold</font>
+				<static>Armor</static>
+			</stringfield>
+			<stringfield name="headerminenh1">
+				<anchored>
+					<left>
+						<parent>subdescription</parent>
+						<offset>170</offset>
+					</left>
+					<top>
+						<parent>subdescription</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>55</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Minimum</static>
+				<center />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+
+			<stringfield name="headerarmorbonus2">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>85</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<font>sheetlabelsmallbold</font>
+				<static>Bonus</static>
+			</stringfield>
+			<stringfield name="headerminenh2">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>150</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>65</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Enh Bonus</static>
+				<center />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headercheck">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>225</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Check</static>
+				<right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headerspeed">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>280</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>70</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Speed</static>
+				<right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headerprice">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>335</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Price</static>
+				<right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headerweight">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>365</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>90</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Weight</static>
+				<center />
+			</stringfield>
+			<stringfield name="headerspecial">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>440</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>90</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Special</static>
+				<center />
+			</stringfield>
+			
+			<windowlist name="armortablelist">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>headername</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<datasource>.armors</datasource>
+				<class>reference_armortablelistitem</class>
+				<noscroll />
+				<script file="scripts/reference_list.lua" />
+			</windowlist>
+
+			<genericcontrol name="spacer2">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>armortablelist</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+					<bottom>
+						<parent>armortablelist</parent>
+						<anchor>bottom</anchor>
+						<offset>0</offset>
+					</bottom>
+				</anchored>
+			</genericcontrol>
+			<referenceformattedtextfield name="myfooter">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>25</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-25</offset>
+					</right>
+					<top>
+						<parent>spacer2</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<footer>footer_wide</footer>
+			</referenceformattedtextfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_classarmortablelist">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>750</width>
+				<height>650</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic>
+				<resize>vertical</resize>
+			</dynamic>
+			<maximum>
+				<width>700</width>
+			</maximum>
+			<minimum>
+				<width>700</width>
+			</minimum>
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>description</field>
+		</tooltip>
+		<sheetdata>
+			<stringfield name="description">
+				<bounds>17,20,-20,20</bounds>
+				<font>sheetlabel</font>
+				<center />
+				<static />
+			</stringfield>
+			<windowlist name="grouplist">
+				<bounds>17,40,-20,-14</bounds>
+				<datasource>.groups</datasource>
+				<class>reference_armortablegroupitem</class>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>grouplist</to>
+					<position>insidebottomright</position>
+					<offset>-10</offset>
+				</anchored>
+				<target>grouplist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<filter name="filter">
+				<bounds>55,-50,-50,20</bounds>
+				<target>grouplist,armortablelist</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>-43,-83,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>
+
+			<genericcontrol name="expand">
+				<icon>expand_icon</icon>				
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>20</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Expand All</text>
+				</tooltip>
+				<script>
+					function onClickDown(button, x, y)
+  						return true;
+					end
+
+					function onClickRelease(button, x, y)
+  						for k, topwin in pairs(window.grouplist.getWindows()) do
+							topwin.showList(true);
+  						end
+  						return true;
+					end
+				</script>
+			</genericcontrol>
+			<genericcontrol name="collapse">
+				<icon>collapse_icon</icon>
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>40</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Collapse All</text>
+				</tooltip>
+				<script>
+					function onClickDown(button, x, y)
+  						return true;
+					end
+
+					function onClickRelease(button, x, y)
+  						for k, topwin in pairs(window.grouplist.getWindows()) do
+							topwin.showList(false);
+  						end
+  						return true;
+					end
+				</script>
+			</genericcontrol>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- EQUIPMENT LINKS -->
+	<windowclass name="reference_equipmenttablelistitem">
+		<sizelimits>
+			<minimum>
+				<width>400</width>
+				<height>0</height>
+			</minimum>
+			<maximum>
+				<width>400</width>
+			</maximum>
+		</sizelimits>
+		<script file="scripts/reference_listitem.lua" />
+		<sheetdata>
+			<numberfield name="myfilter">
+				<invisible />
+				<bounds>5,0,20,20</bounds>
+			</numberfield>
+
+			<windowreferencefield name="link">
+				<bounds>5,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<script>
+					function onDrag(button, x, y, draginfo)
+						draginfo.setType("shortcut");
+						draginfo.setIcon(icon[1].normal[1]);
+						draginfo.setShortcutData(getValue());
+						draginfo.setDescription(getTargetDatabaseNode().getChild("name").getValue());
+						
+						return true;
+					end
+				</script>
+			</windowreferencefield>
+			<staticlinkstringfield name="name">
+				<bounds>30,2,140,15</bounds>
+				<font>chatfont</font>
+				<underlineoffset>0</underlineoffset>
+				<linktarget>link</linktarget>
+			</staticlinkstringfield>
+			<jpgnumberfield name="cost">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>200</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<font>chatfont</font>
+			</jpgnumberfield>
+			<jpgnumberfield name="weight">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>250</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<font>chatfont</font>
+			</jpgnumberfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_equipmenttablegroupitem">
+		<sizelimits>
+			<minimum>
+				<width>400</width>
+				<height>0</height>
+			</minimum>
+			<maximum>
+				<width>400</width>
+				<height>10000</height>
+			</maximum>
+		</sizelimits>
+		<script>
+			function showFullHeaders(show_flag)
+				description.setVisible(show_flag);
+				spacer.setVisible(show_flag);	
+				subdescription.setVisible(show_flag);
+				spacer2.setVisible(show_flag);
+
+				showListHeaders(show_flag);
+			end
+
+			function showList(show_flag)
+				equipmenttablelist.setVisible(show_flag);
+
+				showListHeaders(show_flag);
+			end
+
+			function showListHeaders(show_flag)
+				headername.setVisible(show_flag);
+				headercost.setVisible(show_flag);
+				headerweight.setVisible(show_flag);
+				myfooter.setVisible(show_flag);
+			end
+		</script>
+		<sheetdata>
+			<genericcontrol name="spacer">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<bottom>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</bottom>
+				</anchored>
+			</genericcontrol>
+			
+			<stringfield name="description">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>spacer</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						window.showList(not window.equipmenttablelist.isVisible());
+						return true;
+					end
+				</script>
+				<static />
+			</stringfield>
+			<stringfield name="subdescription">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>description</parent>
+						<anchor>bottom</anchor>
+					</top>
+				</anchored>
+				<font>chatitalicfont</font>
+			</stringfield>
+
+			<stringfield name="headername">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>10</offset>
+					</left>
+					<top>
+						<parent>subdescription</parent>
+						<anchor>bottom</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Name</static>
+				<left />
+			</stringfield>
+			<stringfield name="headercost">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>175</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>70</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Cost</static>
+                                <right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headerweight">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>220</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Weight</static>
+				<right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			
+			<windowlist name="equipmenttablelist">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>headername</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<datasource>.equipments</datasource>
+				<class>reference_equipmenttablelistitem</class>
+				<noscroll />
+				<script file="scripts/reference_list.lua" />
+			</windowlist>
+
+			<genericcontrol name="spacer2">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>equipmenttablelist</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+					<bottom>
+						<parent>equipmenttablelist</parent>
+						<anchor>bottom</anchor>
+						<offset>10</offset>
+					</bottom>
+				</anchored>
+			</genericcontrol>
+			<referenceformattedtextfield name="myfooter">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>25</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-25</offset>
+					</right>
+					<top>
+						<parent>spacer2</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<footer>footer_wide</footer>
+			</referenceformattedtextfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_classequipmenttablelist">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>650</width>
+				<height>650</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic>
+				<resize>vertical</resize>
+			</dynamic>
+			<minimum>
+				<width>400</width>
+			</minimum>
+			<maximum>
+				<width>400</width>
+			</maximum>
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>description</field>
+		</tooltip>
+		<sheetdata>
+			<stringfield name="description">
+				<bounds>17,20,-20,20</bounds>
+				<font>sheetlabel</font>
+				<center />
+				<static />
+			</stringfield>
+			<windowlist name="grouplist">
+				<bounds>17,40,-20,-14</bounds>
+				<datasource>.groups</datasource>
+				<class>reference_equipmenttablegroupitem</class>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>grouplist</to>
+					<position>insidebottomright</position>
+					<offset>-10</offset>
+				</anchored>
+				<target>grouplist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<filter name="filter">
+				<bounds>55,-50,-50,20</bounds>
+				<target>grouplist,equipmenttablelist</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>-43,-83,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>
+
+			<genericcontrol name="expand">
+				<icon>expand_icon</icon>				
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>20</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Expand All</text>
+				</tooltip>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+  						for k, topwin in pairs(window.grouplist.getWindows()) do
+							topwin.showList(true);
+  						end
+						return true;
+					end
+				</script>
+			</genericcontrol>
+			<genericcontrol name="collapse">
+				<icon>collapse_icon</icon>
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>40</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Collapse All</text>
+				</tooltip>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+  						for k, topwin in pairs(window.grouplist.getWindows()) do
+							topwin.showList(false);
+  						end
+						return true;
+					end
+				</script>
+			</genericcontrol>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- MOUNT LINKS -->
+	<windowclass name="reference_mountitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+				<width>400</width>
+			</minimum>
+		</sizelimits>
+		<script file="scripts/reference_listitem.lua" />
+		<sheetdata>
+			<numberfield name="myfilter">
+				<invisible />
+				<bounds>5,0,20,20</bounds>
+			</numberfield>
+
+			<windowreferencefield name="link">
+				<bounds>5,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<script>
+					function onDrag(button, x, y, draginfo)
+						draginfo.setType("shortcut");
+						draginfo.setIcon(icon[1].normal[1]);
+						draginfo.setShortcutData(getValue());
+						draginfo.setDescription(getTargetDatabaseNode().getChild("name").getValue());
+						
+						return true;
+					end
+				</script>
+			</windowreferencefield>
+			<staticlinkstringfield name="name">
+				<bounds>30,2,150,15</bounds>
+				<font>chatfont</font>
+				<underlineoffset>0</underlineoffset>
+				<linktarget>link</linktarget>
+			</staticlinkstringfield>
+			<jpgnumberfield name="price">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>155</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<readonly />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</jpgnumberfield>
+			<stringfield name="speed">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>235</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<readonly />
+				<font>chatfont</font>
+			</stringfield>
+			<stringfield name="perhour">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>305</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>75</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<readonly />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</stringfield>
+			<stringfield name="perday">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>390</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>70</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<readonly />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</stringfield>
+			<jpgnumberfield name="normal">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>460</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<readonly />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</jpgnumberfield>
+			<jpgnumberfield name="heavy">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>510</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<readonly />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</jpgnumberfield>
+			<jpgnumberfield name="push">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>580</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<readonly />
+				<font>chatfont</font>
+				<hideonvalue>0</hideonvalue>
+			</jpgnumberfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_classmountlist">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>800</width>
+				<height>650</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic>
+				<resize>vertical</resize>
+			</dynamic>
+			<maximum>
+				<width>750</width>
+			</maximum>
+			<minimum>
+				<width>750</width>
+			</minimum>
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>description</field>
+		</tooltip>
+		<script>
+			function showFullHeaders(show_flag)
+			end
+
+			function showListHeaders(show_flag)
+			end
+		</script>
+		<sheetdata>
+			<stringfield name="description">
+				<bounds>17,20,-20,20</bounds>
+				<font>sheetlabel</font>
+				<center />
+				<static />
+			</stringfield>
+
+			<windowlist name="mountlist">
+				<bounds>17,60,-20,-14</bounds>
+				<datasource>.mounts</datasource>
+				<class>reference_mountitem</class>
+				<script file="scripts/reference_list.lua" />
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>mountlist</to>
+					<position>insidebottomright</position>
+					<offset>-10</offset>
+				</anchored>
+				<target>mountlist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<filter name="filter">
+				<bounds>55,-50,-50,20</bounds>
+				<target>mountlist</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>-43,-83,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>
+
+			<stringfield name="headername">
+				<bounds>17,40,60,20</bounds>
+				<font>sheetlabelsmallbold</font>
+				<static>Name</static>
+				<left />
+			</stringfield>
+			<stringfield name="headerprice">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>125</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Price</static>
+			</stringfield>
+			<stringfield name="headerspeed">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>180</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<right />
+				<font>sheetlabelsmallbold</font>
+				<static>Speed</static>
+			</stringfield>
+			<stringfield name="headerperhour">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>250</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>65</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Per Hour</static>
+				<center />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headerperday">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>340</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Per Day</static>
+				<right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headernormal">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>420</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>70</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Normal</static>
+				<right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headerheavy">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>480</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Heavy</static>
+				<right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headerpush">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>520</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>90</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Push/Drag</static>
+				<center />
+			</stringfield>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+</root>

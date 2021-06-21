@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<includefile source="npc_templates.xml" />
+
+	<includefile source="npc_main.xml" />
+	<includefile source="npc_powers.xml" />
+	<includefile source="npc_notes.xml" />
+
+	<includefile source="npc_toplevel.xml" />
+	
+	<includefile source="reference_npc.xml" />
+
+	<windowclass name="npcsmall">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<script>
+			function copyStringField(source, dest, name, default)
+				local srcnode = source.getChild(name);
+				if srcnode then
+					local type = srcnode.getType();
+					local node = NodeManager.createSafeChild(dest, name, type);
+					if node then
+						local val = srcnode.getValue();
+						if val == "" then
+							val = default;
+						end
+						node.setValue(val);
+					end
+				end
+			end
+					
+			function onInit()
+				local srcnode = windowlist.getSource();
+				if srcnode then
+					local powersnode = srcnode.getChild("powers");
+					if powersnode then
+						destnode = getDatabaseNode();
+						for k,v in pairs(powersnode.getChildren()) do
+							local powernodename = v.getName();
+							copyStringField(srcnode, destnode, "powers." .. powernodename .. ".name", "");
+							copyStringField(srcnode, destnode, "powers." .. powernodename .. ".powertype", "");
+							copyStringField(srcnode, destnode, "powers." .. powernodename .. ".action", "-");
+							copyStringField(srcnode, destnode, "powers." .. powernodename .. ".recharge", "-");
+							copyStringField(srcnode, destnode, "powers." .. powernodename .. ".range", "-");
+							copyStringField(srcnode, destnode, "powers." .. powernodename .. ".keywords", "-");
+							copyStringField(srcnode, destnode, "powers." .. powernodename .. ".shortdescription", "-");
+						end
+					end
+					windowlist.clearSource();
+				end
+			end
+		</script>
+		<sheetdata>
+			<windowreferencecontrol name="open">
+				<bounds>0,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>npc</class>
+				<description>
+					<field>name</field>
+				</description>
+				<script file="scripts/adventurelistshortcut.lua" />
+			</windowreferencecontrol>
+			<linkstringfield name="name">
+				<bounds>25,1,-1,20</bounds>
+				<empty>&#171; New Personality &#187;</empty>
+				<selectioncolor>#90ffffff</selectioncolor>
+				<font>sheettext</font>
+				<linktarget>open</linktarget>
+			</linkstringfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="npclist">
+		<frame>scrollboxfortabs</frame>
+		<softclose />
+		<placement>
+			<size>
+				<width>275</width>
+				<height>350</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum>
+				<width>200</width>
+				<height>290</height>
+			</minimum>
+		</sizelimits>
+		<nodelete />
+		<sheetdata>
+			<genericcontrol>
+				<bounds>16,21,30,157</bounds>
+				<icon>title_npcs</icon>
+			</genericcontrol>
+			<windowlist name="list">
+				<bounds>50,25,-30,-34</bounds>
+				<datasource>.</datasource>
+				<class>npcsmall</class>
+				<sortfields>name</sortfields>
+				<footer>footer_narrow</footer>
+				<allowcreate />
+				<allowdelete />
+				<acceptdrop>
+					<class>npc</class>
+					<field>token</field>
+					<field>name</field>
+					<field>npctype</field>
+					<field>init</field>
+					<field>senses</field>
+					<field>hp</field>
+					<field>ac</field>
+					<field>fortitude</field>
+					<field>reflex</field>
+					<field>will</field>
+					<field>specialdefenses</field>
+					<field>saves</field>
+					<field>speed</field>
+					<field>actionpoints</field>
+					<field>levelrole</field>
+					<field>type</field>
+					<field>xp</field>
+					<field>skills</field>
+					<field>strength</field>
+					<field>constitution</field>
+					<field>dexterity</field>
+					<field>intelligence</field>
+					<field>wisdom</field>
+					<field>charisma</field>
+					<field>alignment</field>
+					<field>languages</field>
+					<field>equipment</field>
+					<field>text</field>
+					<field>space</field>
+					<field>cost</field>
+				</acceptdrop>
+				<script>
+					srcnode = nil;
+					
+					function onSortCompare(w1, w2)
+						return w1.name.getValue() &gt; w2.name.getValue();
+					end;
+					
+					function onFilter(w)
+						local f = string.lower(window.filter.getValue());
+						
+						if f == "" then
+							return true;
+						end
+						
+						if string.find(string.lower(w.name.getValue()), f, 0, true) then
+							return true;
+						end
+						
+						return false;
+					end
+					
+					function getSource()
+						return srcnode;
+					end
+					
+					function clearSource()
+						srcnode = nil;
+					end
+					
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("shortcut")  then
+							local class, datasource = draginfo.getShortcutData();
+							local source = draginfo.getDatabaseNode();
+
+							if source and class == "npc" then
+								srcnode = source;
+							end
+
+							return nil;
+						end
+					end
+				</script>
+			</windowlist>
+			<scrollercontrol>
+				<bounds>-105,-61,45,27</bounds>
+				<target>list</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+
+			<buttoncontrol>
+				<bounds>-55,-58,34,25</bounds>
+				<icon>
+					<normal>button_newwindow</normal>
+					<pressed>button_newwindowdown</pressed>
+				</icon>
+				<class>npc</class>
+				<script>
+					function onButtonPress()
+						local node = NodeManager.createSafeChild(window.getDatabaseNode());
+						if node then
+							Interface.openWindow(class[1], node.getNodeName());
+						end
+					end
+				</script>
+			</buttoncontrol>
+			<categoryselectioncontrol>
+				<bounds>24,-39,-24,-1</bounds>
+				<targetcontrol>list</targetcontrol>
+			</categoryselectioncontrol>
+
+			<filter name="filter">
+				<bounds>55,-70,-50,20</bounds>
+				<target>list</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>20,-85,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>
+			
+			<closebutton_scrollbox />
+		</sheetdata>
+	</windowclass>
+</root>

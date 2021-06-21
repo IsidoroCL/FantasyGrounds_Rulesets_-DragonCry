@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="reference_ritualitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+		</sizelimits>
+		<script file="scripts/reference_listitem.lua" />
+		<sheetdata>
+			<windowreferencefield name="link">
+				<bounds>5,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<script>
+					function onDrag(button, x, y, draginfo)
+						draginfo.setType("shortcut");
+						draginfo.setIcon(icon[1].normal[1]);
+						draginfo.setShortcutData(getValue());
+						draginfo.setDescription(getTargetDatabaseNode().getChild("name").getValue());
+						
+						return true;
+					end
+				</script>
+			</windowreferencefield>
+
+			<staticlinkstringcontrol name="name">
+				<bounds>30,2,200,15</bounds>
+				<font>chatfont</font>
+				<underlineoffset>0</underlineoffset>
+				<linktarget>link</linktarget>
+			</staticlinkstringcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<!-- Ritual lists -->
+	<windowclass name="reference_rituallist">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>400</width>
+				<height>450</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic>
+				<resize>vertical</resize>
+			</dynamic>
+			<maximum>
+				<height>100000</height>
+			</maximum>
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>description</field>
+		</tooltip>
+		<sheetdata>
+			<stringfield name="description">
+				<bounds>17,20,-20,20</bounds>
+				<font>sheetlabel</font>
+				<center />
+				<static />
+			</stringfield>
+			
+			<windowlist name="rituallist">
+				<bounds>17,40,-20,-14</bounds>
+				<datasource>.groups</datasource>
+				<class>reference_ritualitem</class>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>rituallist</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>rituallist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<filter name="filter">
+				<bounds>55,-50,-50,20</bounds>
+				<target>rituallist</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>-43,-83,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- Power description sheet -->
+
+	<windowclass name="ritual_stats">
+		<sheetdata>
+			<!-- Fields -->
+			<stringfield name="flavor">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>chatitalicfont</font>
+				<footer>footer_wide</footer>
+				<selectioncolor>#FFD296</selectioncolor>
+				<multilinespacing>15</multilinespacing>
+			</stringfield>
+			<columnstringfield name="level">
+				<anchor>flavor</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>level</anchor>
+				<static>Level</static>
+			</columnfieldlabel>
+			<columnstringfield name="category">
+				<anchor>level</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>category</anchor>
+				<static>Category</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="time">
+				<anchor>category</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>time</anchor>
+				<static>Casting Time</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="duration">
+				<anchor>time</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>duration</anchor>
+				<static>Duration</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="component">
+				<anchor>duration</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>component</anchor>
+				<static>Component</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="price">
+				<anchor>component</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>price</anchor>
+				<static>Price</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="skill">
+				<anchor>price</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>skill</anchor>
+				<static>Skill</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="prerequisite">
+				<anchor>skill</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>prerequisite</anchor>
+				<static>Prerequisite</static>
+			</columnfieldlabel>
+
+			<referenceformattedtextfield name="details">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-7</offset>
+					</right>
+					<top>
+						<parent>prerequisite</parent>
+						<anchor>bottom</anchor>
+						<offset>8</offset>
+					</top>
+				</anchored>
+				<footer>footer_wide</footer>
+			</referenceformattedtextfield>
+
+			<!-- Spacer -->
+			<genericcontrol>
+				<anchored>
+					<to>details</to>
+					<position>below</position>
+					<size>
+						<height>15</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_ritual">
+		<frame>charsheet</frame>
+		<placement>
+			<size>
+				<width>300</width>
+				<height>370</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<!-- Name -->
+			<genericcontrol name="nameframe">
+				<bounds>10,20,-15,35</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<windowopencontrol>
+				<anchored>
+					<to>nameframe</to>
+					<position>insidetopleft</position>
+					<offset>13,8</offset>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>reference_ritual</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowopencontrol>
+			<stringfield name="name">
+				<anchored>
+					<top>
+						<parent>nameframe</parent>
+						<anchor>top</anchor>
+						<offset>9</offset>
+					</top>
+					<left>
+						<parent>nameframe</parent>
+						<anchor>left</anchor>
+						<offset>35</offset>
+					</left>
+					<right>
+						<parent>nameframe</parent>
+						<anchor>right</anchor>
+						<offset>-15</offset>
+					</right>
+				</anchored>
+				<empty>&#171; New Power &#187;</empty>
+				<font>sheettext</font>
+			</stringfield>
+
+			<!-- Frame -->		
+			<genericcontrol name="contentframe">
+				<bounds>10,54,-15,-13</bounds>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>0,1,0,0</offset>
+				</frame>
+			</genericcontrol>
+			<subwindow name="stats">
+				<bounds>22,61,-25,-21</bounds>
+				<class>ritual_stats</class>
+				<activate />
+			</subwindow>
+			<scrollercontrol name="stats_scroller">
+				<anchored>
+					<to>stats</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>stats</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<closebutton_charsheetmini />
+		</sheetdata>
+	</windowclass>
+</root>

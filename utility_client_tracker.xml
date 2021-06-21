@@ -1,0 +1,414 @@
+<!-- This file is provided under the Open Game License version 1.0a
+  -- For more information on OGL and related issues, see 
+  --   http://www.wizards.com/d20
+  --
+  -- For information on the Fantasy Grounds d20 Ruleset licensing and
+  -- the OGL license text, see the d20 ruleset license in the program
+  -- options.
+  --
+  -- All producers of work derived from this definition are adviced to
+  -- familiarize themselves with the above licenses, and to take special
+  -- care in providing the definition of Product Identity (as specified
+  -- by the OGL) in their products.
+  --
+  -- Copyright 2007 SmiteWorks Ltd.
+  -->
+
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root version="2.0">
+	<windowclass name="client_tracker_entry">
+		<frame>ctentrybox</frame>
+		<sizelimits>
+			<minimum>
+				<height>40</height>
+			</minimum>
+		</sizelimits>
+		<script>
+			function onInit()
+				type.onValueChanged();
+			end
+		</script>
+		<sheetdata>
+			<!-- Hidden values -->
+			<checkbox name="show_npc">
+				<invisible />
+				<bounds>0,0,1,1</bounds>
+			</checkbox>
+			<stringfield name="type">
+				<invisible />
+				<bounds>0,0,1,1</bounds>
+				<script>
+					function onValueChanged()
+						if getValue() == "npc" then
+							window.hp.setVisible(false);
+							window.hptemp.setVisible(false);
+							window.wounds.setVisible(false);
+							window.status.setVisible(true);
+						end
+					end
+				</script>
+			</stringfield>
+
+			<!-- Basics -->
+			<tokenfield name="token">
+				<bounds>33,6,23,23</bounds>
+				<empty>indicator_emptytoken</empty>
+			</tokenfield>
+			<jpgnumberfield name="initresult">
+				<anchored>
+					<position>righthigh</position>
+					<offset>-180,7</offset>
+					<size>
+						<width>34</width>
+						<height>23</height>
+					</size>
+				</anchored>
+				<hideonvalue>0</hideonvalue>
+				<font>sheetnumbersmall</font>
+				<frame>
+					<name>bonus</name>
+					<offset>2,2,2,2</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>2,2,2,2</offset>
+				</keyeditframe>
+				<readonly/>
+				<script>
+					function onValueChanged()
+						window.windowlist.applySort();
+					end
+				</script>
+			</jpgnumberfield>
+			<stringfield name="name">
+				<anchored>
+					<to>token</to>
+					<position>righthigh</position>
+					<offset>2,4</offset>
+					<right>
+						<parent>initresult</parent>
+						<anchor>left</anchor>
+						<offset>-4,0</offset>
+					</right>
+				</anchored>
+				<font>sheettextsmall</font>
+				<frame>
+					<name>textline</name>
+					<offset>0,1,0,0</offset>
+				</frame>
+				<script>
+					function onInit()
+						setReadOnly(true);
+					end
+				</script>
+			</stringfield>
+			<stringfield name="status">
+				<anchored>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<left>
+						<parent>initresult</parent>
+						<anchor>right</anchor>
+						<offset>9</offset>
+					</left>
+				</anchored>
+				<font>sheettextsmall</font>
+				<invisible/>
+				<script>
+					function onInit()
+						setReadOnly(true);
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						if getValue() == "Dying" or getValue() == "Dead" then
+							setFont("ct_dead_font");
+						elseif getValue() == "Bloodied"then
+							setFont("ct_bloodied_font");
+						elseif getValue() == "Light"then
+							setFont("ct_ltwound_font");
+						else
+							setFont("ct_healthy_font");
+						end
+					end
+				</script>
+			</stringfield>
+			<numberfield name="hp">
+				<anchored>
+					<to>initresult</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>34</width>
+					</size>
+				</anchored>
+				<font>sheetnumbersmall</font>
+				<frame>
+					<name>modifier</name>
+					<offset>2,2,2,2</offset>
+				</frame>
+				<readonly/>
+				<script>
+					function onValueChanged()
+						window.wounds.onValueChanged();
+					end
+				</script>
+			</numberfield>
+			<numberfield name="hptemp">
+				<anchored>
+					<to>hp</to>
+					<position>right</position>
+					<offset>0,0</offset>
+					<size>
+						<width>34</width>
+					</size>
+				</anchored>
+				<font>sheetnumbersmall</font>
+				<frame>
+					<name>modifier</name>
+					<offset>2,2,2,2</offset>
+				</frame>
+				<readonly/>
+				<script>
+					function onValueChanged()
+						window.wounds.onValueChanged();
+					end
+				</script>
+			</numberfield>
+			<numberfield name="wounds">
+				<anchored>
+					<to>hptemp</to>
+					<position>right</position>
+					<offset>0,0</offset>
+					<size>
+						<width>34</width>
+					</size>
+				</anchored>
+				<font>sheetnumbersmall</font>
+				<frame>
+					<name>modifier</name>
+					<offset>2,2,2,2</offset>
+				</frame>
+				<readonly/>
+				<script file="scripts/clienttracker_wounds.lua" />
+			</numberfield>
+			<genericcontrol name="friendfoe">
+				<anchored>
+					<position>righthigh</position>
+					<offset>-32,8</offset>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>indicator_ctffempty</icon>
+				<stateicons>
+					<friend>indicator_ctfffriend</friend>
+					<neutral>indicator_ctffneutral</neutral>
+					<foe>indicator_ctfffoe</foe>
+				</stateicons>
+				<script>
+					function onChange()
+						if source then
+							setState(source.getValue());
+						end
+					end
+					
+					function onInit()
+						source = window.getDatabaseNode().getChild(getName(), "string");
+						if source then
+							setState(source.getValue());
+							source.onUpdate = onChange;
+						end
+					end
+					
+					function setState(state)
+						if stateicons[1][state] then
+							setIcon(stateicons[1][state][1]);
+						else
+							setIcon(icon[1]);
+						end
+					end
+				</script>
+			</genericcontrol>
+
+			<genericcontrol name="spacer">
+				<anchored>
+					<top>
+						<parent>name</parent>
+						<anchor>bottom</anchor>
+						<relation>current</relation>
+					</top>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<size>
+						<height>10</height>
+					</size>
+				</anchored>
+				<invisible />
+				<disabled />
+			</genericcontrol>
+
+			<genericcontrol name="active">
+				<anchored>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<bottom>
+						<anchor>bottom</anchor>
+					</bottom>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<size>
+						<width>33</width>
+					</size>
+				</anchored>
+				<icon>indicator_ctpassive</icon>
+				<activeicon>indicator_ctactive</activeicon>
+				<script>
+					function onChange()
+						if source then
+							setState(source.getValue());
+						end
+					end
+					
+					function onInit()
+						activewidget = addBitmapWidget(activeicon[1]);
+						activewidget.setVisible(false);
+
+						source = window.getDatabaseNode().getChild(getName(), "number");
+						if source then
+							setState(source.getValue());
+							source.onUpdate = onChange;
+						end
+					end
+					
+					function setState(state)
+						local datavalue = 1;
+						if state == nil or state == false or state == 0 then
+							datavalue = 0;
+						end
+
+						if datavalue == 1 then
+							activewidget.setVisible(true);
+						else
+							activewidget.setVisible(false);
+						end
+					end
+				</script>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="client_tracker_window">
+		<frame>ctbox</frame>
+		<playercontrol />
+		<nodelete />
+		<tooltip>
+			<text>Client Tracker</text>
+		</tooltip>
+		<placement>
+			<size>
+				<width>527</width>
+				<height>512</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<minimum>
+				<width>350</width>
+				<height>210</height>
+			</minimum>
+			<dynamic>
+				<resize>both</resize>
+			</dynamic>
+		</sizelimits>
+		<sheetdata>
+			<stringcontrol>
+				<bounds>60,15,30,10</bounds>
+				<font>sheetlabelsmall</font>
+				<color>#ffffffff</color>
+				<static>Name</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<position>right</position>
+					<offset>-191,-15</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<color>#ffffffff</color>
+				<static>Init</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<position>right</position>
+					<offset>-150,-15</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<color>#ffffffff</color>
+				<static>HP</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<position>right</position>
+					<offset>-124,-15</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<color>#ffffffff</color>
+				<static>Temp</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<position>right</position>
+					<offset>-93,-15</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<color>#ffffffff</color>
+				<static>Wounds</static>
+			</stringcontrol>
+
+			<windowlist name="list">
+				<class>client_tracker_entry</class>
+				<datasource>.</datasource>
+				<skipemtpy />
+				<bounds>0,30,-20,-50</bounds>
+				<script file="scripts/clienttracker.lua" />
+			</windowlist>
+
+			<scrollercontrol>
+				<anchored>
+					<to>list</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>list</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<viewerlist>
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>26</offset>
+					</left>
+					<bottom>
+						<anchor>bottom</anchor>
+						<offset>-22</offset>
+					</bottom>
+				</anchored>
+			</viewerlist>
+		</sheetdata>
+	</windowclass>
+</root>

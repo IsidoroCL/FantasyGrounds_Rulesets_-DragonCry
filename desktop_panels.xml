@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<panel name="shortcuts" modes="host">
+		<class>gmshortcuts</class>
+		<bounds>
+			<anchored>
+				<top>
+					<anchor>top</anchor>
+				</top>
+				<bottom>
+					<anchor>bottom</anchor>
+					<offset>-33</offset>
+				</bottom>
+				<right>
+					<anchor>right</anchor>
+				</right>
+				<size>
+					<width>98</width>
+				</size>
+			</anchored>
+		</bounds>
+	</panel>
+
+	<panel name="shortcuts" modes="client">
+		<class>playershortcuts</class>
+		<bounds>
+			<anchored>
+				<top>
+					<anchor>top</anchor>
+				</top>
+				<bottom>
+					<anchor>bottom</anchor>
+					<offset>-33</offset>
+				</bottom>
+				<right>
+					<anchor>right</anchor>
+				</right>
+				<size>
+					<width>98</width>
+				</size>
+			</anchored>
+		</bounds>
+	</panel>
+
+	<panel name="shortcuts" modes="local">
+		<class>localshortcuts</class>
+		<bounds>
+			<anchored>
+				<top>
+					<anchor>top</anchor>
+				</top>
+				<bottom>
+					<anchor>bottom</anchor>
+					<offset>-33</offset>
+				</bottom>
+				<right>
+					<anchor>right</anchor>
+				</right>
+				<size>
+					<width>98</width>
+				</size>
+			</anchored>
+		</bounds>
+	</panel>
+
+	<panel name="characterlist">
+		<class>characterlist</class>
+		<bounds>
+			<anchored>
+				<top>
+					<anchor>top</anchor>
+				</top>
+				<right>
+					<parent>shortcuts</parent>
+					<anchor>left</anchor>
+				</right>
+				<left>
+					<anchor>left</anchor>
+				</left>
+				<size>
+					<height>82</height>
+				</size>
+			</anchored>
+		</bounds>
+	</panel>
+	
+	<panel name="identitylist" modes="host">
+		<class>identitylist</class>
+		<bounds>
+			<anchored>
+				<bottom>
+					<anchor>bottom</anchor>
+					<offset>-35</offset>
+				</bottom>
+				<right>
+					<parent>shortcuts</parent>
+					<anchor>left</anchor>
+				</right>
+				<left>
+					<anchor>left</anchor>
+				</left>
+				<size>
+					<height>20</height>
+				</size>
+			</anchored>
+		</bounds>
+	</panel>
+
+	<panel name="chat" modes="host,client">
+		<class>chat</class>
+		<bounds>
+			<rect>15,90,390,560</rect>
+		</bounds>
+	</panel>
+
+	<panel name="chat" modes="local">
+		<class>statchat</class>
+		<bounds>
+			<rect>15,90,390,560</rect>
+		</bounds>
+	</panel>
+	
+	<panel name="statdiecup" modes="local">
+		<class>statdiecup</class>
+		<bounds>
+			<rect>45,-57,330,40</rect>
+		</bounds>
+	</panel>
+	
+	<panel name="modifierstack" modes="host,client">
+		<class>modifierstack</class>
+		<bounds>
+			<anchored>
+				<bottom>
+					<anchor>bottom</anchor>
+					<offset>-63</offset>
+				</bottom>
+				<left>
+					<anchor>left</anchor>
+					<offset>15</offset>
+				</left>
+				<size>
+					<width>64</width>
+					<height>57</height>
+				</size>
+			</anchored>
+		</bounds>
+	</panel>
+</root>

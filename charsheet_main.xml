@@ -1,0 +1,2406 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="charsheet_weaponlistitem2">
+		<sizelimits>
+			<minimum>
+				<height>45</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>		
+			<numberfield name="order">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+				
+			</numberfield>
+						
+			<weapon_string name="name">
+				<anchored>
+					<position>insidetopleft</position>
+					<offset>5,0</offset>
+					<size>
+						<width>145</width>
+					</size>
+				</anchored>
+				<readonly />
+			</weapon_string>
+			
+			<sheetnumber name="arma_nivel" source="arma.nivel">
+				<anchored>
+					<to>name</to>
+					<position>right</position>
+					<offset>3,0</offset>
+					<size>
+						<width>25</width>
+					</size>
+				</anchored>
+				
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<readonly />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				<hideonvalue value="0" />
+				<displaysign />
+				<static>Nivel</static>
+			</sheetnumber>
+			
+			<windowreferencefield name="shortcut">
+				<anchored>
+					<to>arma_nivel</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+				<readonly />
+			</windowreferencefield>
+				
+			<sheetnumber name="punteria_arma_mod" source="arma.punteriamod">
+				<anchored>
+					<position>insidetopleft</position>
+					<offset>15,25</offset>
+					
+					<size>
+						<width>25</width>
+						<height>10</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<readonly />
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				
+				<displaysign />
+				
+				<script>
+					function onDoubleClick(x,y)
+						local attack_name, attack_mod = CharSheetCommon.getWeaponAttack(window.getDatabaseNode());
+						
+						ChatManager.DoubleClickAction("attack", 0, attack_name, {pc = window.getDatabaseNode().getParent().getParent()});
+
+						return true;
+					end
+					
+					function onDrag(button, x, y, draginfo)
+						local attack_name = CharSheetCommon.getWeaponAttack(window.getDatabaseNode());
+						
+						if OptionsManager.isOption("DRGR", "on") then
+							draginfo.setType("dice");
+							draginfo.setDieList({ "d12" });
+						else
+							draginfo.setType("number");
+						end
+						draginfo.setDescription(attack_name);
+						
+
+						return true;
+					end
+					
+					
+				</script>
+			</sheetnumber>
+			<stringcontrol name="punteria_label2">
+				<anchored>
+					<to>punteria_arma_mod</to>
+					<position>left</position>
+					<offset>1,0</offset>
+					<size>
+						<width>10</width>
+					</size>
+				</anchored>
+				<center />
+				<font>sheetlabelsmall</font>
+				<static>P</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_arma_mod" source="arma.darmod">
+				<anchored>
+					<to>punteria_arma_mod</to>
+					<position>right</position>
+					<offset>20,0</offset>
+					<size>
+						<width>25</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				<readonly />
+				<displaysign />
+				<script>
+					function onDoubleClick(x,y)
+						local attack_name, attack_mod = CharSheetCommon.getWeaponAttack(window.getDatabaseNode());
+						
+						ChatManager.DoubleClickAction("attack", 0, attack_name, {pc = window.getDatabaseNode().getParent().getParent()});
+
+						return true;
+					end
+					
+					function onDrag(button, x, y, draginfo)
+						local attack_name = CharSheetCommon.getWeaponAttack(window.getDatabaseNode());
+						
+						if OptionsManager.isOption("DRGR", "on") then
+							draginfo.setType("dice");
+							draginfo.setDieList({ "d12" });
+						else
+							draginfo.setType("number");
+						end
+						draginfo.setDescription(attack_name);
+						
+
+						return true;
+					end
+					
+					
+				</script>
+			</sheetnumber>
+			<stringcontrol name="dar_label2">
+				<anchored>
+					<to>dar_arma_mod</to>
+					<position>left</position>
+					<offset>6,0</offset>
+					<size>
+						<width>10</width>
+					</size>
+				</anchored>
+				<center />
+				<font>sheetlabelsmall</font>
+				<static>Dar</static>
+			</stringcontrol>
+			
+			<diefield name="damagedice2" source="arma.dados">
+				<anchored>
+					<to>dar_arma_mod</to>
+					<position>right</position>
+					<offset>25,0</offset>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<noreset />
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<stateframe>
+					<drophilight>
+						<name>sheetfocus</name>
+						<offset>0,3,0,3</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>dice</type>
+				</droptypes>
+				<readonly />
+				<script>
+					function onDoubleClick(x,y)
+						local damage_name = CharSheetCommon.getWeaponDamage(window.getDatabaseNode());
+						local damage_mod = window.getDatabaseNode().
+								getChild("arma.dannomod").getValue();
+						local damage_dice = window.getDatabaseNode().
+								getChild("arma.dados").getValue();
+						ChatManager.DoubleClickDieControl("damage", damage_mod, damage_name, {pc = window.getDatabaseNode().getParent().getParent()}, damage_dice);
+
+						return true;
+					end			
+
+					function onDrag(button, x, y, draginfo)
+						local damage_name = CharSheetCommon.getWeaponDamage(window.getDatabaseNode());
+						local damage_mod = window.getDatabaseNode().
+								getChild("arma.dannomod").getValue();
+						local damage_dice = window.getDatabaseNode().
+								getChild("arma.dados").getValue();
+						draginfo.setType("damage");
+						draginfo.setDieList(damage_dice);
+						draginfo.setNumberData(damage_mod);
+						draginfo.setDescription(damage_name);
+						draginfo.setShortcutData("charsheet", window.getDatabaseNode().getParent().getParent().getNodeName());
+
+						return true;
+					end
+				</script>
+			</diefield>
+			
+			<sheetnumber name="danno_arma_mod" source="arma.dannomod">
+				<anchored>
+					<to>damagedice2</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>25</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<readonly />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				<hideonvalue value="0" />
+				<displaysign />
+				
+			</sheetnumber>
+			
+			<stringcontrol name="danno_label2">
+				<anchored>
+					<to>damagedice2</to>
+					<position>left</position>
+					<offset>6,0</offset>
+					<size>
+						<width>10</width>
+					</size>
+				</anchored>
+				<center />
+				<font>sheetlabelsmall</font>
+				<static>Dñ</static>
+			</stringcontrol>
+
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="charsheet_magialist2">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+		</sizelimits>
+			
+		<sheetdata>		
+			
+			<textlistitemvalue name="name">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>10</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-80</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+				</anchored>
+				
+				<readonly />							
+			</textlistitemvalue>
+			
+			<textlistitemvalue name="Invocacion">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>10</width>
+					</size>
+				</anchored>
+				<nodelete />
+				<readonly />
+				<center />
+			</textlistitemvalue>
+			
+			<textlistitemvalue name="Mana">
+				<anchored>
+					<left>
+						<parent>Invocacion</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<font>sheetnumbersmall</font>
+				<nodelete />
+				<readonly />
+				<center />
+			</textlistitemvalue>
+			
+			
+			<textlistitemvalue name="Duracion">
+				<anchored>
+					<left>
+						<parent>Mana</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>10</width>
+					</size>
+				</anchored>
+				<nodelete />
+				<readonly />
+				<center />
+			</textlistitemvalue>
+			
+			<button_toggle name="magias_detalle">
+				<anchored>
+					<left>
+						<parent>Duracion</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>15</width>
+						<height>15</height>
+					</size>
+				</anchored>
+				<icon>indicator_expanddown</icon>
+				<tooltip>
+					<text>Detalles</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local dal = getValue();
+						window.efecto.setVisible(dal);
+						window.magiadice.setVisible(dal);
+						window.danno_magia.setVisible(dal);
+						window.spacer.setVisible(dal);						
+						window.magiashortcut.setVisible(dal);
+					end
+					
+					
+				</script>
+				
+			</button_toggle>
+			
+			<powerdescfieldpc name="efecto">
+				<anchored>
+					<top>
+						<parent>name</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+						<offset>12</offset>
+					</top>
+					<left>
+						<parent>name</parent>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-95</offset>
+					</right>
+				</anchored>
+				<font>sheettextsmall</font>
+				<readonly />
+			</powerdescfieldpc>
+			
+			<genericcontrol name="spacer">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>efecto</parent>
+						<anchor>bottom</anchor>
+						<offset>2</offset>
+					</top>
+					<size>
+						<height>5</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+			
+			<diefield name="magiadice" source="magia.dados">
+				<anchored>
+					<to>efecto</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>35</width>
+					</size>
+				</anchored>
+				<noreset />
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<stateframe>
+					<drophilight>
+						<name>sheetfocus</name>
+						<offset>0,3,0,3</offset>
+					</drophilight>
+				</stateframe>
+				<readonly />
+				<droptypes>
+					<type>dice</type>
+				</droptypes>
+				<script>
+					function onDoubleClick(x,y)
+						local damage_name = CharSheetCommon.getWeaponDamage(window.getDatabaseNode());
+						local damage_mod = window.getDatabaseNode().
+								getChild("magia.danno").getValue();
+						local damage_dice = window.getDatabaseNode().
+								getChild("magia.dados").getValue();
+						ChatManager.DoubleClickDieControl("damage", damage_mod, damage_name, {pc = window.getDatabaseNode().getParent().getParent()}, damage_dice);
+
+						return true;
+					end			
+
+					function onDrag(button, x, y, draginfo)
+						local damage_name = CharSheetCommon.getWeaponDamage(window.getDatabaseNode());
+						local damage_mod = window.getDatabaseNode().
+								getChild("magia.danno").getValue();
+						local damage_dice = window.getDatabaseNode().
+								getChild("magia.dados").getValue();
+						draginfo.setType("damage");
+						draginfo.setDieList(damage_dice);
+						draginfo.setNumberData(damage_mod);
+						draginfo.setDescription(damage_name);
+						draginfo.setShortcutData("charsheet", window.getDatabaseNode().getParent().getParent().getNodeName());
+
+						return true;
+					end
+				</script>
+			</diefield>
+			
+			<sheetnumber name="danno_magia" source="magia.danno">
+				<anchored>
+					<to>magiadice</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<readonly />
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<readonly />
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				<hideonvalue value="0" />
+				<displaysign />
+				
+			</sheetnumber>
+			
+			<windowreferencefield name="magiashortcut">
+				<anchored>
+					<to>danno_magia</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+		
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="charsheet_main">
+		<placement>
+			<size>
+				<width>252</width>
+				<height>611</height>
+			</size>
+		</placement>
+		<nodelete />
+		<sheetdata>
+			<tokenfield name="combattoken">
+				<bounds>432,30,60,51</bounds>
+				<empty>indicator_emptytoken</empty>
+			</tokenfield>
+		
+			<!-- OVERVIEW -->
+			<genericcontrol name="overviewframe">
+				<bounds>15,20,415,70</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<labeledstring name="name">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>15,10</offset>
+					<size>
+						<width>250</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<label>Nombre</label>
+				<tabtarget>
+					<next>race</next>
+					<prev>appearance</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="race">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>275,10</offset>
+					<size>
+						<width>125</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>Raza</label>
+				<tabtarget>
+					<next>clase</next>
+					<prev>name</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="clase" source="clase.base">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>15,32</offset>
+					<size>
+						<width>125</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>Clase</label>
+				<tabtarget>
+					<next>orden</next>
+					<prev>race</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="orden" source="clase.orden">
+				<anchored>
+					<to>clase</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>125</width>
+					</size>
+				</anchored>
+				<label>Orden</label>
+				<tabtarget>
+					<next>sub_raza</next>
+					<prev>clase</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="sub_raza" source="raza.sub">
+				<anchored>
+					<to>orden</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>125</width>
+					</size>
+				</anchored>
+				<label>Sub-Raza</label>
+				<tabtarget>
+					<next>level</next>
+					<prev>orden</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<!-- LEVEL -->
+			<genericcontrol name="levelframe">
+				<bounds>15,90,110,170</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<sheetnumber name="level" source="nivel.base">
+				<anchored>
+					<to>levelframe</to>
+					<position>insidetopleft</position>
+					<offset>65,15</offset>
+					<size>
+						<width>32</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>bonus</name>
+					<offset>5,4,5,4</offset>
+				</frame>
+				<tabtarget>
+					<next>exp_gan</next>
+					<prev>sub_raza</prev>
+				</tabtarget>
+			</sheetnumber>
+			<stringcontrol name="levellabel">
+				<anchored>
+					<to>level</to>
+					<position>left</position>
+					<offset>5,-3</offset>
+					<size>
+						<width>40</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Nivel</static>
+			</stringcontrol>
+			
+			<sheetnumber name="exp_gan" source="exp.gan">
+				<anchored>
+					<to>levelframe</to>
+					<position>insidetopleft</position>
+					<offset>15,58</offset>
+					<size>
+						<width>75</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>bonus</name>
+					<offset>5,4,5,4</offset>
+				</frame>
+				<tabtarget>
+					<next>exp</next>
+					<prev>level</prev>
+				</tabtarget>
+				<script>
+					function recalc()
+						setValue(0)
+					end
+					
+					function onInit()
+						local expnew = window.getDatabaseNode().
+								getChild("superexperiencia");
+						if expnew then
+							expnew.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>exp_gan</to>
+					<position>above</position>
+					<offset>0,1</offset>
+				</anchored>
+				<static>Exp Ganada</static>
+				<font>sheetlabelsmall</font>
+				<center />
+			</stringcontrol>
+			
+					
+			<sheetnumber name="exp" source="superexperiencia">
+				<anchored>
+					<to>exp_gan</to>
+					<position>below</position>
+					<offset>0,22</offset>
+					<size>
+						
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>bonus</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,5</offset>
+				</keyeditframe>
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<tabtarget>
+					<next>expneeded</next>
+					<prev>exp_gan</prev>
+				</tabtarget>
+				<readonly />
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("number") then
+							setValue(getValue() + draginfo.getNumberData());
+							return true;
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			<stringcontrol>
+				<anchored>
+					<to>exp</to>
+					<position>above</position>
+					<offset>0,1</offset>
+				</anchored>
+				<static>Experiencia Total</static>
+				<font>sheetlabelsmall</font>
+				<center />
+			</stringcontrol>
+			
+			<checkcounterold name="mascota" source="mascot.exp">
+				<anchored>
+					<to>levelframe</to>
+					<position>insidebottomright</position>
+					<offset>8,-210</offset>
+				</anchored>
+				<sourcefields>
+					<current>mascot.exp</current>
+					<maximum>mascot.expmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(1);
+					end
+				</script>
+				
+			</checkcounterold>
+			
+			<jpgnumberfield name="expneeded" source="exp.nec">
+				<anchored>
+					<to>exp</to>
+					<position>below</position>
+					<offset>0,22</offset>
+					<size>
+						<height>15</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>bonus</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,5</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<tabtarget>
+					<next>strength</next>
+					<prev>exp</prev>
+				</tabtarget>
+				<noreset />
+				<readonly />
+				<script>
+					function onHover(oncontrol)
+						if oncontrol then
+							local draginfo = Input.getDragData();
+							if draginfo and draginfo.isType("number") and draginfo.getNumberData() &lt; getValue() then
+								setColor("ffbb0000");
+							end
+						else
+							setColor(nil);
+						end
+					end
+											
+					function recalc()
+						local dex = window.getDatabaseNode().
+								getChild("nivel.base").getValue();
+						local masc = window.getDatabaseNode().
+								getChild("mascot.exp").getValue();
+						local necesario = 20;
+						if masc == 0 then
+							if dex == 2 then
+								necesario = 50;
+							elseif dex == 3 then
+								necesario = 100;
+							elseif dex == 4 then
+								necesario = 200;
+							elseif dex == 5 then
+								necesario = 500;
+							elseif dex == 6 then
+								necesario = 1000;
+							elseif dex == 7 then
+								necesario = 2000;
+							elseif dex == 8 then
+								necesario = 3000;
+							elseif dex == 9 then
+								necesario = 5000;
+							elseif dex == 10 then
+								necesario = 7000;
+							elseif dex == 11 then
+								necesario = 9000;
+							elseif dex == 12 then
+								necesario = 11000;
+							elseif dex == 13 then
+								necesario = 13000;
+							elseif dex == 14 then
+								necesario = 15000;
+							elseif dex == 15 then
+								necesario = 18000;
+							elseif dex == 16 then
+								necesario = 21000;
+							elseif dex == 17 then
+								necesario = 25000;
+							elseif dex == 18 then
+								necesario = 30000;
+							elseif dex == 19 then
+								necesario = 35000;
+							elseif dex == 20 then
+								necesario = 40000;
+							elseif dex == 21 then
+								necesario = 45000;
+							elseif dex == 22 then
+								necesario = 50000;
+							elseif dex == 23 then
+								necesario = 55000;
+							elseif dex == 24 then
+								necesario = 60000;
+							elseif dex == 25 then
+								necesario = 70000;
+							elseif dex == 26 then
+								necesario = 80000;
+							elseif dex == 27 then
+								necesario = 90000;
+							elseif dex == 28 then
+								necesario = 100000;
+							elseif dex == 29 then
+								necesario = 110000;
+							end
+						else
+							if dex == 2 then
+								necesario = 100;
+							elseif dex == 3 then
+								necesario = 500;
+							elseif dex == 4 then
+								necesario = 1500;
+							elseif dex == 5 then
+								necesario = 4500;
+							elseif dex == 6 then
+								necesario = 135000;
+							elseif dex == 7 then
+								necesario = 27000;
+							elseif dex == 8 then
+								necesario = 54000;
+							elseif dex == 9 then
+								necesario = 100000;
+							end
+						end
+						setValue(necesario);
+					end
+					
+					function onInit()
+						local dexnode = window.getDatabaseNode().
+								getChild("nivel.base");
+						if dexnode then
+							dexnode.onUpdate = recalc;
+						recalc();
+						end
+						
+					end
+				
+				</script>
+			</jpgnumberfield>
+			<stringcontrol>
+				<anchored>
+					<to>expneeded</to>
+					<position>above</position>
+					<offset>0,1</offset>
+				</anchored>
+				<static>Exp necesaria</static>
+				<font>sheetlabelsmall</font>
+				<center />
+			</stringcontrol>
+			
+			<!-- ABILITIES -->
+			<genericcontrol name="abilityframe">
+				<bounds>125,90,375,210</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<abilityscore name="strength" source="atributo.fuerza.base">
+				<anchored>
+					<to>abilityframe</to>
+					<position>insidetopleft</position>
+					<offset>15,29</offset>
+				</anchored>
+				<tabtarget>
+					<next>constitution</next>
+					<prev>expneeded</prev>
+				</tabtarget>
+			</abilityscore>
+			<abilityscore name="constitution" source="atributo.agilidad.base">
+				<anchored>
+					<to>strength</to>
+				</anchored>
+				<tabtarget>
+					<next>dexterity</next>
+					<prev>strength</prev>
+				</tabtarget>
+			</abilityscore>
+			<abilityscore name="dexterity" source="atributo.constitucion.base">
+				<anchored>
+					<to>constitution</to>
+				</anchored>
+				<tabtarget>
+					<next>intelligence</next>
+					<prev>constitution</prev>
+				</tabtarget>
+			</abilityscore>
+			<abilityscore name="intelligence" source="atributo.inteligencia.base">
+				<anchored>
+					<to>dexterity</to>
+				</anchored>
+				<tabtarget>
+					<next>wisdom</next>
+					<prev>dexterity</prev>
+				</tabtarget>
+			</abilityscore>
+			<abilityscore name="wisdom" source="atributo.observacion.base">
+				<anchored>
+					<to>intelligence</to>
+				</anchored>
+				<tabtarget>
+					<next>charisma</next>
+					<prev>intelligence</prev>
+				</tabtarget>
+			</abilityscore>
+			<abilityscore name="charisma" source="atributo.carisma.base">
+				<anchored>
+					<to>wisdom</to>
+				</anchored>
+				<tabtarget>
+					<next>hp</next>
+					<prev>wisdom</prev>
+				</tabtarget>
+			</abilityscore>
+			
+			<abilitycheckbonus name="strengthcheck" source="atributo.fuerza.check">
+				<anchored>
+					<to>strength</to>
+				</anchored>
+				<target>strength</target>
+				<description>
+					<text>Chequeo Fuerza</text>
+				</description>
+				<abilitybonusfield>atributo.fuerza.mod</abilitybonusfield>
+			</abilitycheckbonus>
+			<abilitycheckbonus name="constitutioncheck" source="atributo.agilidad.check">
+				<anchored>
+					<to>constitution</to>
+				</anchored>
+				<target>constitution</target>
+				<description>
+					<text>Chequeo Agilidad</text>
+				</description>
+				<abilitybonusfield>atributo.agilidad.mod</abilitybonusfield>
+			</abilitycheckbonus>
+			<abilitycheckbonus name="dexteritycheck" source="atributo.constitucion.check">
+				<anchored>
+					<to>dexterity</to>
+				</anchored>
+				<target>dexterity</target>
+				<description>
+					<text>Chequeo Constitucion</text>
+				</description>
+				<abilitybonusfield>atributo.constitucion.mod</abilitybonusfield>
+			</abilitycheckbonus>
+			<abilitycheckbonus name="intelligencecheck" source="atributo.inteligencia.check">
+				<anchored>
+					<to>intelligence</to>
+				</anchored>
+				<target>intelligence</target>
+				<description>
+					<text>Chequeo Inteligencia</text>
+				</description>
+				<abilitybonusfield>atributo.inteligencia.mod</abilitybonusfield>
+			</abilitycheckbonus>
+			<abilitycheckbonus name="wisdomcheck" source="atributo.observacion.check">
+				<anchored>
+					<to>wisdom</to>
+				</anchored>
+				<target>wisdom</target>
+				<description>
+					<text>Chequeo Observacion</text>
+				</description>
+				<abilitybonusfield>atributo.observacion.mod</abilitybonusfield>
+			</abilitycheckbonus>
+			<abilitycheckbonus name="charismacheck" source="atributo.carisma.check">
+				<anchored>
+					<to>charisma</to>
+				</anchored>
+				<target>charisma</target>
+				<description>
+					<text>Chequeo Carisma</text>
+				</description>
+				<abilitybonusfield>atributo.carisma.mod</abilitybonusfield>
+			</abilitycheckbonus>
+			
+			<abilityscore name="strengthbonus" source="atributo.fuerza.mod">
+				<anchored>
+					<to>abilityframe</to>
+					<position>insidetopleft</position>
+					<offset>150,29</offset>
+				</anchored>
+				
+			</abilityscore>
+			<abilityscore name="constitutionbonus" source="atributo.agilidad.mod">
+				<anchored>
+					<to>strengthbonus</to>
+				</anchored>
+				
+			</abilityscore>
+			<abilityscore name="dexteritybonus" source="atributo.constitucion.mod">
+				<anchored>
+					<to>constitutionbonus</to>
+				</anchored>
+				
+			</abilityscore>
+			<abilityscore name="intelligencebonus" source="atributo.inteligencia.mod">
+				<anchored>
+					<to>dexteritybonus</to>
+				</anchored>
+				
+			</abilityscore>
+			<abilityscore name="wisdombonus" source="atributo.observacion.mod">
+				<anchored>
+					<to>intelligencebonus</to>
+				</anchored>
+				
+			</abilityscore>
+			<abilityscore name="charismabonus" source="atributo.carisma.mod">
+				<anchored>
+					<to>wisdombonus</to>
+				</anchored>
+				
+			</abilityscore>
+
+			<abilitylabel>
+				<anchored>
+					<to>strengthbonus</to>
+				</anchored>
+				<static>Fuerza</static>
+			</abilitylabel>
+			<abilitylabel>
+				<anchored>
+					<to>constitutionbonus</to>
+				</anchored>
+				<static>Agilidad</static>
+			</abilitylabel>
+			<abilitylabel>
+				<anchored>
+					<to>dexteritybonus</to>
+				</anchored>
+				<static>Constitucion</static>
+			</abilitylabel>
+			<abilitylabel>
+				<anchored>
+					<to>intelligencebonus</to>
+				</anchored>
+				<static>Inteligencia</static>
+			</abilitylabel>
+			<abilitylabel>
+				<anchored>
+					<to>wisdombonus</to>
+				</anchored>
+				<static>Observacion</static>
+			</abilitylabel>
+			<abilitylabel>
+				<anchored>
+					<to>charismabonus</to>
+				</anchored>
+				<static>Carisma</static>
+			</abilitylabel>
+			
+			<stringcontrol>
+				<anchored>
+					<to>strength</to>
+					<position>above</position>
+					<offset>5,3</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Puntuacion</static>
+				<center />
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<to>strengthbonus</to>
+					<position>above</position>
+					<offset>5,3</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Mod</static>
+				<center />
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<to>strengthcheck</to>
+					<position>above</position>
+					<offset>5,3</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Check</static>
+				<center />
+			</stringcontrol>
+			
+			<labeledstring name="fuerza_origen" >
+				<anchored>
+					<to>strengthcheck</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>125</width>
+					</size>
+				</anchored>
+				<label>Otorgado por</label>
+			</labeledstring>
+			
+			<labeledstring name="agilidad_origen" >
+				<anchored>
+					<to>constitutioncheck</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>125</width>
+					</size>
+				</anchored>
+				<label>Otorgado por</label>
+			</labeledstring>
+			
+			<labeledstring name="constitucion_origen" >
+				<anchored>
+					<to>dexteritycheck</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>125</width>
+					</size>
+				</anchored>
+				<label>Otorgado por</label>
+			</labeledstring>
+			
+			<labeledstring name="inteligencia_origen" >
+				<anchored>
+					<to>intelligencecheck</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>125</width>
+					</size>
+				</anchored>
+				<label>Otorgado por</label>
+			</labeledstring>
+			
+			<labeledstring name="observacion_origen" >
+				<anchored>
+					<to>wisdomcheck</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>125</width>
+					</size>
+				</anchored>
+				<label>Otorgado por</label>
+			</labeledstring>
+			
+			<labeledstring name="carisma_origen" >
+				<anchored>
+					<to>charismacheck</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>125</width>
+					</size>
+				</anchored>
+				<label>Otorgado por</label>
+			</labeledstring>
+
+
+			<!-- HP -->
+			<genericcontrol name="hpframe">
+				<bounds>15,300,255,140</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<sheetnumber name="hp" source="vida.total">
+				<anchored>
+					<to>hpframe</to>
+					<position>insidetopleft</position>
+					<top>
+						<offset>26</offset>
+					</top>
+					<left>
+						<offset>60</offset>
+					</left>
+					<size>
+						<height>25</height>
+						<width>46</width>
+					</size>
+				</anchored>
+				<noreset />
+				<tabtarget>
+					<next>hptemp</next>
+					<prev>expneeded</prev>
+				</tabtarget>
+				
+			</sheetnumber>
+
+			<stringcontrol name="hplabel">
+				<anchored>
+					<to>hp</to>
+					<position>lefthigh</position>
+					<offset>0,5</offset>
+					<size>
+						<width>45</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Vida</static>
+			</stringcontrol>
+
+			<hitpointfield name="hptemp" source="vida.temp">
+				<anchored>
+					<to>hp</to>
+					<position>right</position>
+					<offset>18,0</offset>
+					<size>
+						<width>46</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>bonus</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<tabtarget>
+					<next>vida_resta</next>
+					<prev>hp</prev>
+				</tabtarget>
+				<hideonvalue value="0" />
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.getType() == "number" then
+								setValue(getValue() - draginfo.getNumberData());
+						end
+						
+						return true;
+					end
+					
+					function onValueChanged()
+						local percent_wounded = 0;
+						if window.hp.getValue() &gt; 0 then
+							percent_wounded = window.hptemp.getValue() / window.hp.getValue();
+						end
+						if percent_wounded &lt;= 0 then
+							setFont("charsheet_dead");
+						elseif percent_wounded &lt; .5 then
+							setFont("charsheet_bloodied");
+						elseif percent_wounded &lt; 1 then
+							setFont("charsheet_light");
+						else
+							setFont("sheetnumber");
+						end
+					end
+				</script>
+			</hitpointfield>
+			<stringcontrol>
+				<anchored>
+					<to>hptemp</to>
+					<position>above</position>
+					<offset>0,3</offset>
+				</anchored>
+				<static>Vida resta</static>
+				<font>sheetlabelsmall</font>
+				<center />
+			</stringcontrol>
+
+			<hitpointfield name="vida_resta" source="vida.resta">
+				<anchored>
+					<to>hptemp</to>
+					<position>right</position>
+					<offset>18,0</offset>
+					<size>
+						<width>46</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>mana_total</next>
+					<prev>hptemp</prev>
+				</tabtarget>
+				<script>
+					function recalc()
+						setValue(0)
+					end
+					
+					function onInit()
+						local expnew = window.getDatabaseNode().
+								getChild("vida.temp");
+						if expnew then
+							expnew.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</hitpointfield>
+			<stringcontrol>
+				<anchored>
+					<to>vida_resta</to>
+					<position>above</position>
+					<offset>0,3</offset>
+				</anchored>
+				<static>Daño Recibido</static>
+				<font>sheetlabelsmall</font>
+				<center />
+			</stringcontrol>
+
+			<sheetnumber name="mana_total" source="mana.total">
+				<anchored>
+					<to>hpframe</to>
+					<position>insidetopleft</position>
+					<top>
+						<offset>69</offset>
+					</top>
+					<left>
+						<offset>60</offset>
+					</left>
+					<size>
+						<height>25</height>
+						<width>46</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>bonus</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<hideonvalue value="0" />
+				<tabtarget>
+					<next>mana_temp</next>
+					<prev>vida_resta</prev>
+				</tabtarget>
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>mana_total</to>
+					<position>above</position>
+					<offset>0,3</offset>
+				</anchored>
+				<static>Total</static>
+				<font>sheetlabelsmall</font>
+				<center />
+			</stringcontrol>
+
+			<stringcontrol name="healsurgelabel">
+				<anchored>
+					<to>mana_total</to>
+					<position>lefthigh</position>
+					<offset>0,5</offset>
+					<size>
+						<width>45</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Mana</static>
+			</stringcontrol>
+
+			<sheetnumber name="mana_temp" source="mana.temp">
+				<anchored>
+					<to>mana_total</to>
+					<position>right</position>
+					<offset>18,0</offset>
+					<size>
+						<width>46</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>bonus</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<tabtarget>
+					<next>faileddeathsaves</next>
+					<prev>mana_total</prev>
+				</tabtarget>
+				<hideonvalue value="0" />
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.getType() == "number" then
+								setValue(getValue() - draginfo.getNumberData());
+						end
+						
+						return true;
+					end
+					
+					function onValueChanged()
+						local percent_wounded = 0;
+						if window.hp.getValue() &gt; 0 then
+							percent_wounded = window.hptemp.getValue() / window.hp.getValue();
+						end
+						if percent_wounded &lt;= 0 then
+							setFont("charsheet_dead");
+						elseif percent_wounded &lt; .5 then
+							setFont("charsheet_bloodied");
+						elseif percent_wounded &lt; 1 then
+							setFont("charsheet_light");
+						else
+							setFont("sheetnumber");
+						end
+					end
+				</script>
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>mana_temp</to>
+					<position>above</position>
+					<offset>0,3</offset>
+				</anchored>
+				<static>Mana resta</static>
+				<font>sheetlabelsmall</font>
+				<center />
+			</stringcontrol>
+			
+			<hitpointfield name="mana_gastado" source="mana.gasta">
+				<anchored>
+					<to>mana_temp</to>
+					<position>right</position>
+					<offset>18,0</offset>
+					<size>
+						<width>46</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>specialdefenses</next>
+					<prev>mana_temp</prev>
+				</tabtarget>
+				<script>
+					function recalc()
+						setValue(0)
+					end
+					
+					function onInit()
+						local expnew = window.getDatabaseNode().
+								getChild("mana.temp");
+						if expnew then
+							expnew.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</hitpointfield>
+			<stringcontrol>
+				<anchored>
+					<to>mana_gastado</to>
+					<position>above</position>
+					<offset>0,3</offset>
+				</anchored>
+				<static>Mana Gastado</static>
+				<font>sheetlabelsmall</font>
+				<center />
+			</stringcontrol>
+			
+			<labeledstring name="specialdefenses" source="defenses.special">
+				<anchored>
+					<to>hpframe</to>
+					<position>insidetopleft</position>
+					<offset>15,100</offset>
+					<size>
+						<height>20</height>
+						<width>215</width>
+					</size>
+				</anchored>
+				<label>Otros</label>
+				<tabtarget>
+					<next>sensesframe</next>
+					<prev>mana_gastado</prev>
+				</tabtarget>
+			</labeledstring>
+		
+			
+			<!-- MORAL Y SUERTE -->
+			<genericcontrol name="sensesframe">
+				<bounds>270,520,225,72</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<sheetnumber name="passiveinsight" source="Moral.valor">
+				<anchored>
+					<to>sensesframe</to>
+					<position>insidetopleft</position>
+					<offset>50,15</offset>
+					<size>
+						<width>45</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<description>
+					<text>Tirada de Moral</text>
+				</description>
+				<script>
+										
+					function onDoubleClick(x,y)
+						ChatManager.d6Check("dice", 0, self.description[1].text[1], {pc = window.getDatabaseNode()});
+						return true;
+												
+					end
+					
+					function onDrag(button, x, y, draginfo)
+						if OptionsManager.isOption("DRGR", "on") then
+							draginfo.setType("dice");
+							draginfo.setDieList({ "d6" });
+						else
+							draginfo.setType("number");
+						end
+						draginfo.setDescription(self.description[1].text[1]);
+						draginfo.setNumberData(0);
+						draginfo.setShortcutData("charsheet", window.getDatabaseNode().getNodeName());
+
+						return true;
+					end
+				</script>
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>passiveinsight</to>
+					<position>left</position>
+					<offset>0,-2</offset>
+					<size>
+						<width>40</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Moral</static>
+			</stringcontrol>
+			
+			<sheetnumber name="passiveperception">
+				<anchored>
+					<to>sensesframe</to>
+					<position>insidetopleft</position>
+					<offset>145,15</offset>
+					<size>
+						<width>45</width>
+						<height>20</height>
+					</size>
+				</anchored>
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>passiveperception</to>
+					<position>left</position>
+					<offset>0,-2</offset>
+					<size>
+						<width>45</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Suerte</static>
+			</stringcontrol>
+			
+			<labeledstring name="senses">
+				<anchored>
+					<to>sensesframe</to>
+					<position>insidetopleft</position>
+					<offset>15,38</offset>
+					<size>
+						<width>190</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>Otros</label>
+			</labeledstring>
+			
+
+			<!-- DEFENSES -->
+			<genericcontrol name="defenseframe">
+				<bounds>270,300,225,220</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<sheetnumber name="ac" source="defenses.ac.total">
+				<anchored>
+					<to>defenseframe</to>
+					<position>insidetopleft</position>
+					<offset>15,25</offset>
+					<size>
+						<width>35</width>
+						<height>35</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<readonly />
+				<script>
+					function recalc()
+						local ele = window.getDatabaseNode().
+								getChild("elec.arm").getValue()
+						
+						local des_arm = "Cambio armadura"
+						
+						if ele == 0 then
+							setValue(window.getDatabaseNode().
+								getChild("armor1.total").getValue())
+						elseif ele == 1 then
+							setValue(window.getDatabaseNode().
+								getChild("armor2.total").getValue())
+						end
+						
+						return des_arm
+					end
+					
+					function onInit()
+						local ar2 = window.getDatabaseNode().
+								getChild("armor2.total");
+						
+								
+						if ar2 then
+							ar2.onUpdate = recalc;
+						recalc();
+						end
+					end
+					
+					function onInit()
+						local ar1 = window.getDatabaseNode().
+								getChild("armor1.total");
+						
+								
+						if ar1 then
+							ar1.onUpdate = recalc;
+						recalc();
+						end
+					end
+					
+					function onInit()
+						local ee = window.getDatabaseNode().
+								getChild("elec.arm");
+						if ee then
+							ee.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+					
+			</sheetnumber>
+			<stringcontrol name="arm_label">
+				<anchored>
+					<to>ac</to>
+					<position>above</position>
+					<offset>0,2</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Armadura</static>
+				<center />
+			</stringcontrol>
+			
+			<checkcounter12 name="armadura" source="elec.arm">
+				<anchored>
+					<to>arm_label</to>
+					<position>right</position>
+					<offset>8,0</offset>
+				</anchored>
+				<sourcefields>
+					<current>elec.arm</current>
+					<maximum>elec.armmax</maximum>
+				</sourcefields>
+				<tooltip>
+					<text>Pulsa para cambiar la armadura</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(1);
+					end
+				</script>
+			</checkcounter12>
+			
+			<sheetnumber name="mov_turno" source="basico.mov">
+				<anchored>
+					<to>defenseframe</to>
+					<position>insidetopleft</position>
+					<offset>175,20</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<script>
+					function recalc()
+						local agilidad = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod").getValue();
+						
+						local mov = 3 + math.floor(agilidad/4)
+						setValue (mov)
+					end
+					
+					function onInit()
+						local agilidad = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if agilidad then
+							agilidad.onUpdate = recalc;
+						recalc();
+						end
+					end						
+				
+				</script>
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>mov_turno</to>
+					<position>left</position>
+					<offset>-2,0</offset>
+					<size>
+						<width>100</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Movimiento</static>
+			</stringcontrol>
+			
+			<sheetnumber name="concentra" source="concentra.stat">
+				<anchored>
+					<to>mov_turno</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<script>
+					function onDoubleClick(x,y)
+												
+						ChatManager.DoubleClickAction("dice", 0, "Concentración", "Concentración");
+							
+						return true;
+					end
+				</script>
+				
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>concentra</to>
+					<position>left</position>
+					<offset>-2,0</offset>
+					<size>
+						<width>100</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Concentración</static>
+			</stringcontrol>
+			
+			<windowlist name="weaponlist">
+				<anchored>
+					<to>defenseframe</to>
+					<position>over</position>
+					<offset>-12, -9</offset>
+					<top>
+						<parent>defenseframe</parent>
+						<offset>85</offset>
+					</top>
+				</anchored>
+				<datasource>.weaponlist</datasource>
+				<class>charsheet_weaponlistitem2</class>
+				
+				<script file="scripts/charsheet_weaponlist.lua" />
+			</windowlist>
+			
+			<windowlist name="magialist">
+				<anchored>
+					<to>defenseframe</to>
+					<position>over</position>
+					<offset>-12, -9</offset>
+					<top>
+						<parent>defenseframe</parent>
+						<offset>85</offset>
+					</top>
+				</anchored>
+				<datasource>.magia</datasource>
+				<class>charsheet_magialist2</class>
+				
+				<script file="scripts/charsheet_magialist2.lua" />
+			</windowlist>
+			
+			<scrollercontrol name="scroll_armas">
+				<anchored>
+					<to>weaponlist</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>weaponlist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<scrollercontrol name="scroll_magias">
+				<anchored>
+					<to>magialist</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>magialist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<button_toggle name="magias_visibleM">
+				<anchored>
+					<to>defenseframe</to>
+					<position>insidetopleft</position>
+					<offset>115,60</offset>
+					
+					<size>
+						<width>100</width>
+						<height>35</height>
+					</size>
+				</anchored>
+				<icon>magia_on</icon>
+				<tooltip>
+					<text>Ver Magias</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local val = getValue();
+						window.magialist.setVisible(val);
+						window.scroll_magias.setVisible(val);						
+						
+						if val == true then 
+							window.armas_visibleM.setValue(false);
+						end
+						
+					end
+				</script>
+				
+			</button_toggle>
+			
+			<button_toggle name="armas_visibleM">
+				<anchored>
+					<to>defenseframe</to>
+					<position>insidetopleft</position>
+					<offset>15,60</offset>
+					
+					<size>
+						<width>100</width>
+						<height>35</height>
+					</size>
+				</anchored>
+				<icon>armatxt</icon>
+				<tooltip>
+					<text>Ver Armas</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local fal = getValue();
+						window.weaponlist.setVisible(fal);
+						window.scroll_armas.setVisible(fal);
+						
+						if fal == true then 
+							window.magias_visibleM.setValue(false);
+						end 
+							
+					end
+				</script>
+				
+			</button_toggle>
+			
+			<!--PROTECCIONES-->
+			<genericcontrol name="protecframe">
+				<bounds>15,440,255,155</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>protecframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<center />
+				<static>Protecciones</static>
+			</stringcontrol>
+			
+			<checkcounter name="fuego_protec">
+				<anchored>
+					<to>protecframe</to>
+					<position>insidetopleft</position>
+					<offset>88,20</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>fuego.protec</current>
+					<maximum>fuego.protecmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(5);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="fuego_proteclabel">
+				<anchored>
+					<to>fuego_protec</to>
+					<position>lefthigh</position>
+					<offset>2,3</offset>
+					<size>
+						<width>70</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Fuego</static>
+			</stringcontrol>
+			
+			<labeledstring name="fuego_origen" >
+				<anchored>
+					<to>fuego_protec</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>85</width>
+					</size>
+				</anchored>
+				<label>Otorgado por</label>
+				
+			</labeledstring>
+			
+			<checkcounter name="frio_protec">
+				<anchored>
+					<to>fuego_protec</to>
+					<position>insidetopleft</position>
+					<offset>0,20</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>frio.protec</current>
+					<maximum>frio.protecmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(5);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="frio_proteclabel">
+				<anchored>
+					<to>frio_protec</to>
+					<position>lefthigh</position>
+					<offset>2,3</offset>
+					<size>
+						<width>70</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Frio</static>
+			</stringcontrol>
+			
+			<labeledstring name="frio_origen" >
+				<anchored>
+					<to>frio_protec</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>85</width>
+					</size>
+				</anchored>
+				<label>Otorgado por</label>
+				
+			</labeledstring>
+			
+			<checkcounter name="elec_protec">
+				<anchored>
+					<to>frio_protec</to>
+					<position>insidetopleft</position>
+					<offset>0,20</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>elec.protec</current>
+					<maximum>elec.protecmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(5);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="elec_proteclabel">
+				<anchored>
+					<to>elec_protec</to>
+					<position>lefthigh</position>
+					<offset>2,3</offset>
+					<size>
+						<width>70</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Electricidad</static>
+			</stringcontrol>
+			
+			<labeledstring name="elec_origen" >
+				<anchored>
+					<to>elec_protec</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>85</width>
+					</size>
+				</anchored>
+				<label>Otorgado por</label>
+				
+			</labeledstring>
+			
+			<checkcounter name="veneno_protec">
+				<anchored>
+					<to>elec_protec</to>
+					<position>insidetopleft</position>
+					<offset>0,20</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>veneno.protec</current>
+					<maximum>veneno.protecmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(5);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="veneno_proteclabel">
+				<anchored>
+					<to>veneno_protec</to>
+					<position>lefthigh</position>
+					<offset>2,3</offset>
+					<size>
+						<width>70</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Veneno</static>
+			</stringcontrol>
+			
+			<labeledstring name="veneno_origen" >
+				<anchored>
+					<to>veneno_protec</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>85</width>
+					</size>
+				</anchored>
+				<label>Otorgado por</label>
+				
+			</labeledstring>
+			
+			<checkcounter name="psi_protec">
+				<anchored>
+					<to>veneno_protec</to>
+					<position>insidetopleft</position>
+					<offset>0,20</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>psi.protec</current>
+					<maximum>psi.protecmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(5);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="psi_proteclabel">
+				<anchored>
+					<to>psi_protec</to>
+					<position>lefthigh</position>
+					<offset>2,3</offset>
+					<size>
+						<width>70</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Psiquica</static>
+			</stringcontrol>
+			
+			<labeledstring name="psi_origen" >
+				<anchored>
+					<to>psi_protec</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>85</width>
+					</size>
+				</anchored>
+				<label>Otorgado por</label>
+				
+			</labeledstring>
+			
+			<checkcounter name="magia_protect">
+				<anchored>
+					<to>psi_protec</to>
+					<position>insidetopleft</position>
+					<offset>0,20</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>mag.protect</current>
+					<maximum>mag.protectmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(5);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="magia_proteclabel">
+				<anchored>
+					<to>magia_protect</to>
+					<position>lefthigh</position>
+					<offset>2,3</offset>
+					<size>
+						<width>70</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Magia</static>
+			</stringcontrol>
+			
+			<labeledstring name="magia_origen" >
+				<anchored>
+					<to>magia_protect</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<width>85</width>
+					</size>
+				</anchored>
+				<label>Otorgado por</label>
+				
+			</labeledstring>
+			
+			<!--AGRAVIO-->
+			<genericcontrol name="agravioframe">
+				<bounds>15,255,110,50</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>agravioframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<center />
+				<static>Agravio</static>
+			</stringcontrol>
+			
+			<checkcounter name="agravio_puntos">
+				<anchored>
+					<to>agravioframe</to>
+					<position>insidetopleft</position>
+					<offset>40,22</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>agravio.puntos</current>
+					<maximum>agravio.puntosmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(3);
+					end
+				</script>
+			</checkcounter>
+			
+		</sheetdata>
+	</windowclass>
+</root>

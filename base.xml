@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0" release="14">
+	<includefile source="bmpfonts.xml" />
+	<includefile source="graphics.xml" />
+	
+	<includefile source="gameelements.xml" />
+	
+	<includefile source="common_templates.xml" />
+
+	<includefile source="charsheet.xml" />
+	<includefile source="adventure.xml" />
+	<includefile source="utility.xml" />
+	<includefile source="library.xml" />
+	<includefile source="reference.xml" />
+	
+	<includefile source="desktop.xml" />
+	
+	<desktopframe>desktop</desktopframe>
+
+	<script name="ChatManager" file="scripts/chatmanager.lua" />
+	<script name="GmIdentityManager" file="scripts/gmidentitymanager.lua" />
+	<script name="ModifierStack" file="scripts/modifierstack.lua" />
+	<script name="ExportManager" file="scripts/exportmanager.lua" />
+	<script name="WindowManager" file="scripts/windowmanager.lua" />
+	
+	<script name="StringManager" file="scripts/manager_string.lua" />
+	<script name="OptionsManager" file="scripts/manager_options.lua" />
+	<script name="PowersManager" file="scripts/manager_powers.lua" />
+	<script name="NodeManager" file="scripts/manager_node.lua" />
+	<script name="DesktopManager" file="scripts/manager_desktop.lua" />
+	
+	<script name="TheBoxManager" file="scripts/manager_thebox.lua" />
+
+	<script name="CharSheetCommon" file="scripts/charsheet_common.lua" />
+	<script name="CombatCommon" file="scripts/combattracker_common.lua" />
+	<script name="DataCommon" file="scripts/data_common.lua" />
+
+	<script name="4EDesktop" file="scripts/desktop.lua" />
+
+	<tokenroot source="tokens" />
+</root>

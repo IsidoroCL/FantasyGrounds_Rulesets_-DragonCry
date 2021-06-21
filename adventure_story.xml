@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="encounter">
+		<datasource>encounter</datasource>
+		<frame>storybox</frame>
+		<placement>
+			<size>
+				<width>400</width>
+				<height>650</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_encounter</minimize>
+		<sharable />
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<windowreferencecontrol>
+				<bounds>15,11,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+				</icon>
+				<class>encounter</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowreferencecontrol>
+			<stringfield name="name">
+				<bounds>40,13,-15,20</bounds>
+				<empty>&#171; New Story &#187;</empty>
+				<font>sheettext</font>
+			</stringfield>
+			<formattedtextfield name="text">
+				<bounds>25,44,-28,-23</bounds>
+				<font>
+					<normal>chatfont</normal>
+					<bold>narratorfont</bold>
+					<italic>chatitalicfont</italic>
+					<bolditalic>chatbolditalicfont</bolditalic>
+					<title>sheetlabel</title>
+				</font>
+				<linkicon>
+					<link>button_openwindow</link>
+					<emptylink>button_emptytarget</emptylink>
+				</linkicon>
+				<footer>footer_wide</footer>
+				<selectioncolor>#FFD296</selectioncolor>
+				<empty>Click to enter text</empty>
+			</formattedtextfield>
+			<viewerlist>
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>11</offset>
+					</left>
+					<bottom>
+						<anchor>bottom</anchor>
+						<offset>-43</offset>
+					</bottom>
+				</anchored>
+			</viewerlist>
+			<scrollercontrol>
+				<bounds>-53,-35,45,27</bounds>
+				<target>text</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<closebutton_storybox />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="encountersmall">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<windowreferencecontrol name="open">
+				<bounds>0,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>encounter</class>
+				<description>
+					<field>name</field>
+				</description>
+				<script file="scripts/adventurelistshortcut.lua" />
+			</windowreferencecontrol>
+			<linkstringfield name="name">
+				<bounds>25,1,-1,20</bounds>
+				<empty>&#171; New Story &#187;</empty>
+				<selectioncolor>#90ffffff</selectioncolor>
+				<font>sheettext</font>
+				<linktarget>open</linktarget>
+			</linkstringfield>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="encounterlist">
+		<frame>scrollboxfortabs</frame>
+		<softclose />
+		<placement>
+			<size>
+				<width>275</width>
+				<height>350</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum>
+				<width>200</width>
+				<height>290</height>
+			</minimum>
+		</sizelimits>
+		<nodelete />
+		<sheetdata>
+			<genericcontrol>
+				<bounds>16,21,30,177</bounds>
+				<icon>title_story</icon>
+			</genericcontrol>
+			<windowlist name="list">
+				<bounds>50,25,-30,-34</bounds>
+				<datasource>.</datasource>
+				<class>encountersmall</class>
+				<sortfields>name</sortfields>
+				<footer>footer_narrow</footer>
+				<allowcreate />
+				<allowdelete />
+				<script>
+					function onSortCompare(w1, w2)
+						return w1.name.getValue() &gt; w2.name.getValue();
+					end;
+					
+					function onFilter(w)
+						local f = string.lower(window.filter.getValue());
+						
+						if f == "" then
+							return true;
+						end
+						
+						if string.find(string.lower(w.name.getValue()), f, 0, true) then
+							return true;
+						end
+						
+						return false;
+					end
+				</script>
+			</windowlist>
+			<scrollercontrol>
+				<bounds>-105,-61,45,27</bounds>
+				<target>list</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			<buttoncontrol>
+				<bounds>-55,-58,34,25</bounds>
+				<icon>
+					<normal>button_newwindow</normal>
+					<pressed>button_newwindowdown</pressed>
+				</icon>
+				<class>encounter</class>
+				<script>
+					function onButtonPress()
+						local node = NodeManager.createSafeChild(window.getDatabaseNode());
+						if node then
+							Interface.openWindow(class[1], node.getNodeName());
+						end
+					end
+				</script>
+			</buttoncontrol>
+			<categoryselectioncontrol>
+				<bounds>24,-39,-24,-1</bounds>
+				<targetcontrol>list</targetcontrol>
+			</categoryselectioncontrol>
+
+			<filter name="filter">
+				<bounds>55,-70,-50,20</bounds>
+				<target>list</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>20,-85,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>
+
+			<closebutton_scrollbox />
+		</sheetdata>
+	</windowclass>
+</root>

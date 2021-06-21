@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="npc_combat">
+		<datasource>npc</datasource>
+		<script>
+			function onInit()
+				updateDisplay();
+				if getDatabaseNode().isStatic() then
+					npctype_radio.setVisible(false);
+				end
+			end
+
+			function updateDisplay()
+				local index = npctype_radio.getIndex();
+
+				sub_creature.setVisible(index ~= 2 and index ~= 3);
+				sub_trap.setVisible(index == 2);
+				sub_vehicle.setVisible(index == 3);
+			end
+		</script>
+		<sheetdata>
+			<radiogroup name="npctype_radio">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<height>20</height>
+					</size>
+				</anchored>
+				<sourcefields>
+					<optionwidth>90</optionwidth>
+					<labels>Creature|Trap|Vehicle</labels>
+					<values>Creature|Trap|Vehicle</values>
+					<srcnode>npctype</srcnode>
+				</sourcefields>
+				<script>
+					function onValueChanged()
+						window.updateDisplay();
+					end
+				</script>
+			</radiogroup>
+			
+			<subwindow name="sub_creature">
+				<bounds>0,30,-1,-1</bounds>
+				<class>npc_combat_creature</class>
+			</subwindow>
+			<subwindow name="sub_trap">
+				<bounds>0,30,-1,-1</bounds>
+				<class>npc_combat_trap</class>
+			</subwindow>
+			<subwindow name="sub_vehicle">
+				<bounds>0,30,-1,-1</bounds>
+				<class>npc_combat_vehicle</class>
+			</subwindow>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="npc_combat_creature">
+		<datasource>npc</datasource>
+		<script>
+			function onInit()
+				self.onSizeChanged = sizeChanged;
+			end
+
+			function sizeChanged()
+				local winwidth, winheight = getSize();
+
+				local defwidth = math.floor(32 + (winwidth - 235) / 4);
+
+				ac.setAnchoredWidth(defwidth);
+				fortitude.setAnchoredWidth(defwidth);
+				reflex.setAnchoredWidth(defwidth);
+				will.setAnchoredWidth(defwidth);
+
+				local abilitywidth = math.floor(21 + (winwidth - 235) / 6);
+
+				strength.setAnchoredWidth(abilitywidth);
+				dexterity.setAnchoredWidth(abilitywidth);
+				constitution.setAnchoredWidth(abilitywidth);
+				intelligence.setAnchoredWidth(abilitywidth);
+				wisdom.setAnchoredWidth(abilitywidth);
+				charisma.setAnchoredWidth(abilitywidth);
+			end
+		</script>
+		<sheetdata>
+			<columnstringfield name="levelrole">
+				<tabtarget next="type" prev="equipment" />
+			</columnstringfield>
+			<columnfieldlabel name="levelrole_label">
+				<anchor>levelrole</anchor>
+				<static>Zona</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="type">
+				<anchor>levelrole</anchor>
+				<tabtarget next="init" prev="levelrole" />
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>type</anchor>
+				<static>Tipo</static>
+			</columnfieldlabel>
+			
+			<columnnumberfield name="init">
+				<anchor>levelrole</anchor>
+				<displaysign />
+				<tabtarget next="xp" prev="type" />
+				<script>
+					function onDrag(button, x, y, draginfo)
+						if OptionsManager.isOption("DRGR", "on") then
+							draginfo.setType("dice");
+							draginfo.setDieList({ "d0" });
+						else
+							draginfo.setType("number");
+						end
+						draginfo.setDescription("Initiative");
+						draginfo.setNumberData(getValue());
+						draginfo.setShortcutData("npc", window.getDatabaseNode().getNodeName());
+						
+						return true;
+					end
+
+					function onDoubleClick(x,y)	
+						ChatManager.DoubleClickNPC("init", getValue(), "Initiative", {npc = window.getDatabaseNode()});
+					end
+				</script>
+			</columnnumberfield>
+			<columnfieldlabel name="init_label">
+				<anchor>init</anchor>
+				<static>Iniciativa</static>
+			</columnfieldlabel>
+	
+			<jpgnumberfield name="xp">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+						<offset>-7</offset>
+					</right>
+					<top>
+						<parent>init</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<noreset />
+				<font>sheettextsmall</font>
+				<frame>
+					<name>modifier</name>
+					<offset>7,4,7,5</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>7,4,7,5</offset>
+				</keyeditframe>
+				<tabtarget next="senses" prev="init" />
+				<script>
+					function updateVisibility(val)
+						setVisible(val);
+					end
+				</script>
+			</jpgnumberfield>
+			<stringcontrol name="xp_label">
+				<anchor>xp</anchor>
+				<font>sheetlabelsmallbold</font>
+				<static>XP</static>
+				<script>
+					function updateVisibility()
+						if anchor and not window[anchor[1]].isVisible() then
+							setVisible(false);
+						else
+							setVisible(true);
+						end
+					end
+				
+					function onInit()
+						if anchor then
+							if window[anchor[1]].getDatabaseNode().isStatic() then
+								setAnchor("top", anchor[1], "top", "absolute", 2);
+							else
+								setAnchor("top", anchor[1], "top", "absolute", 4);
+							end
+							setAnchor("left", anchor[1], "left", "absolute", -30);
+
+							if not window[anchor[1]].isVisible() then
+								setVisible(false);
+							end
+						end
+					end
+				</script>
+			</stringcontrol>
+
+			<!--columnstringfield name="senses">
+				<anchor>levelrole</anchor>
+				<tabtarget next="hp" prev="xp" />
+				<senses_only />
+				<script file="scripts/npc_skillfield.lua" />
+			</columnstringfield>
+			<columnfieldlabel name="senseslabel">
+				<anchor>senses</anchor>
+				<static>Senses</static>
+			</columnfieldlabel-->
+	
+			<columnstringfield name="hp">
+				<anchor>levelrole</anchor>
+				<tabtarget next="ac" prev="senses" />
+			</columnstringfield>
+			<columnfieldlabel name="hplabel">
+				<anchor>hp</anchor>
+				<static>Vida</static>
+			</columnfieldlabel>
+
+			<npcdefensefield name="ac">
+				<baseanchor>levelrole</baseanchor>
+				<tabtarget next="fortitude" prev="hp" />
+			</npcdefensefield>
+			<npctoplabel name="aclabel">
+				<anchor>ac</anchor>
+				<static>AC</static>
+			</npctoplabel>
+			<npcdefensefield name="fortitude">
+				<anchor>ac</anchor>
+				<tabtarget next="reflex" prev="ac" />
+			</npcdefensefield>
+			<npctoplabel name="fortitudelabel">
+				<anchor>fortitude</anchor>
+				<static>Fort</static>
+			</npctoplabel>
+			<npcdefensefield name="reflex">
+				<anchor>ac</anchor>
+				<tabtarget next="will" prev="fortitude" />
+			</npcdefensefield>
+			<npctoplabel name="reflexlabel">
+				<anchor>reflex</anchor>
+				<static>Ref</static>
+			</npctoplabel>
+			<npcdefensefield name="will">
+				<anchor>ac</anchor>
+				<tabtarget next="specialdefenses" prev="reflex" />
+			</npcdefensefield>
+			<npctoplabel name="willlabel">
+				<anchor>will</anchor>
+				<static>Will</static>
+			</npctoplabel>
+
+			<columnfieldlabel name="defenseslabel">
+				<anchor>ac</anchor>
+				<static>Defenses</static>
+			</columnfieldlabel>
+
+			<!--columnstringfield name="specialdefenses">
+				<anchor>levelrole</anchor>
+				<tabtarget next="saves" prev="will" />
+			</columnstringfield>
+			<columnfieldlabel name="specialdefenseslabel">
+				<anchor>specialdefenses</anchor>
+				<static>Imm/Res/Vuln</static>
+			</columnfieldlabel-->
+
+			<!--columnstringfield name="saves">
+				<anchor>levelrole</anchor>
+				<tabtarget next="speed" prev="specialdefenses" />
+				<script>
+					function onInit()
+						if super and super.onInit then
+							super.onInit();
+						end
+						setHoverCursor("hand");
+					end
+					
+					function onDrag(button, x, y, draginfo)
+						if OptionsManager.isOption("DRGR", "on") then
+							draginfo.setType("dice");
+							draginfo.setDieList({ "d20" });
+						else
+							draginfo.setType("number");
+						end
+						draginfo.setDescription("Saving Throw");
+						local save_num = tonumber(getValue()) or 0;
+						draginfo.setNumberData(save_num);
+						draginfo.setShortcutData("npc", window.getDatabaseNode().getNodeName());
+						
+						return true;
+					end
+
+					function onDoubleClick(x,y)
+						local save_num = tonumber(getValue()) or 0;
+						ChatManager.DoubleClickAction("dice", save_num, "Saving Throw", {npc = window.getDatabaseNode()});
+						return true;
+					end
+				</script-->
+			<!--/columnstringfield>
+			<columnfieldlabel name="saveslabel">
+				<anchor>saves</anchor>
+				<static>Saving Throws</static>
+			</columnfieldlabel-->
+
+			<!--columnstringfield name="speed">
+				<anchor>levelrole</anchor>
+				<tabtarget next="actionpoints" prev="saves" />
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>speed</anchor>
+				<static>Speed</static>
+			</columnfieldlabel-->
+
+			<!--columnstringfield name="actionpoints">
+				<anchor>levelrole</anchor>
+				<tabtarget next="skills" prev="speed" />
+			</columnstringfield>
+			<columnfieldlabel name="actionpointslabel">
+				<anchor>actionpoints</anchor>
+				<static>Action Pts</static>
+			</columnfieldlabel-->
+
+			<!--columnstringfield name="skills">
+				<anchor>levelrole</anchor>
+				<tabtarget next="strength" prev="actionpoints" />
+				<script file="scripts/npc_skillfield.lua" />
+			</columnstringfield>
+			<columnfieldlabel name="skillslabel">
+				<anchor>skills</anchor>
+				<static>Skills</static>
+			</columnfieldlabel-->
+
+			<npcabilityfield name="strength">
+				<tabtarget next="constitution" prev="skills" />
+				<description>
+					<text>Chequeo Fuerza</text>
+				</description>
+			</npcabilityfield>
+			<npctoplabel name="strengthlabel">
+				<anchor>strength</anchor>
+				<static>Fue</static>
+			</npctoplabel>
+			<npcabilityfield name="dexterity">
+				<anchor>strength</anchor>
+				<tabtarget next="constitution" prev="strength" />
+				<description>
+					<text>Chequeo Agilidad</text>
+				</description>
+			</npcabilityfield>
+			<npctoplabel name="dexteritylabel">
+				<anchor>dexterity</anchor>
+				<static>Agi</static>
+			</npctoplabel>
+			<npcabilityfield name="constitution">
+				<anchor>strength</anchor>
+				<tabtarget next="intelligence" prev="dexterity" />
+				<description>
+					<text>Chequeo Constitucion</text>
+				</description>
+			</npcabilityfield>
+			<npctoplabel name="constitutionlabel">
+				<anchor>constitution</anchor>
+				<static>Con</static>
+			</npctoplabel>
+			
+			<npcabilityfield name="intelligence">
+				<anchor>strength</anchor>
+				<tabtarget next="wisdom" prev="constitution" />
+				<description>
+					<text>Chequeo Inteligencia</text>
+				</description>
+			</npcabilityfield>
+			<npctoplabel name="intelligencelabel">
+				<anchor>intelligence</anchor>
+				<static>Int</static>
+			</npctoplabel>
+			<npcabilityfield name="wisdom">
+				<anchor>strength</anchor>
+				<tabtarget next="charisma" prev="intelligence" />
+				<description>
+					<text>Chequeo Observacion</text>
+				</description>
+			</npcabilityfield>
+			<npctoplabel name="wisdomlabel">
+				<anchor>wisdom</anchor>
+				<static>Obs</static>
+			</npctoplabel>
+			<npcabilityfield name="charisma">
+				<anchor>strength</anchor>
+				<tabtarget next="alignment" prev="wisdom" />
+				<description>
+					<text>Chequeo Carisma</text>
+				</description>
+			</npcabilityfield>
+			<npctoplabel name="charismalabel">
+				<anchor>charisma</anchor>
+				<static>Car</static>
+			</npctoplabel>
+
+			<columnfieldlabel name="abilitieslabel">
+				<anchor>strength</anchor>
+				<static>Atributos</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="alignment">
+				<anchor>levelrole</anchor>
+				<tabtarget next="languages" prev="charisma" />
+			</columnstringfield>
+			<columnfieldlabel name="alignmentlabel">
+				<anchor>alignment</anchor>
+				<static>Equipo</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="languages">
+				<anchor>levelrole</anchor>
+				<tabtarget next="levelrole" prev="alignment" />
+			</columnstringfield>
+			<columnfieldlabel name="languageslabel">
+				<anchor>languages</anchor>
+				<static>Otros</static>
+			</columnfieldlabel>
+
+			<!--columnstringfield name="equipment">
+				<anchor>levelrole</anchor>
+				<tabtarget next="levelrole" prev="languages" />
+			</columnstringfield>
+			<columnfieldlabel name="equipmentlabel">
+				<anchor>equipment</anchor>
+				<static>Equipment</static>
+			</columnfieldlabel-->
+
+			<!-- Spacer -->
+			<genericcontrol>
+				<anchored>
+					<to>languages</to>
+					<position>below</position>
+					<size>
+						<height>25</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="npc_combat_trap">
+		<datasource>npc</datasource>
+		<sheetdata>
+			<columnstringfield name="levelrole">
+				<tabtarget next="type" prev="speed" />
+			</columnstringfield>
+			<columnfieldlabel name="levelrole_label">
+				<anchor>levelrole</anchor>
+				<static>Zona</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="type">
+				<anchor>levelrole</anchor>
+				<tabtarget next="init" prev="levelrole" />
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>type</anchor>
+				<static>Tipo</static>
+			</columnfieldlabel>
+			
+			<columnnumberfield name="init">
+				<anchor>levelrole</anchor>
+				<displaysign />
+				<tabtarget next="xp" prev="type" />
+				<script>
+					function onDrag(button, x, y, draginfo)
+						if OptionsManager.isOption("DRGR", "on") then
+							draginfo.setType("dice");
+							draginfo.setDieList({ "d20" });
+						else
+							draginfo.setType("number");
+						end
+						draginfo.setDescription("Initiative");
+						draginfo.setNumberData(getValue());
+						draginfo.setShortcutData("npc", window.getDatabaseNode().getNodeName());
+						
+						return true;
+					end
+
+					function onDoubleClick(x,y)	
+						ChatManager.DoubleClickNPC("init", getValue(), "Initiative", {npc = window.getDatabaseNode()});
+					end
+				</script>
+			</columnnumberfield>
+			<columnfieldlabel name="init_label">
+				<anchor>init</anchor>
+				<static>Iniciativa</static>
+			</columnfieldlabel>
+	
+			<jpgnumberfield name="xp">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+						<offset>-7</offset>
+					</right>
+					<top>
+						<parent>init</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<noreset />
+				<font>sheettextsmall</font>
+				<frame>
+					<name>modifier</name>
+					<offset>7,4,7,5</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>7,4,7,5</offset>
+				</keyeditframe>
+				<tabtarget next="trapdesc" prev="init" />
+				<script>
+					function updateVisibility(val)
+						setVisible(val);
+					end
+				</script>
+			</jpgnumberfield>
+			<stringcontrol name="xp_label">
+				<anchor>xp</anchor>
+				<font>sheetlabelsmallbold</font>
+				<static>XP</static>
+				<script>
+					function updateVisibility()
+						if anchor and not window[anchor[1]].isVisible() then
+							setVisible(false);
+						else
+							setVisible(true);
+						end
+					end
+				
+					function onInit()
+						if anchor then
+							if window[anchor[1]].getDatabaseNode().isStatic() then
+								setAnchor("top", anchor[1], "top", "absolute", 2);
+							else
+								setAnchor("top", anchor[1], "top", "absolute", 4);
+							end
+							setAnchor("left", anchor[1], "left", "absolute", -30);
+
+							if not window[anchor[1]].isVisible() then
+								setVisible(false);
+							end
+						end
+					end
+				</script>
+			</stringcontrol>
+
+			<columnstringfield name="trapdesc">
+				<anchor>levelrole</anchor>
+				<tabtarget next="flavor" prev="xp" />
+			</columnstringfield>
+			<columnfieldlabel name="trapdesclabel">
+				<anchor>trapdesc</anchor>
+				<static>GM</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="flavor">
+				<anchor>levelrole</anchor>
+				<tabtarget next="speed" prev="trapdesc" />
+			</columnstringfield>
+			<columnfieldlabel name="flavorlabel">
+				<anchor>flavor</anchor>
+				<static>Player</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="speed">
+				<anchor>levelrole</anchor>
+				<tabtarget next="levelrole" prev="flavor" />
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>speed</anchor>
+				<static>Speed</static>
+			</columnfieldlabel>
+
+			<!-- Spacer -->
+			<genericcontrol>
+				<anchored>
+					<to>speed</to>
+					<position>below</position>
+					<size>
+						<height>25</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="npc_combat_vehicle">
+		<datasource>npc</datasource>
+		<script>
+			function onInit()
+				self.onSizeChanged = sizeChanged;
+			end
+
+			function sizeChanged()
+				local winwidth, winheight = getSize();
+
+				local defwidth = math.floor(32 + (winwidth - 235) / 3);
+
+				ac.setAnchoredWidth(defwidth);
+				fortitude.setAnchoredWidth(defwidth);
+				reflex.setAnchoredWidth(defwidth);
+			end
+		</script>
+		<sheetdata>
+			<columnstringfield name="type">
+				<tabtarget next="cost" prev="speed" />
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>type</anchor>
+				<static>Type</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="cost">
+				<anchor>type</anchor>
+				<tabtarget next="space" prev="type" />
+			</columnstringfield>
+			<columnfieldlabel name="cost_label">
+				<anchor>cost</anchor>
+				<static>Cost</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="space">
+				<anchor>type</anchor>
+				<tabtarget next="hp" prev="cost" />
+			</columnstringfield>
+			<columnfieldlabel name="space_label">
+				<anchor>space</anchor>
+				<static>Space</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="hp">
+				<anchor>type</anchor>
+				<tabtarget next="ac" prev="space" />
+			</columnstringfield>
+			<columnfieldlabel name="hplabel">
+				<anchor>hp</anchor>
+				<static>HP</static>
+			</columnfieldlabel>
+
+			<npcdefensefield name="ac">
+				<baseanchor>type</baseanchor>
+				<tabtarget next="fortitude" prev="hp" />
+			</npcdefensefield>
+			<npctoplabel name="aclabel">
+				<anchor>ac</anchor>
+				<static>AC</static>
+			</npctoplabel>
+			<npcdefensefield name="fortitude">
+				<anchor>ac</anchor>
+				<tabtarget next="reflex" prev="ac" />
+			</npcdefensefield>
+			<npctoplabel name="fortitudelabel">
+				<anchor>fortitude</anchor>
+				<static>Fort</static>
+			</npctoplabel>
+			<npcdefensefield name="reflex">
+				<anchor>ac</anchor>
+				<tabtarget next="speed" prev="fortitude" />
+			</npcdefensefield>
+			<npctoplabel name="reflexlabel">
+				<anchor>reflex</anchor>
+				<static>Ref</static>
+			</npctoplabel>
+
+			<columnfieldlabel name="defenseslabel">
+				<anchor>ac</anchor>
+				<static>Defenses</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="speed">
+				<anchor>type</anchor>
+				<tabtarget next="type" prev="reflex" />
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>speed</anchor>
+				<static>Speed</static>
+			</columnfieldlabel>
+
+			<!-- Spacer -->
+			<genericcontrol>
+				<anchored>
+					<to>speed</to>
+					<position>below</position>
+					<size>
+						<height>25</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

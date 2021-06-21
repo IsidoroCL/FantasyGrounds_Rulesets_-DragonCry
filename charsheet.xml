@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<includefile source="charsheet_templates.xml" />
+
+	<includefile source="charsheet_main.xml" />
+	<includefile source="charsheet_combat.xml" />
+	<includefile source="charsheet_skills.xml" />
+	<includefile source="charsheet_abilities.xml" />
+	<includefile source="charsheet_inventory.xml" />
+	<includefile source="charsheet_powers.xml" />
+	<includefile source="charsheet_notes.xml" />
+
+	<includefile source="charsheet_toplevel.xml" />
+</root>

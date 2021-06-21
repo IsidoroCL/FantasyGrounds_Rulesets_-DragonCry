@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<imageupdatefolder>
+		<folder>images</folder>
+		<rootnode>image</rootnode>
+		<field>image</field>
+		<namefield>name</namefield>
+	</imageupdatefolder>
+
+	<windowclass name="imagewindow">
+		<datasource>image</datasource>
+		<frame>imagebox</frame>
+		<sharable />
+		<minimize>minimized_image</minimize>
+		<sizelimits>
+			<dynamic>
+				<hostcontrol />
+			</dynamic>
+			<maximum>
+				<width>1024</width>
+				<height>768</height>
+			</maximum>
+			<minimum>
+				<width>200</width>
+				<height>200</height>
+			</minimum>
+		</sizelimits>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<imagecontrol name="image">
+				<bounds>20,22,-26,-27</bounds>
+				<indicators>
+					<availability>indicator_sent</availability>
+					<locked>indicator_locked</locked>
+					<loading>indicator_loading</loading>
+					<zoom>indicator_zoom</zoom>
+					<shortcuts>indicator_shortcuts</shortcuts>
+				</indicators>
+				<shortcut>
+					<icon>pin</icon>
+					<hotspot>2,21</hotspot>
+				</shortcut>
+				<drawingdefaultsize>500,500</drawingdefaultsize>
+				<script file="scripts/imagewindow_image.lua" />
+			</imagecontrol>
+			<scrollercontrol>
+				<bounds>-70,-75,40,38</bounds>
+				<target>image</target>
+				<button>
+					<normal>button_scrollerpan</normal>
+					<pressed>button_scrollerpan_down</pressed>
+					<zoom>button_zoomer</zoom>
+					<zoompressed>button_zoomer_down</zoompressed>
+				</button>
+			</scrollercontrol>
+			<viewerlist>
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>21</offset>
+					</left>
+					<bottom>
+						<anchor>bottom</anchor>
+						<offset>-27</offset>
+					</bottom>
+				</anchored>
+			</viewerlist>
+			
+			<closebutton />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="imagesmall">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<windowopencontrol name="open">
+				<bounds>0,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>imagewindow</class>
+				<description>
+					<field>name</field>
+				</description>
+				<script file="scripts/adventurelistshortcut.lua" />
+			</windowopencontrol>
+			<linkstringfield name="name">
+				<bounds>25,1,-1,20</bounds>
+				<empty>&#171; New Drawing &#187;</empty>
+				<selectioncolor>#90ffffff</selectioncolor>
+				<font>sheettext</font>
+				<linktarget>open</linktarget>
+			</linkstringfield>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="imagelist">
+		<frame>scrollboxfortabs</frame>
+		<softclose />
+		<placement>
+			<size>
+				<width>275</width>
+				<height>350</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum>
+				<width>200</width>
+				<height>290</height>
+			</minimum>
+		</sizelimits>
+		<nodelete />
+		<sheetdata>
+			<genericcontrol>
+				<bounds>16,21,30,177</bounds>
+				<icon>title_images</icon>
+			</genericcontrol>
+			<windowlist name="list">
+				<bounds>50,25,-30,-34</bounds>
+				<datasource>.</datasource>
+				<class>imagesmall</class>
+				<sortfields>name</sortfields>
+				<footer>footer_narrow</footer>
+				<allowcreate />
+				<allowdelete />
+				<script>
+					function onSortCompare(w1, w2)
+						return w1.name.getValue() &gt; w2.name.getValue();
+					end;
+					
+					function onFilter(w)
+						local f = string.lower(window.filter.getValue());
+						
+						if f == "" then
+							return true;
+						end
+						
+						if string.find(string.lower(w.name.getValue()), f, 0, true) then
+							return true;
+						end
+						
+						return false;
+					end
+				</script>
+			</windowlist>
+			<scrollercontrol>
+				<bounds>-105,-61,45,27</bounds>
+				<target>list</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			<buttoncontrol>
+				<bounds>-55,-58,34,25</bounds>
+				<icon>
+					<normal>button_newwindow</normal>
+					<pressed>button_newwindowdown</pressed>
+				</icon>
+				<class>imagewindow</class>
+				<script>
+					function onButtonPress()
+						local node = NodeManager.createSafeChild(window.getDatabaseNode());
+						if node then
+							Interface.openWindow(class[1], node.getNodeName());
+						end
+					end
+				</script>
+			</buttoncontrol>
+			<categoryselectioncontrol>
+				<bounds>24,-39,-24,-1</bounds>
+				<targetcontrol>list</targetcontrol>
+			</categoryselectioncontrol>
+
+			<filter name="filter">
+				<bounds>55,-70,-50,20</bounds>
+				<target>list</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>20,-85,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>
+			
+			<closebutton_scrollbox />
+		</sheetdata>
+	</windowclass>
+</root>

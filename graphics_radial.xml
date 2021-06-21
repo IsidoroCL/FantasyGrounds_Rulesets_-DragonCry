@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<!-- Radial menu background and back slot -->
+	<icon name="menuhub" file="icons/menuhub.png" />
+	<icon name="menuback" file="icons/menuback.png" />
+
+	<!-- Radial options -->
+	<icon name="send" file="icons/icon_send.png" />
+	<icon name="broadcast" file="icons/icon_broadcast.png" />
+	<icon name="minimize" file="icons/icon_minimize.png" />
+	<icon name="restore" file="icons/icon_restore.png" />
+	<icon name="close" file="icons/icon_close.png" />
+	<icon name="closeremote" file="icons/icon_closeremote.png" />
+	<icon name="crossed" file="icons/icon_crossed.png" />
+	<icon name="delete" file="icons/icon_delete.png" />
+	<icon name="textnormal" file="icons/icon_textnormal.png" />
+	<icon name="texttitle" file="icons/icon_texttitle.png" />
+	<icon name="textchat" file="icons/icon_textchat.png" />
+	<icon name="textlist" file="icons/icon_textlist.png" />
+	<icon name="textlink" file="icons/icon_textlink.png" />
+	<icon name="texttable" file="icons/icon_texttable.png" />
+	<icon name="texttableh" file="icons/icon_texttableh.png" />
+	<icon name="assignspeaker" file="icons/icon_assignspeaker.png" />
+	<icon name="edit" file="icons/icon_edit.png" />
+	<icon name="insert" file="icons/icon_insert.png" />
+	<icon name="stopedit" file="icons/icon_stopedit.png" />
+	<icon name="sort" file="icons/icon_sort.png" />
+	<icon name="lock" file="icons/icon_lock.png" />
+	<icon name="unlock" file="icons/icon_unlock.png" />
+	<icon name="deletetoken" file="icons/icon_deletetoken.png" />
+	<icon name="deletealltokens" file="icons/icon_deletealltokens.png" />
+	<icon name="locktoken" file="icons/icon_locktoken.png" />
+	<icon name="unlocktoken" file="icons/icon_unlocktoken.png" />
+	<icon name="mask" file="icons/icon_mask.png" />
+	<icon name="deletemask" file="icons/icon_deletemask.png" />
+	<icon name="bell" file="icons/icon_bell.png" />
+	<icon name="turn" file="icons/icon_turn.png" />
+	<icon name="prompt" file="icons/icon_prompt.png" />
+	<icon name="hand" file="icons/icon_hand.png" />
+	<icon name="erase" file="icons/icon_erase.png" />
+	<icon name="eraselayer" file="icons/icon_eraselayer.png" />
+	<icon name="erasestroke" file="icons/icon_erasestroke.png" />
+	<icon name="rotatecw" file="icons/icon_rotatecw.png" />
+	<icon name="rotateccw" file="icons/icon_rotateccw.png" />
+	<icon name="portrait" file="icons/icon_portrait.png" />
+	<icon name="pointer" file="icons/icon_pointer.png" />
+	<icon name="pointer_cone" file="icons/icon_pointer_cone.png" />
+	<icon name="pointer_circle" file="icons/icon_pointer_circle.png" />
+	<icon name="pointer_square" file="icons/icon_pointer_square.png" />
+	<icon name="kick" file="icons/icon_kick.png" />
+	<icon name="kickconfirm" file="icons/icon_kickconfirm.png" />
+	<icon name="grid" file="icons/icon_grid.png" />
+	<icon name="gridoff" file="icons/icon_gridoff.png" />
+	<icon name="layers" file="icons/icon_layers.png" />
+	<icon name="log" file="icons/icon_log.png" />
+	<icon name="logoff" file="icons/icon_logoff.png" />
+	<icon name="closeprogram" file="icons/icon_closeprogram.png" />
+	<icon name="restorewindow" file="icons/icon_restorewindow.png" />
+	<icon name="maximizewindow" file="icons/icon_maximizewindow.png" />
+	<icon name="goto" file="icons/icon_goto.png" />
+	<icon name="arrangedice" file="icons/icon_arrangedice.png" />
+	<icon name="lockdice" file="icons/icon_lockdice.png" />
+	<icon name="unlockdice" file="icons/icon_unlockdice.png" />
+	<icon name="bold" file="icons/icon_bold.png" />
+	<icon name="italics" file="icons/icon_italics.png" />
+	<icon name="underline" file="icons/icon_underline.png" />
+	<icon name="maskedit" file="icons/icon_maskedit.png" />
+	<icon name="maskeditoff" file="icons/icon_maskeditoff.png" />
+	<icon name="percent" file="icons/icon_percent.png" />
+	<icon name="equals" file="icons/icon_equals.png" />
+	<icon name="halve" file="icons/icon_half.png" />
+	<icon name="negate" file="icons/icon_negate.png" />
+	<icon name="double" file="icons/icon_num2.png" />
+	<icon name="arrangegrid" file="icons/icon_arrangegrid.png" />
+	<icon name="shuffle" file="icons/icon_shuffle.png" />
+	<icon name="lockdrawing" file="icons/icon_lockdrawing.png" />
+	<icon name="unlockdrawing" file="icons/icon_unlockdrawing.png" />
+	<icon name="expanddrawing" file="icons/icon_expanddrawing.png" />
+	<icon name="lockzoom" file="icons/icon_lockzoom.png" />
+	<icon name="unlockzoom" file="icons/icon_unlockzoom.png" />
+	<icon name="deletepointer" file="icons/icon_deletepointer.png" />
+	<icon name="deleteallpointers" file="icons/icon_deleteallpointers.png" />
+	<icon name="customdice" file="icons/icon_customdice.png" />
+	<icon name="lockvisibilityon" file="icons/icon_lockvisibilityon.png" />
+	<icon name="lockvisibilityoff" file="icons/icon_lockvisibilityoff.png" />
+	<icon name="maskvisibility" file="icons/icon_unlockvisibility.png" />
+
+	<icon name="num2" file="icons/icon_num2.png" />
+	<icon name="num3" file="icons/icon_num3.png" />
+	<icon name="num4" file="icons/icon_num4.png" />
+	<icon name="num5" file="icons/icon_num5.png" />
+	<icon name="num10" file="icons/icon_num10.png" />
+	<icon name="num15" file="icons/icon_num15.png" />
+	<icon name="num20" file="icons/icon_num20.png" />
+</root>

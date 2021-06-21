@@ -1,0 +1,1770 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="item_powerlistitem">
+		<sizelimits>
+			<minimum>
+				<height>18</height>
+			</minimum>
+		</sizelimits>
+		<script file="scripts/item_powerlistitem.lua" />
+		<sheetdata>
+			<windowreferencefield name="link">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>2</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<powerstring name="name">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>15</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-30</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+				</anchored>
+				<frame>
+					<name>tempmodsmall</name>
+					<offset>8,3,8,3</offset>
+				</frame>
+				<tabtarget>
+					<next>source</next>
+					<prev>shortdescription</prev>
+				</tabtarget>
+				<empty>&#171; Name &#187;</empty>
+				<gmonly />
+				<script>
+					function onDoubleClick(x, y)
+						if OptionsManager.isOption("DCLK", "on") then
+							window.activatePower(true);
+						end
+					end
+					
+					function updateColor()
+						local rechargeval = string.lower(string.sub(window.recharge.getValue(),1,2));
+						if rechargeval == "en" then
+							setColor("ffcd2626");
+						elseif rechargeval == "at" then
+							setColor("ff006400");
+						else
+							setColor("ff000000");
+						end
+					end
+					
+					function onInit()
+						super.onInit();
+						updateColor();
+					end
+				</script>
+			</powerstring>
+			
+			<powerstring name="action">
+				<anchored>
+					<top>
+						<parent>name</parent>
+						<anchor>bottom</anchor>
+						<offset>3</offset>
+					</top>
+					<left>
+						<parent>name</parent>
+						<anchor>left</anchor>
+					</left>
+					<size>
+						<width>80</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>recharge</next>
+					<prev>source</prev>
+				</tabtarget>
+				<empty>&#171; Action &#187;</empty>
+				<gmonly />
+			</powerstring>
+			
+			<powerstring name="recharge">
+				<anchored>
+					<top>
+						<parent>action</parent>
+						<anchor>top</anchor>
+					</top>
+					<left>
+						<parent>action</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<size>
+						<width>80</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>keywords</next>
+					<prev>action</prev>
+				</tabtarget>
+				<empty>&#171; Recharge &#187;</empty>
+				<gmonly />
+				<script>
+					function onValueChanged()
+						window.name.updateColor();
+					end
+				</script>
+			</powerstring>
+			
+			<powerstring name="keywords">
+				<anchored>
+					<top>
+						<parent>action</parent>
+						<anchor>top</anchor>
+					</top>
+					<left>
+						<parent>recharge</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-5</offset>
+					</right>
+				</anchored>
+				<tabtarget>
+					<next>shortdescription</next>
+					<prev>recharge</prev>
+				</tabtarget>
+				<empty>&#171; Keywords &#187;</empty>
+				<gmonly />
+			</powerstring>
+			
+			<powerdescfieldpc name="shortdescription">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-5</offset>
+					</right>
+					<top>
+						<parent>keywords</parent>
+						<anchor>bottom</anchor>
+						<offset>3</offset>
+					</top>
+				</anchored>
+				<tabtarget>
+					<next>name</next>
+					<prev>keywords</prev>
+				</tabtarget>
+				<empty>&#171; Other &#187;</empty>
+				<gmonly />
+			</powerdescfieldpc>
+
+			<genericcontrol>
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>shortdescription</parent>
+						<anchor>bottom</anchor>
+					</top>
+					<size>
+						<height>1</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+			<genericcontrol name="spacer">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>shortdescription</parent>
+						<anchor>bottom</anchor>
+						<offset>2</offset>
+					</top>
+					<size>
+						<height>5</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name ="item_propertylistitem">
+		<sizelimits>
+			<minimum>
+				<height>18</height>
+			</minimum>
+		</sizelimits>
+		<script>
+			function onInit()
+				if User.isHost() then
+					registerMenuItem("Delete Item", "delete", 6);
+				end
+			end
+
+			function onMenuSelection(selection)
+				if selection == 6 then
+					getDatabaseNode().delete();
+				end
+			end
+		</script>
+		<sheetdata>
+			<textlistitemvalue name="shortdescription">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>10</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-10</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>2</offset>
+					</top>
+				</anchored>
+				<font>sheettextsmall</font>
+				<frame>
+					<name>modifier</name>
+					<offset>6,5,5,5</offset>
+				</frame>
+				<multilinespacing>15</multilinespacing>
+				<selectioncolor>90ffffff</selectioncolor>
+				<gmonly />
+			</textlistitemvalue>
+			<genericcontrol name="spacer">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>shortdescription</parent>
+						<anchor>bottom</anchor>
+					</top>
+					<size>
+						<height>3</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name ="item_quirklistitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+		</sizelimits>
+		<script>
+			function onInit()
+				if User.isHost() then
+					registerMenuItem("Delete Item", "delete", 6);
+				end
+			end
+
+			function onMenuSelection(selection)
+				if selection == 6 then
+					getDatabaseNode().delete();
+				end
+			end
+		</script>
+		<sheetdata>
+			<textlistitemvalue name="shortdescription">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>10</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-10</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>2</offset>
+					</top>
+				</anchored>
+				<font>sheettextsmall</font>
+				<frame>
+					<name>modifier</name>
+					<offset>6,5,5,5</offset>
+				</frame>
+				<multilinespacing>15</multilinespacing>
+				<selectioncolor>90ffffff</selectioncolor>
+				<gmonly />
+			</textlistitemvalue>
+			<genericcontrol name="spacer">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>shortdescription</parent>
+						<anchor>bottom</anchor>
+					</top>
+					<size>
+						<height>3</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="item_powertab">
+		<nodelete />
+		<script>
+			function onInit()
+				updateDisplay();
+			end
+			
+			function updateDisplay()
+				local showlists = true;
+				if (not User.isHost()) and (isidentified.getValue() == 0) then
+					showlists = false;
+				end
+
+				powerlabel.setVisible(showlists);
+				powerlist.setVisible(showlists);
+				power_scroller.setVisible(showlists);
+			end
+		</script>
+		<sheetdata>
+			<numberfield name="isidentified">
+				<invisible />
+				<bounds>0,0,1,1</bounds>
+				<script>
+					function onValueChanged()
+						window.updateDisplay();
+					end
+				</script>
+			</numberfield>
+			
+			<stringcontrol name="powerlabel">
+				<anchored>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<center />
+				<font>sheetlabel</font>
+				<static>Powers</static>
+			</stringcontrol>
+
+			<windowlist name="powerlist">
+				<anchored>
+					<position>over</position>
+					<offset>-12,-15</offset>
+					<top>
+						<anchor>top</anchor>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.powers</datasource>
+				<class>item_powerlistitem</class>
+				<script>
+					function onInit()
+						if User.isHost() then
+							registerMenuItem("Create Item", "insert", 5);
+						end
+					end
+					
+					function createItem()
+						local wnd = NodeManager.createSafeWindow(self);
+						if wnd then
+							wnd.name.setFocus();
+						end
+					end
+					
+					function onMenuSelection(selection)
+						if selection == 5 then
+							createItem();
+						end
+					end
+			
+					function onEnter()
+						if User.isHost() then
+							createItem();
+						end
+					end
+					
+					function onClickDown(button, x, y)
+						return true;
+					end
+					
+					function onClickRelease(button, x, y)
+						if User.isHost() then
+							if not getNextWindow(nil) then
+								createItem();
+							end
+						end
+						return true;
+					end
+				</script>
+			</windowlist>
+			<scrollercontrol name="power_scroller">
+				<anchored>
+					<to>powerlist</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>powerlist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="item_propertytab">
+		<nodelete />
+		<script>
+			function onInit()
+				updateDisplay();
+			end
+			
+			function updateDisplay()
+				local showlists = true;
+				if (not User.isHost()) and (isidentified.getValue() == 0) then
+					showlists = false;
+				end
+
+				propertylabel.setVisible(showlists);
+				propertylist.setVisible(showlists);
+				property_scroller.setVisible(showlists);
+
+				divider.setVisible(showlists);
+
+				quirklabel.setVisible(showlists);
+				quirklist.setVisible(showlists);
+				quirk_scroller.setVisible(showlists);
+			end
+		</script>
+		<sheetdata>
+			<numberfield name="isidentified">
+				<invisible />
+				<bounds>0,0,1,1</bounds>
+				<script>
+					function onValueChanged()
+						window.updateDisplay();
+					end
+				</script>
+			</numberfield>
+			
+			<genericcontrol name="propertyframe">
+				<bounds>0,0,-1,150</bounds>
+			</genericcontrol>
+
+			<stringcontrol name="propertylabel">
+				<anchored>
+					<to>propertyframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<center />
+				<font>sheetlabel</font>
+				<static>Properties</static>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						window.propertylist.onClickRelease(button, x, y);
+						return true;
+					end
+				</script>
+			</stringcontrol>
+			<windowlist name="propertylist">
+				<anchored>
+					<to>propertyframe</to>
+					<position>over</position>
+					<offset>-10,-10</offset>
+					<top>
+						<parent>propertyframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.props</datasource>
+				<class>item_propertylistitem</class>
+				<script>
+					function onInit()
+						if User.isHost() then
+							registerMenuItem("Create Item", "insert", 5);
+						end
+					end
+					
+					function createItem()
+						local wnd = NodeManager.createSafeWindow(self);
+						if wnd then
+							wnd.shortdescription.setFocus();
+						end
+					end
+					
+					function onMenuSelection(selection)
+						if selection == 5 then
+							createItem();
+						end
+					end
+			
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						if User.isHost() then
+							if not getNextWindow(nil) then
+								createItem();
+							end
+						end
+						return true;
+					end
+				</script>
+			</windowlist>
+			<scrollercontrol name="property_scroller">
+				<anchored>
+					<to>propertylist</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>propertylist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+
+			<genericcontrol name="divider">
+				<bounds>5,150,-5,15</bounds>
+				<frame>
+					<name>textline</name>
+					<offset>0,8,0,0</offset>
+				</frame>
+			</genericcontrol>
+			
+			<genericcontrol name="quirkframe">
+				<bounds>0,155,-1,-1</bounds>
+			</genericcontrol>
+
+			<stringcontrol name="quirklabel">
+				<anchored>
+					<to>quirkframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<center />
+				<font>sheetlabel</font>
+				<static>Quirks</static>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						window.quirklist.onClickRelease(button, x, y);
+						return true;
+					end
+				</script>
+			</stringcontrol>
+			<windowlist name="quirklist">
+				<anchored>
+					<to>quirkframe</to>
+					<position>over</position>
+					<offset>-10,-10</offset>
+					<top>
+						<parent>quirkframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.quirks</datasource>
+				<class>item_quirklistitem</class>
+				<script>
+					function onInit()
+						if User.isHost() then
+							registerMenuItem("Create Item", "insert", 5);
+						end
+					end
+					
+					function createItem()
+						local wnd = NodeManager.createSafeWindow(self);
+						if wnd then
+							wnd.shortdescription.setFocus();
+						end
+					end
+					
+					function onMenuSelection(selection)
+						if selection == 5 then
+							createItem();
+						end
+					end
+			
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						if User.isHost() then
+							if not getNextWindow(nil) then
+								createItem();
+							end
+						end
+						return true;
+					end
+				</script>
+			</windowlist>
+			<scrollercontrol name="quirk_scroller">
+				<anchored>
+					<to>quirklist</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>quirklist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="item_statstab">
+		<nodelete />
+		<script>
+			function onInit()
+				updateDisplay();
+				if getDatabaseNode().isStatic() then
+					itemtype_radio.setVisible(false);
+				end
+			end
+
+			function updateDisplay()
+				local index = itemtype_radio.getIndex();
+
+				sub_weapon.setVisible(index == 1);
+				sub_weapon_scroller.setVisible(index == 1);
+				sub_armor.setVisible(index == 2);
+				sub_armor_scroller.setVisible(index == 2);
+				sub_other.setVisible(index ~= 1 and index ~= 2);
+				sub_other_scroller.setVisible(index ~= 1 and index ~= 2);
+			end
+		</script>
+		<sheetdata>
+			<!-- Identified flag -->
+			<stringcontrol name="idlabel">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>4</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<height>15</height>
+						<width>55</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Identified:</static>
+			</stringcontrol>
+			<checkbox name="isidentified">
+				<anchored>
+					<to>idlabel</to>
+					<position>right</position>
+					<offset>10,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<gmonly />
+				<script>
+					function onValueChanged()
+						window.updateDisplay();
+					end
+				</script>
+			</checkbox>
+
+			<!-- Item type radio selector -->
+			<stringcontrol name="typelabel">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>4</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>25</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>55</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Type:</static>
+			</stringcontrol>
+			<radiogroup name="itemtype_radio">
+				<anchored>
+					<to>typelabel</to>
+					<position>right</position>
+					<offset>10</offset>
+				</anchored>
+				<sourcefields>
+					<optionwidth>80</optionwidth>
+					<labels>Weapon|Armor|Other</labels>
+					<values>weapon|armor|other</values>
+					<defaultindex>3</defaultindex>
+					<srcnode>mitype</srcnode>
+				</sourcefields>
+				<gmonly />
+				<script>
+					function onValueChanged()
+						window.updateDisplay();
+					end
+				</script>
+			</radiogroup>
+			
+			<subwindow name="sub_weapon">
+				<bounds>0,45,-1,-1</bounds>
+				<class>item_stats_weapon</class>
+			</subwindow>
+			<subwindow name="sub_armor">
+				<bounds>0,45,-1,-1</bounds>
+				<class>item_stats_armor</class>
+			</subwindow>
+			<subwindow name="sub_other">
+				<bounds>0,45,-1,-1</bounds>
+				<class>item_stats_other</class>
+			</subwindow>
+
+			<scrollercontrol name="sub_weapon_scroller">
+				<anchored>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>sub_weapon</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			<scrollercontrol name="sub_armor_scroller">
+				<anchored>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>sub_armor</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			<scrollercontrol name="sub_other_scroller">
+				<anchored>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>sub_other</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="item_stats_weapon">
+		<script>
+			function onInit()
+				updateDisplay();
+			end
+			
+			function updateDisplay()
+				local idval = (isidentified.getValue() == 1);
+				if User.isHost() then
+					idval = true;
+				end
+				
+				flavor.setVisible(idval);
+
+				level.updateVisibility(idval);
+				bonus.updateVisibility(idval);
+				cost.updateVisibility(idval);
+				class.updateVisibility(idval);
+				subclass.updateVisibility(idval);
+				enhancement.updateVisibility(idval);
+				weight.updateVisibility(idval);
+				special.updateVisibility(idval);
+				
+
+				level_label.updateVisibility(idval);
+				bonus_label.updateVisibility(idval);
+				cost_label.updateVisibility(idval);
+				class_label.updateVisibility(idval);
+				subclass_label.updateVisibility(idval);
+				enhancement_label.updateVisibility(idval);
+				weight_label.updateVisibility(idval);
+				special_label.updateVisibility(idval);
+				
+
+				
+			end
+		</script>
+		<sheetdata>
+			<numberfield name="isidentified">
+				<invisible />
+				<bounds>0,0,1,1</bounds>
+				<script>
+					function onValueChanged()
+						window.updateDisplay();
+					end
+				</script>
+			</numberfield>
+			
+			<!-- Hidden fields to support critical and damage field rolls -->
+			<stringfield name="name">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</stringfield>
+			<stringcontrol name="keywords">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+				<static />
+			</stringcontrol>
+
+			<!-- Flavor text -->
+			<stringfield name="flavor">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>chatitalicfont</font>
+				<linkicon>
+					<link>button_openwindow</link>
+					<emptylink>button_emptytarget</emptylink>
+				</linkicon>
+				<footer>footer_wide</footer>
+				<selectioncolor>#FFD296</selectioncolor>
+				<multilinespacing>15</multilinespacing>
+				<empty>Click to enter description</empty>
+				<script>
+					function onInit()
+						if not User.isHost() then
+							setReadOnly(true);
+						end
+					end
+				</script>
+				<tabtarget next="level" prev="nonidentified" />
+			</stringfield>
+
+			<!-- Item details -->
+			<columnnumberfield name="level">
+				<anchor>flavor</anchor>
+				<tabtarget next="bonus" prev="description" />
+				<displaysign />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="level_label">
+				<anchor>level</anchor>
+				<static>Nivel</static>
+			</columnfieldlabel>
+
+			<columnnumberfield name="bonus">
+				<anchor>level</anchor>
+				<tabtarget next="cost" prev="level" />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="bonus_label">
+				<anchor>bonus</anchor>
+				<static>Punteria</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="cost">
+				<anchor>level</anchor>
+				<tabtarget next="class" prev="bonus" />
+				<displaysign />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="cost_label">
+				<anchor>cost</anchor>
+				<static>Dar</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="class">
+				<anchor>level</anchor>
+				<tabtarget next="subclass" prev="cost" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="class_label">
+				<anchor>class</anchor>
+				<static>Daño</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="subclass">
+				<anchor>level</anchor>
+				<tabtarget next="enhancement" prev="class" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="subclass_label">
+				<anchor>subclass</anchor>
+				<static>Especial</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="enhancement">
+				<anchor>level</anchor>
+				<tabtarget next="weight" prev="subclass" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="enhancement_label">
+				<anchor>enhancement</anchor>
+				<static>Fue nec</static>
+			</columnfieldlabel>
+
+			<columnnumberfield name="weight">
+				<anchor>level</anchor>
+				<tabtarget next="special" prev="enhancement" />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="weight_label">
+				<anchor>weight</anchor>
+				<static>Rango</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="special">
+				<anchor>level</anchor>
+				<tabtarget next="prerequisite" prev="weight" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="special_label">
+				<anchor>special</anchor>
+				<static>Otros</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="prerequisite">
+				<anchor>level</anchor>
+				<tabtarget next="critical" prev="special" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="prerequisite_label">
+				<anchor>prerequisite</anchor>
+				<static>Prerequisite</static>
+			</columnfieldlabel>
+
+			<!--- This is where weapon stats go 
+			<columnstringfield name="critical">
+				<anchor>level</anchor>
+				<tabtarget next="profbonus" prev="special" />
+				<gmonly />
+				<script file="scripts/template_powerdescfield.lua" />
+			</columnstringfield>
+			<columnfieldlabel name="critical_label">
+				<anchor>critical</anchor>
+				<static>Critical</static>
+			</columnfieldlabel>
+			
+			<columnnumberfield name="profbonus">
+				<anchor>level</anchor>
+				<tabtarget next="damage" prev="critical" />
+				<displaysign />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="profbonus_label">
+				<anchor>profbonus</anchor>
+				<static>Prof.</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="damage">
+				<anchor>level</anchor>
+				<tabtarget next="range" prev="profbonus" />
+				<gmonly />
+				<script file="scripts/template_powerdescfield.lua" />
+			</columnstringfield>
+			<columnfieldlabel name="damage_label">
+				<anchor>damage</anchor>
+				<static>Damage</static>
+			</columnfieldlabel>
+			
+			<columnnumberfield name="range">
+				<anchor>level</anchor>
+				<tabtarget next="group" prev="damage" />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="range_label">
+				<anchor>range</anchor>
+				<static>Range</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="group">
+				<anchor>level</anchor>
+				<tabtarget next="properties" prev="range" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="group_label">
+				<anchor>group</anchor>
+				<static>Group</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="properties">
+				<anchor>level</anchor>
+				<tabtarget next="nonidentified" prev="group" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="properties_label">
+				<anchor>properties</anchor>
+				<static>Properties</static>
+			</columnfieldlabel>
+			<!-- End of weapon stats -->
+
+			<!-- Player notes-->
+			<columnstringfield name="nonidentified">
+				<anchor>level</anchor>
+				<tabtarget next="flavor" prev="properties" />
+			</columnstringfield>
+			<columnfieldlabel name="nonidentified_label">
+				<anchor>nonidentified</anchor>
+				<static>Notes</static>
+			</columnfieldlabel>
+			<!-- Player notes-->
+
+			<!-- Spacer -->
+			<genericcontrol name="endstats">
+				<anchored>
+					<to>nonidentified</to>
+					<position>below</position>
+					<size>
+						<height>5</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="item_stats_armor">
+		<script>
+			function onInit()
+				updateDisplay();
+			end
+			
+			function updateDisplay()
+				local idval = (isidentified.getValue() == 1);
+				if User.isHost() then
+					idval = true;
+				end
+				
+				flavor.setVisible(idval);
+
+				level.updateVisibility(idval);
+				bonus.updateVisibility(idval);
+				cost.updateVisibility(idval);
+				class.updateVisibility(idval);
+				subclass.updateVisibility(idval);
+				
+				level_label.updateVisibility(idval);
+				bonus_label.updateVisibility(idval);
+				cost_label.updateVisibility(idval);
+				class_label.updateVisibility(idval);
+				subclass_label.updateVisibility(idval);
+				
+			end
+		</script>
+		<sheetdata>
+			<numberfield name="isidentified">
+				<invisible />
+				<bounds>0,0,1,1</bounds>
+				<script>
+					function onValueChanged()
+						window.updateDisplay();
+					end
+				</script>
+			</numberfield>
+
+			<!-- Flavor text -->
+			<stringfield name="flavor">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>chatitalicfont</font>
+				<linkicon>
+					<link>button_openwindow</link>
+					<emptylink>button_emptytarget</emptylink>
+				</linkicon>
+				<footer>footer_wide</footer>
+				<selectioncolor>#FFD296</selectioncolor>
+				<multilinespacing>15</multilinespacing>
+				<empty>Click to enter description</empty>
+				<script>
+					function onInit()
+						if not User.isHost() then
+							setReadOnly(true);
+						end
+					end
+				</script>
+				<tabtarget next="level" prev="nonidentified" />
+			</stringfield>
+
+			<!-- Item details -->
+			<columnnumberfield name="level">
+				<anchor>flavor</anchor>
+				<tabtarget next="bonus" prev="description" />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="level_label">
+				<anchor>level</anchor>
+				<static>Nivel</static>
+			</columnfieldlabel>
+
+			<columnnumberfield name="bonus">
+				<anchor>level</anchor>
+				<tabtarget next="cost" prev="level" />
+				<displaysign />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="bonus_label">
+				<anchor>bonus</anchor>
+				<static>Mod</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="cost">
+				<anchor>level</anchor>
+				<tabtarget next="class" prev="bonus" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="cost_label">
+				<anchor>cost</anchor>
+				<static>Tipo</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="class">
+				<anchor>level</anchor>
+				<tabtarget next="subclass" prev="cost" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="class_label">
+				<anchor>class</anchor>
+				<static>Especial</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="subclass">
+				<anchor>level</anchor>
+				<tabtarget next="nonidentified" prev="class" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="subclass_label">
+				<anchor>subclass</anchor>
+				<static>Especial2</static>
+			</columnfieldlabel>
+
+			<!--<columnstringfield name="enhancement">
+				<anchor>level</anchor>
+				<tabtarget next="weight" prev="subclass" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="enhancement_label">
+				<anchor>enhancement</anchor>
+				<static>Fue nec</static>
+			</columnfieldlabel>
+
+			<columnnumberfield name="weight">
+				<anchor>level</anchor>
+				<tabtarget next="special" prev="enhancement" />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="weight_label">
+				<anchor>weight</anchor>
+				<static>Rango</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="special">
+				<anchor>level</anchor>
+				<tabtarget next="prerequisite" prev="weight" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="special_label">
+				<anchor>special</anchor>
+				<static>Otros</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="prerequisite">
+				<anchor>level</anchor>
+				<tabtarget next="ac" prev="special" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="prerequisite_label">
+				<anchor>prerequisite</anchor>
+				<static>Prerequisite</static>
+			</columnfieldlabel>
+
+			<!--- This is where armor stats go 
+			<columnnumberfield name="ac">
+				<anchor>level</anchor>
+				<tabtarget next="min_enchance" prev="prerequisite" />
+				<displaysign />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="ac_label">
+				<anchor>ac</anchor>
+				<static>AC</static>
+			</columnfieldlabel>
+
+			<columnnumberfield name="min_enhance">
+				<anchor>level</anchor>
+				<tabtarget next="checkpenalty" prev="ac" />
+				<displaysign />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="min_enhance_label">
+				<anchor>min_enhance</anchor>
+				<static>Min Bonus</static>
+			</columnfieldlabel>
+
+			<columnnumberfield name="checkpenalty">
+				<anchor>level</anchor>
+				<tabtarget next="speed" prev="min_enhance" />
+				<displaysign />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="checkpenalty_label">
+				<anchor>checkpenalty</anchor>
+				<static>Check Penalty</static>
+			</columnfieldlabel>
+
+			<columnnumberfield name="speed">
+				<anchor>level</anchor>
+				<tabtarget next="nonidentified" prev="checkpenalty" />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="speed_label">
+				<anchor>speed</anchor>
+				<static>Speed</static>
+			</columnfieldlabel>
+			<!-- End of armor stats -->
+
+			<!-- Player notes-->
+			<columnstringfield name="nonidentified">
+				<anchor>level</anchor>
+				<tabtarget next="flavor" prev="speed" />
+			</columnstringfield>
+			<columnfieldlabel name="nonidentified_label">
+				<anchor>nonidentified</anchor>
+				<static>Notes</static>
+			</columnfieldlabel>
+			<!-- Player notes-->
+
+			<!-- Spacer -->
+			<genericcontrol name="endstats">
+				<anchored>
+					<to>nonidentified</to>
+					<position>below</position>
+					<size>
+						<height>5</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="item_stats_other">
+		<script>
+			function onInit()
+				updateDisplay();
+			end
+			
+			function updateDisplay()
+				local idval = (isidentified.getValue() == 1);
+				if User.isHost() then
+					idval = true;
+				end
+				
+				flavor.setVisible(idval);
+
+				level.updateVisibility(idval);
+				bonus.updateVisibility(idval);
+				cost.updateVisibility(idval);
+				class.updateVisibility(idval);
+				subclass.updateVisibility(idval);
+				
+				level_label.updateVisibility(idval);
+				bonus_label.updateVisibility(idval);
+				cost_label.updateVisibility(idval);
+				class_label.updateVisibility(idval);
+				subclass_label.updateVisibility(idval);
+				
+			end
+		</script>
+		<sheetdata>
+			<numberfield name="isidentified">
+				<invisible />
+				<bounds>0,0,1,1</bounds>
+				<script>
+					function onValueChanged()
+						window.updateDisplay();
+					end
+				</script>
+			</numberfield>
+
+			<!-- Flavor text -->
+			<stringfield name="flavor">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>chatitalicfont</font>
+				<linkicon>
+					<link>button_openwindow</link>
+					<emptylink>button_emptytarget</emptylink>
+				</linkicon>
+				<footer>footer_wide</footer>
+				<selectioncolor>#FFD296</selectioncolor>
+				<multilinespacing>15</multilinespacing>
+				<empty>Click to enter description</empty>
+				<script>
+					function onInit()
+						if not User.isHost() then
+							setReadOnly(true);
+						end
+					end
+				</script>
+				<tabtarget next="level" prev="nonidentified" />
+			</stringfield>
+
+			<!-- Item details -->
+			<columnnumberfield name="level">
+				<anchor>flavor</anchor>
+				<tabtarget next="bonus" prev="description" />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="level_label">
+				<anchor>level</anchor>
+				<static>Nivel</static>
+			</columnfieldlabel>
+
+			<columnnumberfield name="bonus">
+				<anchor>level</anchor>
+				<tabtarget next="cost" prev="level" />
+				<displaysign />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="bonus_label">
+				<anchor>bonus</anchor>
+				<static>Mod</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="cost">
+				<anchor>level</anchor>
+				<tabtarget next="class" prev="bonus" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="cost_label">
+				<anchor>cost</anchor>
+				<static>Tipo</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="class">
+				<anchor>level</anchor>
+				<tabtarget next="subclass" prev="cost" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="class_label">
+				<anchor>class</anchor>
+				<static>Especial</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="subclass">
+				<anchor>level</anchor>
+				<tabtarget next="enhancement" prev="class" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="subclass_label">
+				<anchor>subclass</anchor>
+				<static>Especial2</static>
+			</columnfieldlabel>
+
+			<!--<columnstringfield name="enhancement">
+				<anchor>level</anchor>
+				<tabtarget next="weight" prev="shield" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="enhancement_label">
+				<anchor>enhancement</anchor>
+				<static>Enhancement</static>
+			</columnfieldlabel>
+
+			<columnnumberfield name="weight">
+				<anchor>level</anchor>
+				<tabtarget next="special" prev="enhancement" />
+				<gmonly />
+			</columnnumberfield>
+			<columnfieldlabel name="weight_label">
+				<anchor>weight</anchor>
+				<static>Weight (lbs)</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="special">
+				<anchor>level</anchor>
+				<tabtarget next="prerequisite" prev="weight" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="special_label">
+				<anchor>special</anchor>
+				<static>Special</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="prerequisite">
+				<anchor>level</anchor>
+				<tabtarget next="nonidentified" prev="special" />
+				<gmonly />
+			</columnstringfield>
+			<columnfieldlabel name="prerequisite_label">
+				<anchor>prerequisite</anchor>
+				<static>Prerequisite</static>
+			</columnfieldlabel>
+
+			<!-- Player notes-->
+			<columnstringfield name="nonidentified">
+				<anchor>level</anchor>
+				<tabtarget next="flavor" prev="prerequisite" />
+			</columnstringfield>
+			<columnfieldlabel name="nonidentified_label">
+				<anchor>nonidentified</anchor>
+				<static>Notes</static>
+			</columnfieldlabel>
+			<!-- Player notes-->
+
+			<!-- Spacer -->
+			<genericcontrol name="endstats">
+				<anchored>
+					<to>nonidentified</to>
+					<position>below</position>
+					<size>
+						<height>5</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="item">
+		<frame>charsheet</frame>
+		<placement>
+			<size>
+				<width>430</width>
+				<height>400</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum>
+				<width>375</width>
+				<height>220</height>
+			</minimum>
+		</sizelimits>
+		<minimize />
+		<nodelete />
+		<playercontrol />
+		<sharable />
+		<sheetdata>
+			<!-- NAME -->
+			<genericcontrol name="nameframe">
+				<bounds>10,20,-25,35</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<windowopencontrol>
+				<anchored>
+					<to>nameframe</to>
+					<position>insidetopleft</position>
+					<offset>13,8</offset>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>item</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowopencontrol>
+			<stringfield name="name">
+				<anchored>
+					<top>
+						<parent>nameframe</parent>
+						<anchor>top</anchor>
+						<offset>9</offset>
+					</top>
+					<left>
+						<parent>nameframe</parent>
+						<anchor>left</anchor>
+						<offset>35</offset>
+					</left>
+					<right>
+						<parent>nameframe</parent>
+						<anchor>right</anchor>
+						<offset>-15</offset>
+					</right>
+				</anchored>
+				<empty>&#171; New Item &#187;</empty>
+				<font>sheettext</font>
+			</stringfield>
+
+			<!-- Frame -->
+			<genericcontrol name="contentframe">
+				<bounds>10,54,-25,-15</bounds>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>0,1,0,0</offset>
+				</frame>
+			</genericcontrol>
+
+			<!-- Subwindows -->
+			<subwindow name="stats">
+				<anchored>
+					<to>contentframe</to>
+					<position>over</position>
+					<offset>-15,-7</offset>
+				</anchored>
+				<class>item_statstab</class>
+				<script file="scripts/item_drop.lua" />
+			</subwindow>
+			<subwindow name="powers">
+				<anchored>
+					<to>contentframe</to>
+					<position>over</position>
+				</anchored>
+				<class>item_powertab</class>
+			</subwindow>
+			<subwindow name="properties">
+				<anchored>
+					<to>contentframe</to>
+					<position>over</position>
+				</anchored>
+				<class>item_propertytab</class>
+			</subwindow>
+
+			<!-- Scrollers -->
+			<scrollercontrol name="powers_scroller">
+				<bounds>-79,-50,45,27</bounds>
+				<target>powers</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+				<invisible />
+			</scrollercontrol>
+
+			<!-- Tabs -->
+			<tabcontrol name="tabs">
+				<bounds>-22,50,18,223</bounds>
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>stats</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_abilities</icon>
+					<subwindow>properties</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_powers</icon>
+					<subwindow>powers</subwindow>
+					<scroller>powers_scroller</scroller>
+				</tab>
+				<activate>1</activate>
+			</tabcontrol>
+			
+			<closebutton_charsheetmini />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="itemsmall">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<windowreferencecontrol name="open">
+				<bounds>0,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>item</class>
+				<description>
+					<field>name</field>
+				</description>
+				<script file="scripts/adventurelistshortcut.lua" />
+			</windowreferencecontrol>
+			<linkstringfield name="name">
+				<bounds>25,1,-1,20</bounds>
+				<empty>&#171; New Item &#187;</empty>
+				<selectioncolor>#90ffffff</selectioncolor>
+				<font>sheettext</font>
+				<linktarget>open</linktarget>
+			</linkstringfield>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="itemlist">
+		<frame>scrollboxfortabs</frame>
+		<placement>
+			<size>
+				<width>275</width>
+				<height>350</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum>
+				<width>200</width>
+				<height>290</height>
+			</minimum>
+		</sizelimits>
+		<nodelete />
+		<sheetdata>
+			<genericcontrol>
+				<bounds>16,21,30,177</bounds>
+				<icon>title_items</icon>
+			</genericcontrol>
+			<windowlist name="list">
+				<bounds>50,25,-30,-34</bounds>
+				<datasource>.</datasource>
+				<class>itemsmall</class>
+				<sortfields>name</sortfields>
+				<footer>footer_narrow</footer>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/item_list.lua" />
+			</windowlist>
+			<scrollercontrol>
+				<bounds>-105,-61,45,27</bounds>
+				<target>list</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			<buttoncontrol>
+				<bounds>-55,-58,34,25</bounds>
+				<icon>
+					<normal>button_newwindow</normal>
+					<pressed>button_newwindowdown</pressed>
+				</icon>
+				<class>item</class>
+				<script>
+					function onButtonPress()
+						local node = NodeManager.createSafeChild(window.getDatabaseNode());
+						if node then
+							Interface.openWindow(class[1], node.getNodeName());
+						end
+					end
+				</script>
+			</buttoncontrol>
+			<categoryselectioncontrol>
+				<bounds>24,-39,-24,-1</bounds>
+				<targetcontrol>list</targetcontrol>
+			</categoryselectioncontrol>
+
+			<filter name="filter">
+				<bounds>55,-70,-50,20</bounds>
+				<target>list</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>20,-85,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>
+			
+			<closebutton_scrollbox />
+		</sheetdata>
+	</windowclass>
+</root>

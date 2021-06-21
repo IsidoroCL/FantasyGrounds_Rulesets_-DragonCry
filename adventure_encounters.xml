@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="battle_npclistitem">
+		<sizelimits>
+			<minimum>
+				<height>11</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<basicnumberfield name="count">
+				<anchored>
+					<top>
+						<anchor>top</anchor>
+						<offset>8</offset>
+					</top>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<size>
+						<width>32</width>
+						<height>20</height>
+					</size>
+				</anchored>
+			</basicnumberfield>
+			
+			<tokenfield name="token">
+				<anchored>
+					<top>
+						<anchor>top</anchor>
+						<offset>6</offset>
+					</top>
+					<left>
+						<parent>count</parent>
+						<anchor>right</anchor>
+						<offset>10</offset>
+					</left>
+					<size>
+						<width>23</width>
+						<height>23</height>
+					</size>
+				</anchored>
+				<empty>indicator_emptytoken</empty>
+			</tokenfield>
+			
+			<windowreferencefield name="link">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+						<offset>-6</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>7</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_dragtarget</normal>
+				</icon>
+			</windowreferencefield>
+
+			<stringfield name="name">
+				<anchored>
+					<to>token</to>
+					<position>righthigh</position>
+					<offset>5,5</offset>
+					<right>
+						<parent>link</parent>
+						<anchor>left</anchor>
+						<offset>-5,0</offset>
+					</right>
+				</anchored>
+				<font>sheettextsmall</font>
+				<frame>
+					<name>textlinesmall</name>
+					<offset>0,-1,0,0</offset>
+				</frame>
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="battle">
+		<datasource>battle</datasource>
+		<frame>charsheet</frame>
+		<placement>
+			<size>
+				<width>350</width>
+				<height>400</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic>
+				<hostcontrol />
+			</dynamic>
+			<minimum>
+				<width>350</width>
+				<height>300</height>
+			</minimum>
+		</sizelimits>
+		<minimize>minimized_npc</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<!-- NAME -->
+			<genericcontrol name="nameframe">
+				<bounds>10,20,-15,35</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<windowopencontrol>
+				<anchored>
+					<to>nameframe</to>
+					<position>insidetopleft</position>
+					<offset>13,8</offset>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>battle</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowopencontrol>
+			<stringfield name="name">
+				<anchored>
+					<top>
+						<parent>nameframe</parent>
+						<anchor>top</anchor>
+						<offset>9</offset>
+					</top>
+					<left>
+						<parent>nameframe</parent>
+						<anchor>left</anchor>
+						<offset>35</offset>
+					</left>
+					<right>
+						<parent>nameframe</parent>
+						<anchor>right</anchor>
+						<offset>-15</offset>
+					</right>
+				</anchored>
+				<empty>&#171; New Encounter &#187;</empty>
+				<font>sheettext</font>
+				<tabtarget>
+					<next>level</next>
+					<prev>exp</prev>
+				</tabtarget>
+			</stringfield>
+
+			<!-- ENCOUNTER DETAILS -->
+			<genericcontrol name="detailframe">
+				<bounds>10,55,-10,45</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<basicnumberfield name="level">
+				<anchored>
+					<to>detailframe</to>
+					<position>insidetopleft</position>
+					<offset>125,13</offset>
+					<size>
+						<width>32</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>exp</next>
+					<prev>name</prev>
+				</tabtarget>
+			</basicnumberfield>
+			<stringcontrol name="levellabel">
+				<anchored>
+					<to>level</to>
+					<position>left</position>
+					<offset>10,-4</offset>
+					<size>
+						<width>100</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Encounter Level</static>
+			</stringcontrol>
+			<basicnumberfield name="exp">
+				<anchored>
+					<to>detailframe</to>
+					<position>insidetopleft</position>
+					<offset>215,13</offset>
+					<size>
+						<width>96</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>name</next>
+					<prev>level</prev>
+				</tabtarget>
+			</basicnumberfield>
+			<stringcontrol name="explabel">
+				<anchored>
+					<to>exp</to>
+					<position>left</position>
+					<offset>10,-4</offset>
+					<size>
+						<width>25</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>XP</static>
+			</stringcontrol>
+			
+			<!-- ENCOUNTER NPCS -->
+			<genericcontrol name="npcframe">
+				<bounds>10,100,-10,-40</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>npcframe</to>
+					<position>insidetopleft</position>
+					<offset>30,10</offset>
+				</anchored>
+				<center />
+				<font>sheetlabelsmall</font>
+				<static>#</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<to>npcframe</to>
+					<position>insidetopleft</position>
+					<offset>55,10</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Token</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<to>npcframe</to>
+					<position>insidetopleft</position>
+					<offset>110,10</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Name</static>
+			</stringcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>npcframe</to>
+					<position>insidebottomleft</position>
+					<offset>80,10</offset>
+					<size>
+						<width>200</width>
+					</size>
+				</anchored>
+				<font>chatitalicfont</font>
+				<static>Drop NPC links on this frame to add</static>
+			</stringcontrol>
+
+			<windowlist name="npclist">
+				<anchored>
+					<to>npcframe</to>
+					<position>over</position>
+					<offset>-12,-25</offset>
+					<top>
+						<parent>npcframe</parent>
+						<offset>20</offset>
+					</top>
+				</anchored>
+				<datasource>.npclist</datasource>
+				<class>battle_npclistitem</class>
+				<allowdelete />
+				<script>
+					function onSortCompare(w1, w2)
+						return w1.name.getValue() &gt; w2.name.getValue();
+					end
+					
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("shortcut") then
+							local class, datasource = draginfo.getShortcutData();
+							local source = draginfo.getDatabaseNode();
+
+							if source then
+								if class == "npc" then
+									local wnd = NodeManager.createSafeWindow(self);
+									if wnd then
+										wnd.name.setValue(NodeManager.getSafeChildValue(source, "name", ""));
+										wnd.link.setValue("npc", source.getNodeName());
+
+										local tokenval = NodeManager.getSafeChildValue(source, "token", nil);
+										if tokenval then
+											wnd.token.setPrototype(tokenval);
+										end
+
+										wnd.count.setValue(1);
+										wnd.count.setFocus();
+									end
+								end
+							end
+
+							return true;
+						end
+					end
+				</script>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>npclist</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>npclist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+
+			<buttoncontrol name="npcadd">
+				<bounds>22,-40,33,26</bounds>
+				<icon>
+					<normal>button_ctnextactor</normal>
+					<pressed>button_ctnextactor_down</pressed>
+				</icon>
+				<tooltip>
+					<text>Add NPCs to combat tracker</text>
+				</tooltip>
+				<script>
+					function onButtonPress()
+						if User.isHost() then
+							local wnd = Interface.openWindow("combattracker_window", "combattracker");
+							if wnd then
+								wnd.list.addBattle(window.getDatabaseNode());
+							end
+						end
+					end
+				</script>
+			</buttoncontrol>
+			
+			<closebutton_charsheetmini />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="battlesmall">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<windowreferencecontrol name="open">
+				<bounds>0,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>battle</class>
+				<description>
+					<field>name</field>
+				</description>
+				<script file="scripts/adventurelistshortcut.lua" />
+			</windowreferencecontrol>
+			<linkstringfield name="name">
+				<bounds>25,1,-1,20</bounds>
+				<empty>&#171; New Encounter &#187;</empty>
+				<selectioncolor>#90ffffff</selectioncolor>
+				<font>sheettext</font>
+				<linktarget>open</linktarget>
+			</linkstringfield>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="battlelist">
+		<frame>scrollboxfortabs</frame>
+		<softclose />
+		<placement>
+			<size>
+				<width>275</width>
+				<height>350</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum>
+				<width>200</width>
+				<height>290</height>
+			</minimum>
+		</sizelimits>
+		<nodelete />
+		<sheetdata>
+			<genericcontrol>
+				<bounds>16,21,30,177</bounds>
+				<icon>title_encounters</icon>
+			</genericcontrol>
+			<windowlist name="list">
+				<bounds>50,25,-30,-34</bounds>
+				<datasource>.</datasource>
+				<class>battlesmall</class>
+				<sortfields>name</sortfields>
+				<footer>footer_narrow</footer>
+				<allowcreate />
+				<allowdelete />
+				<script>
+					function onSortCompare(w1, w2)
+						return w1.name.getValue() &gt; w2.name.getValue();
+					end
+					
+					function onFilter(w)
+						local f = string.lower(window.filter.getValue());
+						
+						if f == "" then
+							return true;
+						end
+						
+						if string.find(string.lower(w.name.getValue()), f, 0, true) then
+							return true;
+						end
+						
+						return false;
+					end
+				</script>
+			</windowlist>
+			<scrollercontrol>
+				<bounds>-105,-61,45,27</bounds>
+				<target>list</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+
+			<buttoncontrol>
+				<bounds>-55,-58,34,25</bounds>
+				<icon>
+					<normal>button_newwindow</normal>
+					<pressed>button_newwindowdown</pressed>
+				</icon>
+				<class>battle</class>
+				<script>
+					function onButtonPress()
+						local node = NodeManager.createSafeChild(window.getDatabaseNode());
+						if node then
+							Interface.openWindow(class[1], node.getNodeName());
+						end
+					end
+				</script>
+			</buttoncontrol>
+			<categoryselectioncontrol>
+				<bounds>24,-39,-24,-1</bounds>
+				<targetcontrol>list</targetcontrol>
+			</categoryselectioncontrol>
+
+			<filter name="filter">
+				<bounds>55,-70,-50,20</bounds>
+				<target>list</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>20,-85,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>
+			
+			<closebutton_scrollbox />
+		</sheetdata>
+	</windowclass>
+</root>

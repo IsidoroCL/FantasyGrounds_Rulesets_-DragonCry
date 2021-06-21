@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+
+	<!-- Table of magicitem links -->
+	<windowclass name="reference_magicitemtablelistitem">
+		<sizelimits>
+			<minimum>
+				<width>600</width>
+				<height>0</height>
+			</minimum>
+			<maximum>
+				<width>600</width>
+			</maximum>
+		</sizelimits>
+		<script file="scripts/reference_listitem.lua" />
+		<sheetdata>
+			<numberfield name="myfilter">
+				<invisible />
+				<bounds>5,0,20,20</bounds>
+			</numberfield>
+
+			<jpgnumberfield name="level">
+				<bounds>5,0,20,20</bounds>
+				<font>chatfont</font>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+			</jpgnumberfield>
+
+			<windowreferencefield name="link">
+				<bounds>35,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<script>
+					function onDrag(button, x, y, draginfo)
+						draginfo.setType("shortcut");
+						draginfo.setIcon(icon[1].normal[1]);
+						draginfo.setShortcutData(getValue());
+						draginfo.setDescription(getTargetDatabaseNode().getChild("name").getValue());
+						
+						return true;
+					end
+				</script>
+			</windowreferencefield>
+			<staticlinkstringfield name="name">
+				<bounds>60,2,180,15</bounds>
+				<font>chatfont</font>
+				<underlineoffset>0</underlineoffset>
+				<linktarget>link</linktarget>
+			</staticlinkstringfield>
+
+			<stringfield name="cost">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>240</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>75</width>
+						<height>16</height>
+					</size>
+				</anchored>
+                <left />
+				<font>chatfont</font>
+			</stringfield>
+			<stringfield name="cat">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>320</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>250</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<left />
+				<font>chatfont</font>
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_magicitemtablegroupitem">
+		<sizelimits>
+			<minimum>
+				<width>600</width>
+				<height>0</height>
+			</minimum>
+			<maximum>
+				<width>600</width>
+				<height>10000</height>
+			</maximum>
+		</sizelimits>
+		<script>
+			function showFullHeaders(show_flag)
+				description.setVisible(show_flag);
+				subdescription.setVisible(show_flag);
+				spacer.setVisible(show_flag);	
+				myfooter.setVisible(show_flag);
+
+				showListHeaders(show_flag);
+			end
+
+			function showList(show_flag)
+				magicitemtablelist.setVisible(show_flag);
+
+				showListHeaders(show_flag);
+			end
+
+			function showListHeaders(show_flag)
+				headername.setVisible(show_flag);
+				headercost.setVisible(show_flag);
+				headercategory.setVisible(show_flag);
+				headerlevel.setVisible(show_flag);
+			end
+		</script>
+		<sheetdata>
+			<genericcontrol name="spacer">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<bottom>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</bottom>
+				</anchored>
+			</genericcontrol>
+			
+			<stringfield name="description">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>spacer</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						window.showList(not window.magicitemtablelist.isVisible());
+						return true;
+					end
+				</script>
+				<static />
+			</stringfield>
+			<stringfield name="subdescription">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>description</parent>
+						<anchor>bottom</anchor>
+					</top>
+				</anchored>
+				<font>chatitalicfont</font>
+			</stringfield>
+
+			<stringfield name="headerlevel">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>10</offset>
+					</left>
+					<top>
+						<parent>subdescription</parent>
+						<anchor>bottom</anchor>
+					</top>
+					<size>
+						<width>20</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Lvl</static>
+				<left />
+			</stringfield>
+			<stringfield name="headername">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>50</offset>
+					</left>
+					<top>
+						<parent>subdescription</parent>
+						<anchor>bottom</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Name</static>
+				<left />
+			</stringfield>
+			<stringfield name="headercost">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>215</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>70</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Cost</static>
+                                <right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+			<stringfield name="headercategory">
+				<anchored>
+					<left>
+						<parent>headername</parent>
+						<offset>280</offset>
+					</left>
+					<top>
+						<parent>headername</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<static>Category</static>
+				<right />
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+
+			<windowlist name="magicitemtablelist">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>headername</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<datasource>.items</datasource>
+				<class>reference_magicitemtablelistitem</class>
+				<noscroll /> 
+				<script file="scripts/reference_list.lua" />
+			</windowlist>
+
+			<referenceformattedtextfield name="myfooter">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>25</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-25</offset>
+					</right>
+					<top>
+						<parent>magicitemtablelist</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<footer>footer_wide</footer>
+			</referenceformattedtextfield>
+		</sheetdata>
+	</windowclass>
+
+	<!-- Class magicitemtable lists -->
+	<windowclass name="reference_classmagicitemtablelist">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>650</width>
+				<height>650</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic>
+				<resize>vertical</resize>
+			</dynamic>
+			<minimum>
+				<width>600</width>
+			</minimum>
+			<maximum>
+				<width>600</width>
+			</maximum>
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>description</field>
+		</tooltip>
+		<sheetdata>
+			<stringfield name="description">
+				<bounds>17,20,-20,20</bounds>
+				<font>sheetlabel</font>
+				<center />
+				<static />
+			</stringfield>
+			<windowlist name="grouplist">
+				<bounds>17,40,-20,-14</bounds>
+				<datasource>.groups</datasource>
+				<class>reference_magicitemtablegroupitem</class>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>grouplist</to>
+					<position>insidebottomright</position>
+					<offset>-10</offset>
+				</anchored>
+				<target>grouplist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<filter name="filter">
+				<bounds>55,-50,-50,20</bounds>
+				<target>grouplist,magicitemtablelist</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>-43,-83,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>
+
+			<genericcontrol name="expand">
+				<icon>expand_icon</icon>				
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>20</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Expand All</text>
+				</tooltip>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+  						for k, topwin in pairs(window.grouplist.getWindows()) do
+							topwin.showList(true);
+  						end
+						return true;
+					end
+				</script>
+			</genericcontrol>
+			<genericcontrol name="collapse">
+				<icon>collapse_icon</icon>
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>40</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Collapse All</text>
+				</tooltip>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+  						for k, topwin in pairs(window.grouplist.getWindows()) do
+							topwin.showList(false);
+  						end
+						return true;
+					end
+				</script>
+			</genericcontrol>
+
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- MI Powers -->
+	<windowclass name="mi_powerlistitem">
+		<sizelimits>
+			<minimum>
+				<width>150</width>
+				<height>0</height>
+			</minimum>
+			<maximum>
+				<width>600</width>
+			</maximum>
+		</sizelimits>
+		<script>
+			function onInit()
+				minode = link.getTargetDatabaseNode();
+
+				if minode then
+					local namenode = minode.getChild("recharge");
+					
+					if namenode then
+						name.setValue("Power - " .. namenode.getValue());
+					end
+				end
+			end
+		</script>
+		<sheetdata>
+			<windowreferencefield name="link">
+				<bounds>5,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+			</windowreferencefield>
+			<staticlinkstringfield name="name">
+				<bounds>60,2,180,15</bounds>
+				<font>chatfont</font>
+				<underlineoffset>0</underlineoffset>
+				<linktarget>link</linktarget>
+			</staticlinkstringfield>
+		</sheetdata>
+	</windowclass>
+
+	<!-- MI Properties -->
+	<windowclass name ="mi_proplistitem">
+		<sizelimits>
+			<minimum>
+				<height>22</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<stringfield name="propertylabel">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+                                <right />
+				<static>Property</static>
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+
+			<stringfield name="shortdescription">
+				<anchored>
+					<left>
+						<parent>propertylabel</parent>
+						<anchor>right</anchor>
+						<offset>10</offset>
+					</left>
+					<top>
+						<parent>propertylabel</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>175</width>
+					</size>
+
+				</anchored>
+				<multilinespacing>15</multilinespacing>
+				<font>chatfont</font>
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+
+	<!-- MI Quirks -->
+	<windowclass name ="mi_quirklistitem">
+		<sizelimits>
+			<minimum>
+				<height>22</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<stringfield name="quirklabel">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+                                <right />
+				<static>Quirk</static>
+				<font>sheetlabelsmallbold</font>
+			</stringfield>
+
+			<stringfield name="shortdescription">
+				<anchored>
+					<left>
+						<parent>quirklabel</parent>
+						<anchor>right</anchor>
+						<offset>10</offset>
+					</left>
+					<top>
+						<parent>quirklabel</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>175</width>
+					</size>
+
+				</anchored>
+				<multilinespacing>15</multilinespacing>
+				<font>chatfont</font>
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+
+	<!-- MI description sheet -->
+	<windowclass name="magicitemdesc">
+		<sheetdata>
+			<!-- Fields -->
+			<stringfield name="flavor">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-7</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>chatitalicfont</font>
+				<multilinespacing>15</multilinespacing>
+			</stringfield>
+
+			<columnnumberfield name="level">
+				<anchor>flavor</anchor>
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>level</anchor>
+				<static>Level</static>
+			</columnfieldlabel>			
+
+			<columnnumberfield name="bonus">
+				<anchor>level</anchor>
+				<displaysign />
+				<hideonvalue>0</hideonvalue>
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>bonus</anchor>
+				<static>Bonus</static>
+			</columnfieldlabel>
+			<columnstringfield name="cost">
+				<anchor>bonus</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>cost</anchor>
+				<static>Cost</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="subclass">
+				<anchor>cost</anchor>
+			</columnstringfield>
+			<stringfield name="class">
+				<anchor>subclass</anchor>
+				<font>sheetlabelsmallbold</font>
+				<script>
+					function updateVisibility()
+						if anchor and not window[anchor[1]].isVisible() then
+							setVisible(false);
+						else
+							setVisible(true);
+						end
+					end
+
+					function onInit()
+						if anchor then
+							if window[anchor[1]].getDatabaseNode().isStatic() then
+								setAnchor("top", anchor[1], "top", "absolute", 2);
+							else
+								setAnchor("top", anchor[1], "top", "absolute", 4);
+							end
+							setAnchor("left", "", "left", "absolute", 0);
+
+							if not window[anchor[1]].isVisible() then
+								setVisible(false);
+							end
+						end
+					end
+				</script>
+			</stringfield>
+
+			<referenceformattedtextfield name="formatteditemblock">
+				<anchored>
+					<top>
+						<parent>subclass</parent>
+						<anchor>bottom</anchor>
+						<offset>5</offset>
+					</top>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-5</offset>
+					</right>
+				</anchored>
+			</referenceformattedtextfield>
+
+			<windowlist name="powerlist">
+				<anchored>
+					<top>
+						<parent>formatteditemblock</parent>
+						<anchor>bottom</anchor>
+					</top>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+				</anchored>
+				<datasource>.powers</datasource>
+				<class>mi_powerlistitem</class>
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="referencemagicitem">
+		<frame>charsheet</frame>
+		<placement>
+			<size>
+				<width>300</width>
+				<height>370</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<!-- Name -->
+			<genericcontrol name="nameframe">
+				<bounds>10,20,-25,35</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<windowopencontrol>
+				<anchored>
+					<to>nameframe</to>
+					<position>insidetopleft</position>
+					<offset>13,8</offset>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>referencemagicitem</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowopencontrol> 
+			<stringfield name="name">
+				<anchored>
+					<top>
+						<parent>nameframe</parent>
+						<anchor>top</anchor>
+						<offset>9</offset>
+					</top>
+					<left>
+						<parent>nameframe</parent>
+						<anchor>left</anchor>
+						<offset>35</offset>
+					</left>
+					<right>
+						<parent>nameframe</parent>
+						<anchor>right</anchor>
+						<offset>-15</offset>
+					</right>
+				</anchored>
+				<empty>&#171; New Power &#187;</empty>
+				<font>sheettext</font>
+			</stringfield>
+
+			<!-- Frame -->		
+			<genericcontrol name="contentframe">
+				<bounds>10,54,-15,-13</bounds>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>0,1,0,0</offset>
+				</frame>
+			</genericcontrol>
+
+			<subwindow name="stats">
+				<bounds>22,61,-25,-21</bounds>
+				<class>magicitemdesc</class>
+				<activate />
+			</subwindow>
+			<scrollercontrol name="stats_scroller">
+				<anchored>
+					<to>stats</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>stats</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<closebutton_charsheetmini />
+		</sheetdata>
+	</windowclass>
+</root>

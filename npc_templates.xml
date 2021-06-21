@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<template name="npctoplabel">
+		<stringcontrol>
+			<font>sheetlabelsmall</font>
+			<center />
+			<script>
+				function updateVisibility()
+					if anchor and not window[anchor[1]].isVisible() then
+						setVisible(false);
+					else
+						setVisible(true);
+					end
+				end
+				
+				function onInit()
+					if anchor then
+						setAnchor("bottom", anchor[1], "top", "absolute", 2);
+						setAnchor("left", anchor[1], "left", "absolute", 0);
+						setAnchor("right", anchor[1], "right", "absolute", 0);
+					end
+				end
+			</script>
+		</stringcontrol>
+	</template>
+
+	<template name="npcabilityfield">
+		<jpgnumberfield>
+			<nodrop />
+			<noreset />
+			<hideonvalue>0</hideonvalue>
+			<font>sheettextsmall</font>
+			<frame>
+				<name>modifier</name>
+				<offset>5,2,5,4</offset>
+			</frame>
+			<keyeditframe>
+				<name>sheetfocus</name>
+				<offset>5,2,5,4</offset>
+			</keyeditframe>
+			<script>
+				function onInit()
+					if anchor then
+						setAnchor("left", anchor[1], "right", "relative", 5);
+						setAnchor("top", anchor[1], "top", "absolute", 0);
+					else
+						setAnchor("left", "levelrole", "left", "absolute", -2);
+						setAnchor("top", "levelrole", "bottom", "relative", 17);
+					end
+					
+					setAnchoredWidth(20);
+					setAnchoredHeight(18);
+					
+					if getDatabaseNode().isStatic() then
+						setFont("chatfont");
+					elseif getValue() == 0 then
+						setValue(10);
+					end
+				end
+
+				function onDoubleClick(x,y)
+					local levelbonus = 0;
+					local level = string.match(window.levelrole.getValue(), "Level (%d+)");
+					if level then
+						levelbonus = math.floor(level / 2);
+					end
+					local statbonus = math.floor((getValue() - 10) / 2);
+					
+					ChatManager.DoubleClickNPC("dice", levelbonus + statbonus, self.description[1].text[1], {npc = window.getDatabaseNode()});
+					return true;
+				end			
+			</script>
+		</jpgnumberfield>
+	</template>
+
+	<template name="npcdefensefield">
+		<jpgnumberfield>
+			<nodrop />
+			<noreset />
+			<font>sheettextsmall</font>
+			<frame>
+				<name>modifier</name>
+				<offset>5,2,5,4</offset>
+			</frame>
+			<keyeditframe>
+				<name>sheetfocus</name>
+				<offset>5,2,5,4</offset>
+			</keyeditframe>
+			<script>
+				function onInit()
+					if anchor then
+						setAnchor("left", anchor[1], "right", "relative", 5);
+						setAnchor("top", anchor[1], "top", "absolute", 0);
+					else
+						setAnchor("left", baseanchor[1], "left", "absolute", 0);
+						setAnchor("top", baseanchor[1], "bottom", "relative", 17);
+					end
+					
+					setAnchoredWidth(34);
+					setAnchoredHeight(18);
+					
+					if getDatabaseNode().isStatic() then
+						setFont("chatfont");
+					elseif getValue() == 0 then
+						setValue(10);
+					end
+				end
+			</script>
+		</jpgnumberfield>
+	</template>
+
+	<template name="npcpowerstring">
+		<stringfield>
+			<font>sheettextsmall</font>
+			<frame>
+				<name>modifier</name>
+				<offset>6,5,10,5</offset>
+			</frame>
+			<nodrag />
+			<script>
+				function onInit()
+					if getDatabaseNode().isStatic() then
+						if getValue() == "" then
+							setVisible(false);
+						end
+					end
+				end
+				
+				function onEnter()
+					window.windowlist.onEnter();
+				end
+			</script>
+		</stringfield>
+	</template>
+
+	<template name="npcpowerstringmultiline">
+		<stringfield>
+			<font>sheettextsmall</font>
+			<multilinespacing>15</multilinespacing>
+			<frame>
+				<name>modifier</name>
+				<offset>6,5,5,5</offset>
+			</frame>
+			<nodrag />
+			<script>
+				function onInit()
+					if getDatabaseNode().isStatic() then
+						if getValue() == "" then
+							setVisible(false);
+						end
+					end
+				end
+				
+				function onEnter()
+					window.windowlist.onEnter();
+				end
+			</script>
+		</stringfield>
+	</template>
+
+	<template name="justified_npcpowerstring">
+		<npcpowerstring>
+			<script>
+				function onInit()
+					if anchor then
+						setAnchor("left", anchor[1], "right", "relative", 7);
+						setAnchor("top", anchor[1], "top", "absolute", 0);
+					else
+						setAnchor("left", "", "left", "absolute", 12);
+						setAnchor("top", "recharge", "bottom", "relative", 4);
+					end
+					
+					setAnchoredHeight(18);
+
+					if getDatabaseNode().isStatic() then
+						if getValue() == "" then
+							setVisible(false);
+						end
+					end
+				end
+			</script>
+		</npcpowerstring>
+	</template>
+</root>

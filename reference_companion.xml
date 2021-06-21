@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="reference_familiar">
+		<frame>charsheet</frame>
+		<placement>
+			<size>
+				<width>340</width>
+				<height>410</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<minimum>
+				<width>340</width>
+				<height>410</height>
+			</minimum>
+			<dynamic />
+		</sizelimits>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<!-- NAME -->
+			<genericcontrol name="nameframe">
+				<bounds>38,20,-35,35</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<windowopencontrol>
+				<anchored>
+					<to>nameframe</to>
+					<position>insidetopleft</position>
+					<offset>13,8</offset>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>reference_familiar</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowopencontrol>
+			<stringfield name="name">
+				<anchored>
+					<top>
+						<parent>nameframe</parent>
+						<anchor>top</anchor>
+						<offset>9</offset>
+					</top>
+					<left>
+						<parent>nameframe</parent>
+						<anchor>left</anchor>
+						<offset>35</offset>
+					</left>
+					<right>
+						<parent>nameframe</parent>
+						<anchor>right</anchor>
+						<offset>-15</offset>
+					</right>
+				</anchored>
+				<empty>&#171; New Personality &#187;</empty>
+				<font>sheettext</font>
+			</stringfield>
+			<tokenfield name="token">
+				<bounds>13,25,25,25</bounds>
+				<empty>indicator_emptytoken</empty>
+			</tokenfield>
+			<buttoncontrol>
+				<bounds>-36,27,23,22</bounds>
+				<icon>
+					<normal>button_identityactivate</normal>
+					<pressed>button_identityactivate_down</pressed>
+				</icon>
+				<script>
+					function onButtonPress()
+						GmIdentityManager.addIdentity(window.name.getValue());
+					end
+				</script>
+			</buttoncontrol>
+			<genericcontrol name="tabcontentframe">
+				<bounds>10,54,-25,-15</bounds>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>0,1,0,0</offset>
+				</frame>
+			</genericcontrol>
+
+
+			<!-- SUBWINDOWS -->
+			<subwindow name="description">
+				<anchored>
+					<to>tabcontentframe</to>
+					<position>over</position>
+					<offset>-15,-8</offset>
+				</anchored>
+				<activate />
+				<class>familiar_description</class>
+			</subwindow>
+
+			<scrollercontrol name="description_scroller">
+				<bounds>-79,-50,45,27</bounds>
+				<target>description</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<closebutton_charsheetmini />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="familiar_description">
+		<sheetdata>
+			<stringfield name="flavor">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+				</anchored>
+				<font>chatitalicfont</font>
+				<multilinespacing>15</multilinespacing>
+
+			</stringfield>
+			
+			<columnstringfield name="senses">
+				<anchor>flavor</anchor>
+			</columnstringfield>
+			<columnfieldlabel name="senseslabel">
+				<anchor>senses</anchor>
+				<static>Senses</static>
+			</columnfieldlabel>
+	
+
+			<columnstringfield name="speed">
+				<anchor>flavor</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>speed</anchor>
+				<static>Speed</static>
+			</columnfieldlabel>
+
+			<!-- Spacer -->
+			<genericcontrol name="spacer">
+				<anchored>
+					<to>speed</to>
+					<position>below</position>
+					<size>
+						<height>25</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+
+			<stringfield name="constantlab">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>spacer</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+
+				<anchor>speed</anchor>
+				<font>sheetlabel</font>
+				<static>Constant Benefits</static>
+			</stringfield>
+
+			<stringfield name="constant">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>constantlab</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<font>chatfont</font>
+				<multilinespacing>15</multilinespacing>
+			</stringfield>
+
+			<stringfield name="activelab">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>constant</parent>
+						<anchor>bottom</anchor>
+						<offset>15</offset>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Active Benefits</static>
+			</stringfield>
+
+			<stringfield name="active">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>activelab</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<font>chatfont</font>
+				<multilinespacing>15</multilinespacing>
+			</stringfield>
+
+
+			<!-- Spacer -->
+			<genericcontrol>
+				<anchored>
+					<to>active</to>
+					<position>below</position>
+					<size>
+						<height>25</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+</root>

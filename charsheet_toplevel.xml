@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="charsheet">
+		<frame>charsheet</frame>
+		<placement>
+			<size>
+				<width>525</width>
+				<height>611</height>
+			</size>
+			<position>
+				<x>410</x>
+				<y>90</y>
+			</position>
+		</placement>
+		<minimize />
+		<nodelete />
+		<playercontrol />
+		<script file="scripts/charsheet_toplevel.lua" />
+		<sheetdata>
+			
+
+			<subwindow name="main">
+				<bounds>0,0,-1,-22</bounds>
+				<class>charsheet_main</class>
+			</subwindow>
+			<subwindow name="combat">
+				<bounds>0,0,-1,-22</bounds>
+				<class>charsheet_combat</class>
+			</subwindow>
+			<subwindow name="skills">
+				<bounds>0,0,-1,-22</bounds>
+				<class>charsheet_skills</class>
+			</subwindow>
+			<subwindow name="abilities">
+				<bounds>0,0,-1,-22</bounds>
+				<class>charsheet_abilities</class>
+			</subwindow>
+			<subwindow name="inventory">
+				<bounds>0,0,-1,-22</bounds>
+				<class>charsheet_inventory</class>
+			</subwindow>
+			<subwindow name="powers">
+				<bounds>0,0,-1,-22</bounds>
+				<class>charsheet_powers</class>
+			</subwindow>
+			<subwindow name="notes">
+				<bounds>0,0,-1,-22</bounds>
+				<class>charsheet_notes</class>
+			</subwindow>
+
+			<tabcontrol name="tabs">
+				<bounds>-22,50,18,492</bounds>
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>main</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_combat</icon>
+					<subwindow>combat</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_skills</icon>
+					<subwindow>skills</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_abilities</icon>
+					<subwindow>abilities</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_inventory</icon>
+					<subwindow>inventory</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_powers</icon>
+					<subwindow>powers</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_notes</icon>
+					<subwindow>notes</subwindow>
+				</tab>
+				<activate>1</activate>
+			</tabcontrol>
+		
+			<closebutton_charsheet />
+		</sheetdata>
+	</windowclass>
+
+	
+</root>

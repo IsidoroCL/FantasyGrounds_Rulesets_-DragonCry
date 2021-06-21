@@ -1,0 +1,4090 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	
+
+	<windowclass name="charsheet_profitem">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<textlistitemvalue name="value">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>2</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+			</textlistitemvalue>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_abilities">
+		<placement>
+			<size>
+				<width>252</width>
+				<height>611</height>
+			</size>
+		</placement>
+		<nodelete />
+		<sheetdata>
+			<!-- NAME / RACE -->
+			<genericcontrol name="overviewframe">
+				<bounds>15,20,480,45</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<labeledstring name="name">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>15,10</offset>
+					<size>
+						<width>250</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<label>Nombre</label>
+				<tabtarget>
+					<next>race</next>
+					<prev>notes</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="race">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>275,10</offset>
+					<size>
+						<width>195</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>Raza</label>
+				<tabtarget>
+					<next>gender</next>
+					<prev>name</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<!-- FEATS -->
+			<genericcontrol name="featframe">
+				<bounds>15,65,240,175</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>featframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<center />
+				<font>sheetlabel</font>
+				<static>Clase</static>
+			</stringcontrol>
+			
+			<windowlist name="claselist">
+				<anchored>
+					<to>featframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>featframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.habclase</datasource>
+				<class>Charsheet_claseshab</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_abilities.lua" />
+			</windowlist>
+
+			<!-- SPECIAL ABILITIES -->
+			<genericcontrol name="specialabilityframe">
+				<bounds>255,65,240,175</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>specialabilityframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<center />
+				<static>Físicas y Mentales</static>
+			</stringcontrol>
+¨
+			<windowlist name="specialabilitylist">
+				<anchored>
+					<to>specialabilityframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>specialabilityframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.habfisicamental</datasource>
+				<class>charsheet_specialabilityitem</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_abilities.lua" />
+			</windowlist>
+
+			
+
+			<!-- WEAPON PROFICIENCY -->
+			<genericcontrol name="weaponprofframe">
+				<bounds>15,65,480,400</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>235,30</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				
+				<static>Ofensiva</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>345,30</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				
+				<static>Defensiva</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<center />
+				<static>Habilidades Armas</static>
+			</stringcontrol>
+			
+			<sheetnumber name="arm_puntos" source="arma.puntos">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>95,30</offset>
+					<size>
+						<width>45</width>
+						<height>20</height>
+					</size>
+				</anchored>	
+				
+				<font>sheetnumber</font>
+			</sheetnumber>
+			
+			<stringcontrol name="puntoslabel">
+				<anchored>
+					<to>arm_puntos</to>
+					<position>left</position>
+					<offset>0,-2</offset>
+					<size>
+						<width>83</width>
+					</size>
+				</anchored>
+				
+				<font>sheetlabelsmall</font>
+				<static>Puntos sin gastar</static>
+			</stringcontrol>
+			
+			
+			<!--ECORTA-->
+			<checkcounter name="hab_espadacorta" source="ecorta.hab">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>110,60</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>ecorta.hab</current>
+					<maximum>ecorta.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="espada_cortalabel">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>15,60</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Espada corta</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_ecorta_off" source="ecorta.daroff">
+				<anchored>
+					<to>hab_espadacorta</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local ecorta = window.getDatabaseNode().
+								getChild("ecorta.hab").getValue();
+						local ofdn_ecorta = 0;
+						if ecorta == 1 then
+							ofdn_ecorta = -2;
+						elseif ecorta == 2 then
+							ofdn_ecorta = -2;
+						elseif ecorta == 3 then
+							ofdn_ecorta = -2;
+						elseif ecorta == 4 then
+							ofdn_ecorta = -2;
+						elseif ecorta == 5 then
+							ofdn_ecorta = -3;
+						elseif ecorta == 6 then
+							ofdn_ecorta = -3;
+						elseif ecorta == 7 then
+							ofdn_ecorta = -3;
+						elseif ecorta == 8 then
+							ofdn_ecorta = -4;
+						elseif ecorta == 9 then
+							ofdn_ecorta = -4;
+						elseif ecorta == 10 then
+							ofdn_ecorta = -6;
+												
+						end
+						setValue(ofdn_ecorta);
+					end
+					
+					function onInit()
+						local ecortah = window.getDatabaseNode().
+								getChild("ecorta.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if ecortah then
+							ecortah.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>dar_ecorta_off</to>
+					<position>above</position>
+					<offset>0,0</offset>
+					<size>
+						<width>70</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Dar</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dano_ecorta_off" source="ecorta.danooff">
+				<anchored>
+					<to>dar_ecorta_off</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<script>
+					function recalc()
+						local ecorta = window.getDatabaseNode().
+								getChild("ecorta.hab").getValue();
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+						
+						local agilidad = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod").getValue();
+						local ofdn_ecorta = 0;
+						if ecorta == 0 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 1 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 2 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 3 then
+							ofdn_ecorta = 5 + math.floor(agilidad /2);
+						elseif ecorta == 4 then
+							ofdn_ecorta = 5 + math.floor(agilidad /2);
+						elseif ecorta == 5 then
+							ofdn_ecorta = 5 + math.floor(agilidad /2);
+						elseif ecorta == 6 then
+							ofdn_ecorta = 5 + math.floor(agilidad /2);
+						elseif ecorta == 7 then
+							ofdn_ecorta = 5 + math.floor(agilidad /2);
+						elseif ecorta == 8 then
+							ofdn_ecorta = 10 + math.floor(agilidad /2);
+						elseif ecorta == 9 then
+							ofdn_ecorta = 10 + math.floor(agilidad /2);
+						elseif ecorta == 10 then
+							ofdn_ecorta = 10 + math.floor(agilidad /2);
+						end
+						setValue(ofdn_ecorta);
+					end
+					
+					function onInit()
+						local ecortah = window.getDatabaseNode().
+								getChild("ecorta.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if ecortah then
+							ecortah.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				<readonly />
+				
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>dano_ecorta_off</to>
+					<position>above</position>
+					<offset>0,0</offset>
+					<size>
+						<width>70</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Daño</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_ecorta_def" source="ecorta.dardef">
+				<anchored>
+					<to>dano_ecorta_off</to>
+					<position>righthigh</position>
+					<offset>20,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local ecorta = window.getDatabaseNode().
+								getChild("ecorta.hab").getValue();
+						local ofdn_ecorta = 0;
+						if ecorta == 1 then
+							ofdn_ecorta = -2;
+						elseif ecorta == 2 then
+							ofdn_ecorta = -2;
+						elseif ecorta == 3 then
+							ofdn_ecorta = -2;
+						elseif ecorta == 4 then
+							ofdn_ecorta = -2;
+						elseif ecorta == 5 then
+							ofdn_ecorta = -3;
+						elseif ecorta == 6 then
+							ofdn_ecorta = -3;
+						elseif ecorta == 7 then
+							ofdn_ecorta = -3;
+						elseif ecorta == 8 then
+							ofdn_ecorta = -4;
+						elseif ecorta == 9 then
+							ofdn_ecorta = -4;
+						elseif ecorta == 10 then
+							ofdn_ecorta = -5;
+												
+						end
+						setValue(ofdn_ecorta);
+					end
+					
+					function onInit()
+						local ecortah = window.getDatabaseNode().
+								getChild("ecorta.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if ecortah then
+							ecortah.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>dar_ecorta_def</to>
+					<position>above</position>
+					<offset>0,0</offset>
+					<size>
+						<width>70</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Dar</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dano_ecorta_def" source="ecorta.danodef">
+				<anchored>
+					<to>dar_ecorta_def</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local ecorta = window.getDatabaseNode().
+								getChild("ecorta.hab").getValue();
+								
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+						
+						
+						local ofdn_ecorta = 0;
+						if ecorta == 0 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 1 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 2 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 3 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 4 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 5 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 6 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 7 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 8 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 9 then
+							ofdn_ecorta = math.floor(fuerza /2);
+						elseif ecorta == 10 then
+							ofdn_ecorta = math.floor(fuerza /2);
+												
+						end
+						setValue(ofdn_ecorta);
+					end
+					
+					function onInit()
+						local ecortah = window.getDatabaseNode().
+								getChild("ecorta.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if ecortah then
+							ecortah.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>dano_ecorta_def</to>
+					<position>above</position>
+					<offset>0,0</offset>
+					<size>
+						<width>70</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Daño</static>
+			</stringcontrol>
+			
+			<sheetnumber name="arm_ecorta_def" source="ecorta.arm">
+				<anchored>
+					<to>dano_ecorta_def</to>
+					<position>righthigh</position>
+					<offset>10,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local ecorta = window.getDatabaseNode().
+								getChild("ecorta.hab").getValue();
+						local ofdn_ecorta = 0;
+						if ecorta == 1 then
+							ofdn_ecorta = 1;
+						elseif ecorta == 2 then
+							ofdn_ecorta = 1;
+						elseif ecorta == 3 then
+							ofdn_ecorta = 1;
+						elseif ecorta == 4 then
+							ofdn_ecorta = 1;
+						elseif ecorta == 5 then
+							ofdn_ecorta = 1;
+						elseif ecorta == 6 then
+							ofdn_ecorta = 1;
+						elseif ecorta == 7 then
+							ofdn_ecorta = 2;
+						elseif ecorta == 8 then
+							ofdn_ecorta = 2;
+						elseif ecorta == 9 then
+							ofdn_ecorta = 2;
+						elseif ecorta == 10 then
+							ofdn_ecorta = 3;
+												
+						end
+						
+						if ecorta == 1 then
+							setFont("charsheet_bloodied");
+						elseif ecorta == 2 then
+							setFont("charsheet_bloodied");
+						else
+							setFont("sheetnumber");
+						end
+						
+						setValue(ofdn_ecorta);
+					end
+					
+					function onInit()
+						local ecortah = window.getDatabaseNode().
+								getChild("ecorta.hab");
+						if ecortah then
+							ecortah.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			<stringcontrol>
+				<anchored>
+					<to>arm_ecorta_def</to>
+					<position>above</position>
+					<offset>0,0</offset>
+					<size>
+						<width>70</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Armadura</static>
+			</stringcontrol>
+			
+			
+			<!--ELARGA-->
+			<checkcounter name="hab_elarga" source="elarga.hab">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>110,90</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>elarga.hab</current>
+					<maximum>elarga.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="elargalabel">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>15,90</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Espada larga</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_elarga_off" source="elarga.daroff">
+				<anchored>
+					<to>hab_elarga</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local elarga = window.getDatabaseNode().
+								getChild("elarga.hab").getValue();
+						local ofdn_elarga = 0;
+						if elarga == 1 then
+							ofdn_elarga = 0;
+						elseif elarga == 2 then
+							ofdn_elarga = -1;
+						elseif elarga == 3 then
+							ofdn_elarga = -1;
+						elseif elarga == 4 then
+							ofdn_elarga = -2;
+						elseif elarga == 5 then
+							ofdn_elarga = -2;
+						elseif elarga == 6 then
+							ofdn_elarga = -2;
+						elseif elarga == 7 then
+							ofdn_elarga = -3;
+						elseif elarga == 8 then
+							ofdn_elarga = -3;
+						elseif elarga == 9 then
+							ofdn_elarga = -4;
+						elseif elarga == 10 then
+							ofdn_elarga = -4;
+												
+						end
+						setValue(ofdn_elarga);
+					end
+					
+					function onInit()
+						local elargah = window.getDatabaseNode().
+								getChild("elarga.hab");
+						if elargah then
+							elargah.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_elarga_off" source="elarga.danooff">
+				<anchored>
+					<to>dar_elarga_off</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<script>
+					function recalc()
+						local elarga = window.getDatabaseNode().
+								getChild("elarga.hab").getValue();
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+						local ofdn_elarga = 0;
+						if elarga == 0 then
+							ofdn_elarga = fuerza;
+						elseif elarga == 1 then
+							ofdn_elarga = 5 + fuerza;
+						elseif elarga == 2 then
+							ofdn_elarga = 5 + fuerza;
+						elseif elarga == 3 then
+							ofdn_elarga = 5 + fuerza + fuerza;
+						elseif elarga == 4 then
+							ofdn_elarga = 5 + fuerza + fuerza;
+						elseif elarga == 5 then
+							ofdn_elarga = 5 + fuerza + fuerza;
+						elseif elarga == 6 then
+							ofdn_elarga = 10 + fuerza + fuerza;
+						elseif elarga == 7 then
+							ofdn_elarga = 15 + fuerza + fuerza;
+						elseif elarga == 8 then
+							ofdn_elarga = 25 + fuerza + fuerza;
+						elseif elarga == 9 then
+							ofdn_elarga = 25 + fuerza + fuerza;
+						elseif elarga == 10 then
+							ofdn_elarga = 30 + fuerza + fuerza;
+												
+						end
+						setValue(ofdn_elarga);
+					end
+					
+					function onInit()
+						local elargah = window.getDatabaseNode().
+								getChild("elarga.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if elargah then
+							elargah.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				<readonly />
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dar_elarga_def" source="elarga.dardef">
+				<anchored>
+					<to>dano_elarga_off</to>
+					<position>righthigh</position>
+					<offset>20,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					<script>
+					function recalc()
+						local elarga = window.getDatabaseNode().
+								getChild("elarga.hab").getValue();
+						local ofdn_elarga = 0;
+						if elarga == 1 then
+							ofdn_elarga = 0;
+						elseif elarga == 2 then
+							ofdn_elarga = -1;
+						elseif elarga == 3 then
+							ofdn_elarga = -1;
+						elseif elarga == 4 then
+							ofdn_elarga = -2;
+						elseif elarga == 5 then
+							ofdn_elarga = -2;
+						elseif elarga == 6 then
+							ofdn_elarga = -2;
+						elseif elarga == 7 then
+							ofdn_elarga = -3;
+						elseif elarga == 8 then
+							ofdn_elarga = -3;
+						elseif elarga == 9 then
+							ofdn_elarga = -4;
+						elseif elarga == 10 then
+							ofdn_elarga = -4;
+												
+						end
+						setValue(ofdn_elarga);
+					end
+					
+					function onInit()
+						local elargah = window.getDatabaseNode().
+								getChild("elarga.hab");
+						if elargah then
+							elargah.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_elarga_def" source="elarga.danodef">
+				<anchored>
+					<to>dar_elarga_def</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local elarga = window.getDatabaseNode().
+								getChild("elarga.hab").getValue();
+								
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+								
+						local ofdn_elarga = 0;
+						if elarga == 0 then
+							ofdn_elarga = fuerza;
+						elseif elarga == 1 then
+							ofdn_elarga = 5 + fuerza;
+						elseif elarga == 2 then
+							ofdn_elarga = 5 + fuerza;
+						elseif elarga == 3 then
+							ofdn_elarga = 5 + fuerza;
+						elseif elarga == 4 then
+							ofdn_elarga = 5 + fuerza;
+						elseif elarga == 5 then
+							ofdn_elarga = 5 + fuerza;
+						elseif elarga == 6 then
+							ofdn_elarga = 10 + fuerza;
+						elseif elarga == 7 then
+							ofdn_elarga = 10 + fuerza;
+						elseif elarga == 8 then
+							ofdn_elarga = 15 + fuerza;
+						elseif elarga == 9 then
+							ofdn_elarga = 15 + fuerza;
+						elseif elarga == 10 then
+							ofdn_elarga = 20 + fuerza;
+												
+						end
+						setValue(ofdn_elarga);
+					end
+					
+					function onInit()
+						local elargah = window.getDatabaseNode().
+								getChild("elarga.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if elargah then
+							elargah.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="arm_elarga_def" source="elarga.arm">
+				<anchored>
+					<to>dano_elarga_def</to>
+					<position>righthigh</position>
+					<offset>10,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local elarga = window.getDatabaseNode().
+								getChild("elarga.hab").getValue();
+						local ofdn_elarga = 0;
+						if elarga == 1 then
+							ofdn_elarga = 1;
+						elseif elarga == 2 then
+							ofdn_elarga = 1;
+						elseif elarga == 3 then
+							ofdn_elarga = 1;
+						elseif elarga == 4 then
+							ofdn_elarga = 1;
+						elseif elarga == 5 then
+							ofdn_elarga = 1;
+						elseif elarga == 6 then
+							ofdn_elarga = 1;
+						elseif elarga == 7 then
+							ofdn_elarga = 1;
+						elseif elarga == 8 then
+							ofdn_elarga = 1;
+						elseif elarga == 9 then
+							ofdn_elarga = 1;
+						elseif elarga == 10 then
+							ofdn_elarga = 2;
+												
+						end
+						
+						if elarga == 1 then
+							setFont("charsheet_bloodied");
+						elseif elarga == 2 then
+							setFont("charsheet_bloodied");
+						else
+							setFont("sheetnumber");
+						end
+						
+						setValue(ofdn_elarga);
+					end
+					
+					
+					
+					function onInit()
+						local elargah = window.getDatabaseNode().
+								getChild("elarga.hab");
+						if elargah then
+							elargah.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+		
+			<!--hacha-->
+			<checkcounter name="hab_hacha" source="hacha.hab">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>110,120</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>hacha.hab</current>
+					<maximum>hacha.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="hachalabel">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>15,120</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Hacha</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_hacha_off" source="hacha.daroff">
+				<anchored>
+					<to>hab_hacha</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local hacha = window.getDatabaseNode().
+								getChild("hacha.hab").getValue();
+						local ofdn_hacha = 0;
+						if hacha == 1 then
+							ofdn_hacha = 0;
+						elseif hacha == 2 then
+							ofdn_hacha = -1;
+						elseif hacha == 3 then
+							ofdn_hacha = -1;
+						elseif hacha == 4 then
+							ofdn_hacha = -1;
+						elseif hacha == 5 then
+							ofdn_hacha = -1;
+						elseif hacha == 6 then
+							ofdn_hacha = -2;
+						elseif hacha == 7 then
+							ofdn_hacha = -2;
+						elseif hacha == 8 then
+							ofdn_hacha = -3;
+						elseif hacha == 9 then
+							ofdn_hacha = -3;
+						elseif hacha == 10 then
+							ofdn_hacha = -3;
+												
+						end
+						setValue(ofdn_hacha);
+					end
+					
+					function onInit()
+						local hachah = window.getDatabaseNode().
+								getChild("hacha.hab");
+						if hachah then
+							hachah.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_hacha_off" source="hacha.danooff">
+				<anchored>
+					<to>dar_hacha_off</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<script>
+					function recalc()
+						local hacha = window.getDatabaseNode().
+								getChild("hacha.hab").getValue();
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+						local ofdn_hacha = 0;
+						if hacha == 0 then
+							ofdn_hacha = fuerza;
+						elseif hacha == 1 then
+							ofdn_hacha = 5 + fuerza;
+						elseif hacha == 2 then
+							ofdn_hacha = 5 + fuerza;
+						elseif hacha == 3 then
+							ofdn_hacha = 5 + fuerza + fuerza;
+						elseif hacha == 4 then
+							ofdn_hacha = 10 + fuerza + fuerza;
+						elseif hacha == 5 then
+							ofdn_hacha = 10 + fuerza + fuerza;
+						elseif hacha == 6 then
+							ofdn_hacha = 10 + fuerza + fuerza;
+						elseif hacha == 7 then
+							ofdn_hacha = 10 + fuerza + fuerza;
+						elseif hacha == 8 then
+							ofdn_hacha = 15 + fuerza + fuerza;
+						elseif hacha == 9 then
+							ofdn_hacha = 20 + fuerza + fuerza;
+						elseif hacha == 10 then
+							ofdn_hacha = 20 + fuerza + fuerza + fuerza;
+												
+						end
+						setValue(ofdn_hacha);
+					end
+					
+					function onInit()
+						local hachah = window.getDatabaseNode().
+								getChild("hacha.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if hachah then
+							hachah.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				<readonly />
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dar_hacha_def" source="hacha.dardef">
+				<anchored>
+					<to>dano_hacha_off</to>
+					<position>righthigh</position>
+					<offset>20,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					<script>
+					function recalc()
+						local hacha = window.getDatabaseNode().
+								getChild("hacha.hab").getValue();
+						local ofdn_hacha = 0;
+						if hacha == 1 then
+							ofdn_hacha = 0;
+						elseif hacha == 2 then
+							ofdn_hacha = -1;
+						elseif hacha == 3 then
+							ofdn_hacha = -1;
+						elseif hacha == 4 then
+							ofdn_hacha = -1;
+						elseif hacha == 5 then
+							ofdn_hacha = -1;
+						elseif hacha == 6 then
+							ofdn_hacha = -2;
+						elseif hacha == 7 then
+							ofdn_hacha = -2;
+						elseif hacha == 8 then
+							ofdn_hacha = -3;
+						elseif hacha == 9 then
+							ofdn_hacha = -3;
+						elseif hacha == 10 then
+							ofdn_hacha = -3;
+												
+						end
+						setValue(ofdn_hacha);
+					end
+					
+					function onInit()
+						local hachah = window.getDatabaseNode().
+								getChild("hacha.hab");
+						if hachah then
+							hachah.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_hacha_def" source="hacha.danodef">
+				<anchored>
+					<to>dar_hacha_def</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local hacha = window.getDatabaseNode().
+								getChild("hacha.hab").getValue();
+								
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+								
+						local ofdn_hacha = 0;
+						if hacha == 0 then
+							ofdn_hacha = fuerza;
+						elseif hacha == 1 then
+							ofdn_hacha = 5 + math.floor(fuerza/2);
+						elseif hacha == 2 then
+							ofdn_hacha = 5 + math.floor(fuerza/2);
+						elseif hacha == 3 then
+							ofdn_hacha = 5 + math.floor(fuerza/2);
+						elseif hacha == 4 then
+							ofdn_hacha = 10 + math.floor(fuerza/2);
+						elseif hacha == 5 then
+							ofdn_hacha = 10 + math.floor(fuerza/2);
+						elseif hacha == 6 then
+							ofdn_hacha = 10 + math.floor(fuerza/2);
+						elseif hacha == 7 then
+							ofdn_hacha = 10 + math.floor(fuerza/2);
+						elseif hacha == 8 then
+							ofdn_hacha = 15 + math.floor(fuerza/2);
+						elseif hacha == 9 then
+							ofdn_hacha = 20 + math.floor(fuerza/2);
+						elseif hacha == 10 then
+							ofdn_hacha = 20 + math.floor(fuerza/2);
+												
+						end
+						setValue(ofdn_hacha);
+					end
+					
+					function onInit()
+						local hachah = window.getDatabaseNode().
+								getChild("hacha.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if hachah then
+							hachah.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="arm_hacha_def" source="hacha.arm">
+				<anchored>
+					<to>dano_hacha_def</to>
+					<position>righthigh</position>
+					<offset>10,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local hacha = window.getDatabaseNode().
+								getChild("hacha.hab").getValue();
+						local ofdn_hacha = 0;
+						if hacha == 1 then
+							ofdn_hacha = 1;
+						elseif hacha == 2 then
+							ofdn_hacha = 1;
+						elseif hacha == 3 then
+							ofdn_hacha = 1;
+						elseif hacha == 4 then
+							ofdn_hacha = 1;
+						elseif hacha == 5 then
+							ofdn_hacha = 1;
+						elseif hacha == 6 then
+							ofdn_hacha = 1;
+						elseif hacha == 7 then
+							ofdn_hacha = 1;
+						elseif hacha == 8 then
+							ofdn_hacha = 1;
+						elseif hacha == 9 then
+							ofdn_hacha = 1;
+						elseif hacha == 10 then
+							ofdn_hacha = 2;
+												
+						end
+						
+						if hacha == 1 then
+							setFont("charsheet_bloodied");
+						elseif hacha == 2 then
+							setFont("charsheet_bloodied");
+						else
+							setFont("sheetnumber");
+						end
+						
+						setValue(ofdn_hacha);
+					end
+					
+					
+					
+					function onInit()
+						local hachah = window.getDatabaseNode().
+								getChild("hacha.hab");
+						if hachah then
+							hachah.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>	
+			
+			
+			
+<!--martillo-->
+			<checkcounter name="hab_martillo" source="martillo.hab">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>110,150</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>martillo.hab</current>
+					<maximum>martillo.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="martillolabel">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>15,150</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Martillo</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_martillo_off" source="martillo.daroff">
+				<anchored>
+					<to>hab_martillo</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local martillo = window.getDatabaseNode().
+								getChild("martillo.hab").getValue();
+						local ofdn_martillo = 0;
+						if martillo == 1 then
+							ofdn_martillo = 0;
+						elseif martillo == 2 then
+							ofdn_martillo = 0;
+						elseif martillo == 3 then
+							ofdn_martillo = -1;
+						elseif martillo == 4 then
+							ofdn_martillo = -1;
+						elseif martillo == 5 then
+							ofdn_martillo = -1;
+						elseif martillo == 6 then
+							ofdn_martillo = -2;
+						elseif martillo == 7 then
+							ofdn_martillo = -2;
+						elseif martillo == 8 then
+							ofdn_martillo = -2;
+						elseif martillo == 9 then
+							ofdn_martillo = -2;
+						elseif martillo == 10 then
+							ofdn_martillo = -3;
+												
+						end
+						setValue(ofdn_martillo);
+					end
+					
+					function onInit()
+						local martilloh = window.getDatabaseNode().
+								getChild("martillo.hab");
+						if martilloh then
+							martilloh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_martillo_off" source="martillo.danooff">
+				<anchored>
+					<to>dar_martillo_off</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<script>
+					function recalc()
+						local martillo = window.getDatabaseNode().
+								getChild("martillo.hab").getValue();
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+						local ofdn_martillo = 0;
+						if martillo == 0 then
+							ofdn_martillo = fuerza;
+						elseif martillo == 1 then
+							ofdn_martillo = 10 + fuerza;
+						elseif martillo == 2 then
+							ofdn_martillo = 10 + fuerza;
+						elseif martillo == 3 then
+							ofdn_martillo = 10 + fuerza + fuerza;
+						elseif martillo == 4 then
+							ofdn_martillo = 15 + fuerza + fuerza;
+						elseif martillo == 5 then
+							ofdn_martillo = 15 + fuerza + fuerza;
+						elseif martillo == 6 then
+							ofdn_martillo = 15 + fuerza + fuerza;
+						elseif martillo == 7 then
+							ofdn_martillo = 15 + fuerza + fuerza;
+						elseif martillo == 8 then
+							ofdn_martillo = 20 + fuerza + fuerza + fuerza;
+						elseif martillo == 9 then
+							ofdn_martillo = 25 + fuerza + fuerza + fuerza;
+						elseif martillo == 10 then
+							ofdn_martillo = 25 + fuerza + fuerza + fuerza;
+												
+						end
+						setValue(ofdn_martillo);
+					end
+					
+					function onInit()
+						local martilloh = window.getDatabaseNode().
+								getChild("martillo.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if martilloh then
+							martilloh.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				<readonly />
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dar_martillo_def" source="martillo.dardef">
+				<anchored>
+					<to>dano_martillo_off</to>
+					<position>righthigh</position>
+					<offset>20,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					<script>
+					function recalc()
+						local martillo = window.getDatabaseNode().
+								getChild("martillo.hab").getValue();
+						local ofdn_martillo = 0;
+						if martillo == 1 then
+							ofdn_martillo = 0;
+						elseif martillo == 2 then
+							ofdn_martillo = 0;
+						elseif martillo == 3 then
+							ofdn_martillo = -1;
+						elseif martillo == 4 then
+							ofdn_martillo = -1;
+						elseif martillo == 5 then
+							ofdn_martillo = -1;
+						elseif martillo == 6 then
+							ofdn_martillo = -2;
+						elseif martillo == 7 then
+							ofdn_martillo = -2;
+						elseif martillo == 8 then
+							ofdn_martillo = -2;
+						elseif martillo == 9 then
+							ofdn_martillo = -2;
+						elseif martillo == 10 then
+							ofdn_martillo = -3;
+												
+						end
+						setValue(ofdn_martillo);
+					end
+					
+					function onInit()
+						local martilloh = window.getDatabaseNode().
+								getChild("martillo.hab");
+						if martilloh then
+							martilloh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_martillo_def" source="martillo.danodef">
+				<anchored>
+					<to>dar_martillo_def</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local martillo = window.getDatabaseNode().
+								getChild("martillo.hab").getValue();
+								
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+								
+						local ofdn_martillo = 0;
+						if martillo == 0 then
+							ofdn_martillo = fuerza;
+						elseif martillo == 1 then
+							ofdn_martillo = 5 + fuerza;
+						elseif martillo == 2 then
+							ofdn_martillo = 5 + fuerza;
+						elseif martillo == 3 then
+							ofdn_martillo = 5 + fuerza;
+						elseif martillo == 4 then
+							ofdn_martillo = 10 + fuerza;
+						elseif martillo == 5 then
+							ofdn_martillo = 10 + fuerza;
+						elseif martillo == 6 then
+							ofdn_martillo = 10 + fuerza;
+						elseif martillo == 7 then
+							ofdn_martillo = 10 + fuerza;
+						elseif martillo == 8 then
+							ofdn_martillo = 15 + fuerza;
+						elseif martillo == 9 then
+							ofdn_martillo = 20 + fuerza;
+						elseif martillo == 10 then
+							ofdn_martillo = 20 + fuerza;
+												
+						end
+						setValue(ofdn_martillo);
+					end
+					
+					function onInit()
+						local martilloh = window.getDatabaseNode().
+								getChild("martillo.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if martilloh then
+							martilloh.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="arm_martillo_def" source="martillo.arm">
+				<anchored>
+					<to>dano_martillo_def</to>
+					<position>righthigh</position>
+					<offset>10,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local martillo = window.getDatabaseNode().
+								getChild("martillo.hab").getValue();
+						local ofdn_martillo = 0;
+						if martillo == 1 then
+							ofdn_martillo = 0;
+						elseif martillo == 2 then
+							ofdn_martillo = 0;
+						elseif martillo == 3 then
+							ofdn_martillo = 1;
+						elseif martillo == 4 then
+							ofdn_martillo = 1;
+						elseif martillo == 5 then
+							ofdn_martillo = 1;
+						elseif martillo == 6 then
+							ofdn_martillo = 1;
+						elseif martillo == 7 then
+							ofdn_martillo = 1;
+						elseif martillo == 8 then
+							ofdn_martillo = 2;
+						elseif martillo == 9 then
+							ofdn_martillo = 2;
+						elseif martillo == 10 then
+							ofdn_martillo = 2;
+												
+						end
+						setValue(ofdn_martillo);
+					end
+					
+					function onInit()
+						local martilloh = window.getDatabaseNode().
+								getChild("martillo.hab");
+						if martilloh then
+							martilloh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			
+<!--baston-->
+			<checkcounter name="hab_baston" source="baston.hab">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>110,180</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>baston.hab</current>
+					<maximum>baston.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="bastonlabel">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>15,180</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Bastón</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_baston_off" source="baston.daroff">
+				<anchored>
+					<to>hab_baston</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local baston = window.getDatabaseNode().
+								getChild("baston.hab").getValue();
+						local ofdn_baston = 0;
+						if baston == 1 then
+							ofdn_baston = -1;
+						elseif baston == 2 then
+							ofdn_baston = -2;
+						elseif baston == 3 then
+							ofdn_baston = -2;
+						elseif baston == 4 then
+							ofdn_baston = -2;
+						elseif baston == 5 then
+							ofdn_baston = -2;
+						elseif baston == 6 then
+							ofdn_baston = -2;
+						elseif baston == 7 then
+							ofdn_baston = -2;
+						elseif baston == 8 then
+							ofdn_baston = -3;
+						elseif baston == 9 then
+							ofdn_baston = -3;
+						elseif baston == 10 then
+							ofdn_baston = -4;
+												
+						end
+						setValue(ofdn_baston);
+					end
+					
+					function onInit()
+						local bastonh = window.getDatabaseNode().
+								getChild("baston.hab");
+						if bastonh then
+							bastonh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_baston_off" source="baston.danooff">
+				<anchored>
+					<to>dar_baston_off</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<script>
+					function recalc()
+						local baston = window.getDatabaseNode().
+								getChild("baston.hab").getValue();
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+						local ofdn_baston = 0;
+						if baston == 0 then
+							ofdn_baston = fuerza;
+						elseif baston == 1 then
+							ofdn_baston = fuerza;
+						elseif baston == 2 then
+							ofdn_baston = fuerza;
+						elseif baston == 3 then
+							ofdn_baston = 5 + fuerza;
+						elseif baston == 4 then
+							ofdn_baston = 5 + fuerza;
+						elseif baston == 5 then
+							ofdn_baston = 5 + fuerza;
+						elseif baston == 6 then
+							ofdn_baston = 5 + fuerza;
+						elseif baston == 7 then
+							ofdn_baston = 10 + fuerza + fuerza;
+						elseif baston == 8 then
+							ofdn_baston = 20 + fuerza + fuerza;
+						elseif baston == 9 then
+							ofdn_baston = 20 + fuerza + fuerza;
+						elseif baston == 10 then
+							ofdn_baston = 25 + fuerza + fuerza;
+												
+						end
+						setValue(ofdn_baston);
+					end
+					
+					function onInit()
+						local bastonh = window.getDatabaseNode().
+								getChild("baston.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if bastonh then
+							bastonh.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				<readonly />
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dar_baston_def" source="baston.dardef">
+				<anchored>
+					<to>dano_baston_off</to>
+					<position>righthigh</position>
+					<offset>20,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					<script>
+					function recalc()
+						local baston = window.getDatabaseNode().
+								getChild("baston.hab").getValue();
+						local ofdn_baston = 0;
+						if baston == 1 then
+							ofdn_baston = -1;
+						elseif baston == 2 then
+							ofdn_baston = -2;
+						elseif baston == 3 then
+							ofdn_baston = -2;
+						elseif baston == 4 then
+							ofdn_baston = -2;
+						elseif baston == 5 then
+							ofdn_baston = -2;
+						elseif baston == 6 then
+							ofdn_baston = -2;
+						elseif baston == 7 then
+							ofdn_baston = -2;
+						elseif baston == 8 then
+							ofdn_baston = -3;
+						elseif baston == 9 then
+							ofdn_baston = -3;
+						elseif baston == 10 then
+							ofdn_baston = -4;
+												
+						end
+						setValue(ofdn_baston);
+					end
+					
+					function onInit()
+						local bastonh = window.getDatabaseNode().
+								getChild("baston.hab");
+						if bastonh then
+							bastonh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_baston_def" source="baston.danodef">
+				<anchored>
+					<to>dar_baston_def</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local baston = window.getDatabaseNode().
+								getChild("baston.hab").getValue();
+								
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+								
+						local ofdn_baston = 0;
+						if baston == 0 then
+							ofdn_baston = fuerza;
+						elseif baston == 1 then
+							ofdn_baston = fuerza;
+						elseif baston == 2 then
+							ofdn_baston = fuerza;
+						elseif baston == 3 then
+							ofdn_baston = fuerza;
+						elseif baston == 4 then
+							ofdn_baston = fuerza;
+						elseif baston == 5 then
+							ofdn_baston = fuerza;
+						elseif baston == 6 then
+							ofdn_baston = fuerza;
+						elseif baston == 7 then
+							ofdn_baston = fuerza;
+						elseif baston == 8 then
+							ofdn_baston = fuerza;
+						elseif baston == 9 then
+							ofdn_baston = fuerza;
+						elseif baston == 10 then
+							ofdn_baston = fuerza;
+												
+						end
+						setValue(ofdn_baston);
+					end
+					
+					function onInit()
+						local bastonh = window.getDatabaseNode().
+								getChild("baston.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if bastonh then
+							bastonh.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="arm_baston_def" source="baston.arm">
+				<anchored>
+					<to>dano_baston_def</to>
+					<position>righthigh</position>
+					<offset>10,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local baston = window.getDatabaseNode().
+								getChild("baston.hab").getValue();
+						local ofdn_baston = 0;
+						if baston == 1 then
+							ofdn_baston = 3;
+						elseif baston == 2 then
+							ofdn_baston = 3;
+						elseif baston == 3 then
+							ofdn_baston = 2;
+						elseif baston == 4 then
+							ofdn_baston = 2;
+						elseif baston == 5 then
+							ofdn_baston = 2;
+						elseif baston == 6 then
+							ofdn_baston = 2;
+						elseif baston == 7 then
+							ofdn_baston = 3;
+						elseif baston == 8 then
+							ofdn_baston = 3;
+						elseif baston == 9 then
+							ofdn_baston = 3;
+						elseif baston == 10 then
+							ofdn_baston = 4;
+												
+						end
+						
+						if baston == 1 then
+							setFont("charsheet_bloodied");
+						elseif baston == 2 then
+							setFont("charsheet_bloodied");
+						else
+							setFont("sheetnumber");
+						end
+						
+						setValue(ofdn_baston);
+					end
+					
+					function onInit()
+						local bastonh = window.getDatabaseNode().
+								getChild("baston.hab");
+						if bastonh then
+							bastonh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			<!--lanza-->
+			<checkcounter name="hab_lanza" source="lanza.hab">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>110,210</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>lanza.hab</current>
+					<maximum>lanza.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="lanzalabel">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>15,210</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Lanza</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_lanza_off" source="lanza.daroff">
+				<anchored>
+					<to>hab_lanza</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local lanza = window.getDatabaseNode().
+								getChild("lanza.hab").getValue();
+						local ofdn_lanza = 0;
+						if lanza == 1 then
+							ofdn_lanza = 0;
+						elseif lanza == 2 then
+							ofdn_lanza = -1;
+						elseif lanza == 3 then
+							ofdn_lanza = -1;
+						elseif lanza == 4 then
+							ofdn_lanza = -1;
+						elseif lanza == 5 then
+							ofdn_lanza = -2;
+						elseif lanza == 6 then
+							ofdn_lanza = -2;
+						elseif lanza == 7 then
+							ofdn_lanza = -2;
+						elseif lanza == 8 then
+							ofdn_lanza = -3;
+						elseif lanza == 9 then
+							ofdn_lanza = -3;
+						elseif lanza == 10 then
+							ofdn_lanza = -4;
+												
+						end
+						setValue(ofdn_lanza);
+					end
+					
+					function onInit()
+						local lanzah = window.getDatabaseNode().
+								getChild("lanza.hab");
+						if lanzah then
+							lanzah.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_lanza_off" source="lanza.danooff">
+				<anchored>
+					<to>dar_lanza_off</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<script>
+					function recalc()
+						local lanza = window.getDatabaseNode().
+								getChild("lanza.hab").getValue();
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+						local ofdn_lanza = 0;
+						if lanza == 0 then
+							ofdn_lanza = fuerza;
+						elseif lanza == 1 then
+							ofdn_lanza = 5 + fuerza;
+						elseif lanza == 2 then
+							ofdn_lanza = 5 + fuerza;
+						elseif lanza == 3 then
+							ofdn_lanza = 10 + fuerza;
+						elseif lanza == 4 then
+							ofdn_lanza = 10 + fuerza;
+						elseif lanza == 5 then
+							ofdn_lanza = 10 + fuerza;
+						elseif lanza == 6 then
+							ofdn_lanza = 10 + fuerza;
+						elseif lanza == 7 then
+							ofdn_lanza = 15 + fuerza;
+						elseif lanza == 8 then
+							ofdn_lanza = 20 + fuerza;
+						elseif lanza == 9 then
+							ofdn_lanza = 25 + fuerza;
+						elseif lanza == 10 then
+							ofdn_lanza = 30 + fuerza;
+												
+						end
+						setValue(ofdn_lanza);
+					end
+					
+					function onInit()
+						local lanzah = window.getDatabaseNode().
+								getChild("lanza.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if lanzah then
+							lanzah.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				<readonly />
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dar_lanza_def" source="lanza.dardef">
+				<anchored>
+					<to>dano_lanza_off</to>
+					<position>righthigh</position>
+					<offset>20,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					<script>
+					function recalc()
+						local lanza = window.getDatabaseNode().
+								getChild("lanza.hab").getValue();
+						local ofdn_lanza = 0;
+						if lanza == 1 then
+							ofdn_lanza = 0;
+						elseif lanza == 2 then
+							ofdn_lanza = -1;
+						elseif lanza == 3 then
+							ofdn_lanza = -1;
+						elseif lanza == 4 then
+							ofdn_lanza = -1;
+						elseif lanza == 5 then
+							ofdn_lanza = -2;
+						elseif lanza == 6 then
+							ofdn_lanza = -2;
+						elseif lanza == 7 then
+							ofdn_lanza = -2;
+						elseif lanza == 8 then
+							ofdn_lanza = -3;
+						elseif lanza == 9 then
+							ofdn_lanza = -3;
+						elseif lanza == 10 then
+							ofdn_lanza = -4;
+												
+						end
+						setValue(ofdn_lanza);
+					end
+					
+					function onInit()
+						local lanzah = window.getDatabaseNode().
+								getChild("lanza.hab");
+						if lanzah then
+							lanzah.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_lanza_def" source="lanza.danodef">
+				<anchored>
+					<to>dar_lanza_def</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local lanza = window.getDatabaseNode().
+								getChild("lanza.hab").getValue();
+								
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+								
+						local ofdn_lanza = 0;
+						if lanza == 0 then
+							ofdn_lanza = fuerza;
+						elseif lanza == 1 then
+							ofdn_lanza = 5 + fuerza;
+						elseif lanza == 2 then
+							ofdn_lanza = 5 + fuerza;
+						elseif lanza == 3 then
+							ofdn_lanza = 5 + fuerza;
+						elseif lanza == 4 then
+							ofdn_lanza = 5 + fuerza;
+						elseif lanza == 5 then
+							ofdn_lanza = 5 + fuerza;
+						elseif lanza == 6 then
+							ofdn_lanza = 5 + fuerza;
+						elseif lanza == 7 then
+							ofdn_lanza = 10 + fuerza;
+						elseif lanza == 8 then
+							ofdn_lanza = 10 + fuerza;
+						elseif lanza == 9 then
+							ofdn_lanza = 15 + fuerza;
+						elseif lanza == 10 then
+							ofdn_lanza = 20 + fuerza;
+												
+						end
+						setValue(ofdn_lanza);
+					end
+					
+					function onInit()
+						local lanzah = window.getDatabaseNode().
+								getChild("lanza.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if lanzah then
+							lanzah.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="arm_lanza_def" source="lanza.arm">
+				<anchored>
+					<to>dano_lanza_def</to>
+					<position>righthigh</position>
+					<offset>10,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local lanza = window.getDatabaseNode().
+								getChild("lanza.hab").getValue();
+						local ofdn_lanza = 0;
+						if lanza == 1 then
+							ofdn_lanza = 2;
+						elseif lanza == 2 then
+							ofdn_lanza = 2;
+						elseif lanza == 3 then
+							ofdn_lanza = 2;
+						elseif lanza == 4 then
+							ofdn_lanza = 2;
+						elseif lanza == 5 then
+							ofdn_lanza = 2;
+						elseif lanza == 6 then
+							ofdn_lanza = 2;
+						elseif lanza == 7 then
+							ofdn_lanza = 2;
+						elseif lanza == 8 then
+							ofdn_lanza = 3;
+						elseif lanza == 9 then
+							ofdn_lanza = 3;
+						elseif lanza == 10 then
+							ofdn_lanza = 3;
+												
+						end
+						
+						if lanza == 1 then
+							setFont("charsheet_bloodied");
+						elseif lanza == 2 then
+							setFont("charsheet_bloodied");
+						else
+							setFont("sheetnumber");
+						end
+						
+						setValue(ofdn_lanza);
+					end
+					
+					function onInit()
+						local lanzah = window.getDatabaseNode().
+								getChild("lanza.hab");
+						if lanzah then
+							lanzah.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			<!--otras_armas-->
+			<checkcounter name="hab_otras_armas" source="otras_armas.hab">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>110,240</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>otras_armas.hab</current>
+					<maximum>otras_armas.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="otras_armaslabel">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>15,240</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Otras armas</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_otras_armas_off" source="otras_armas.daroff">
+				<anchored>
+					<to>hab_otras_armas</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local otras_armas = window.getDatabaseNode().
+								getChild("otras_armas.hab").getValue();
+						local ofdn_otras_armas = 0;
+						if otras_armas == 1 then
+							ofdn_otras_armas = -1;
+						elseif otras_armas == 2 then
+							ofdn_otras_armas = -1;
+						elseif otras_armas == 3 then
+							ofdn_otras_armas = -1;
+						elseif otras_armas == 4 then
+							ofdn_otras_armas = -1;
+						elseif otras_armas == 5 then
+							ofdn_otras_armas = -1;
+						elseif otras_armas == 6 then
+							ofdn_otras_armas = -2;
+						elseif otras_armas == 7 then
+							ofdn_otras_armas = -2;
+						elseif otras_armas == 8 then
+							ofdn_otras_armas = -3;
+						elseif otras_armas == 9 then
+							ofdn_otras_armas = -3;
+						elseif otras_armas == 10 then
+							ofdn_otras_armas = -4;
+												
+						end
+						setValue(ofdn_otras_armas);
+					end
+					
+					function onInit()
+						local otras_armash = window.getDatabaseNode().
+								getChild("otras_armas.hab");
+						if otras_armash then
+							otras_armash.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_otras_armas_off" source="otras_armas.danooff">
+				<anchored>
+					<to>dar_otras_armas_off</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<script>
+					function recalc()
+						local otras_armas = window.getDatabaseNode().
+								getChild("otras_armas.hab").getValue();
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+						local ofdn_otras_armas = 0;
+						if otras_armas == 0 then
+							ofdn_otras_armas = fuerza;
+						elseif otras_armas == 1 then
+							ofdn_otras_armas = fuerza;
+						elseif otras_armas == 2 then
+							ofdn_otras_armas = 5 + fuerza;
+						elseif otras_armas == 3 then
+							ofdn_otras_armas = 5 + fuerza;
+						elseif otras_armas == 4 then
+							ofdn_otras_armas = 10 + fuerza;
+						elseif otras_armas == 5 then
+							ofdn_otras_armas = 15 + fuerza;
+						elseif otras_armas == 6 then
+							ofdn_otras_armas = 15 + fuerza;
+						elseif otras_armas == 7 then
+							ofdn_otras_armas = 20 + fuerza;
+						elseif otras_armas == 8 then
+							ofdn_otras_armas = 25 + fuerza + fuerza;
+						elseif otras_armas == 9 then
+							ofdn_otras_armas = 30 + fuerza + fuerza;
+						elseif otras_armas == 10 then
+							ofdn_otras_armas = 40 + fuerza + fuerza;
+												
+						end
+						setValue(ofdn_otras_armas);
+					end
+					
+					function onInit()
+						local otras_armash = window.getDatabaseNode().
+								getChild("otras_armas.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if otras_armash then
+							otras_armash.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				<readonly />
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dar_otras_armas_def" source="otras_armas.dardef">
+				<anchored>
+					<to>dano_otras_armas_off</to>
+					<position>righthigh</position>
+					<offset>20,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					<script>
+					function recalc()
+						local otras_armas = window.getDatabaseNode().
+								getChild("otras_armas.hab").getValue();
+						local ofdn_otras_armas = 0;
+						if otras_armas == 1 then
+							ofdn_otras_armas = -1;
+						elseif otras_armas == 2 then
+							ofdn_otras_armas = -1;
+						elseif otras_armas == 3 then
+							ofdn_otras_armas = -1;
+						elseif otras_armas == 4 then
+							ofdn_otras_armas = -1;
+						elseif otras_armas == 5 then
+							ofdn_otras_armas = -1;
+						elseif otras_armas == 6 then
+							ofdn_otras_armas = -2;
+						elseif otras_armas == 7 then
+							ofdn_otras_armas = -2;
+						elseif otras_armas == 8 then
+							ofdn_otras_armas = -3;
+						elseif otras_armas == 9 then
+							ofdn_otras_armas = -3;
+						elseif otras_armas == 10 then
+							ofdn_otras_armas = -4;
+												
+						end
+						setValue(ofdn_otras_armas);
+					end
+					
+					function onInit()
+						local otras_armash = window.getDatabaseNode().
+								getChild("otras_armas.hab");
+						if otras_armash then
+							otras_armash.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_otras_armas_def" source="otras_armas.danodef">
+				<anchored>
+					<to>dar_otras_armas_def</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local otras_armas = window.getDatabaseNode().
+								getChild("otras_armas.hab").getValue();
+								
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+								
+						local ofdn_otras_armas = 0;
+						if otras_armas == 0 then
+							ofdn_otras_armas = fuerza;
+						elseif otras_armas == 1 then
+							ofdn_otras_armas = fuerza;
+						elseif otras_armas == 2 then
+							ofdn_otras_armas = 5 + fuerza;
+						elseif otras_armas == 3 then
+							ofdn_otras_armas = 5 + fuerza;
+						elseif otras_armas == 4 then
+							ofdn_otras_armas = 10 + fuerza;
+						elseif otras_armas == 5 then
+							ofdn_otras_armas = 15 + fuerza;
+						elseif otras_armas == 6 then
+							ofdn_otras_armas = 15 + fuerza;
+						elseif otras_armas == 7 then
+							ofdn_otras_armas = 20 + fuerza;
+						elseif otras_armas == 8 then
+							ofdn_otras_armas = 25 + fuerza;
+						elseif otras_armas == 9 then
+							ofdn_otras_armas = 30 + fuerza;
+						elseif otras_armas == 10 then
+							ofdn_otras_armas = 40 + fuerza;
+												
+						end
+						setValue(ofdn_otras_armas);
+					end
+					
+					function onInit()
+						local otras_armash = window.getDatabaseNode().
+								getChild("otras_armas.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if otras_armash then
+							otras_armash.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="arm_otras_armas_def" source="otras_armas.arm">
+				<anchored>
+					<to>dano_otras_armas_def</to>
+					<position>righthigh</position>
+					<offset>10,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local otras_armas = window.getDatabaseNode().
+								getChild("otras_armas.hab").getValue();
+						local ofdn_otras_armas = 0;
+						if otras_armas == 1 then
+							ofdn_otras_armas = 1;
+						elseif otras_armas == 2 then
+							ofdn_otras_armas = 1;
+						elseif otras_armas == 3 then
+							ofdn_otras_armas = 1;
+						elseif otras_armas == 4 then
+							ofdn_otras_armas = 1;
+						elseif otras_armas == 5 then
+							ofdn_otras_armas = 1;
+						elseif otras_armas == 6 then
+							ofdn_otras_armas = 1;
+						elseif otras_armas == 7 then
+							ofdn_otras_armas = 1;
+						elseif otras_armas == 8 then
+							ofdn_otras_armas = 1;
+						elseif otras_armas == 9 then
+							ofdn_otras_armas = 1;
+						elseif otras_armas == 10 then
+							ofdn_otras_armas = 2;
+												
+						end
+						
+						if otras_armas == 1 then
+							setFont("charsheet_bloodied");
+						elseif otras_armas == 2 then
+							setFont("charsheet_bloodied");
+						else
+							setFont("sheetnumber");
+						end
+						
+						setValue(ofdn_otras_armas);
+					end
+					
+					function onInit()
+						local otras_armash = window.getDatabaseNode().
+								getChild("otras_armas.hab");
+						if otras_armash then
+							otras_armash.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			<!--desarmado-->
+			<checkcounter name="hab_desarmado" source="desarmado.hab">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>110,270</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>desarmado.hab</current>
+					<maximum>desarmado.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="desarmadolabel">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>15,270</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Desarmado</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_desarmado_off" source="desarmado.daroff">
+				<anchored>
+					<to>hab_desarmado</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local desarmado = window.getDatabaseNode().
+								getChild("desarmado.hab").getValue();
+						local ofdn_desarmado = 0;
+						if desarmado == 0 then
+							ofdn_desarmado = 2;
+						elseif desarmado == 1 then
+							ofdn_desarmado = 1;
+						elseif desarmado == 2 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 3 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 4 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 5 then
+							ofdn_desarmado = -1;
+						elseif desarmado == 6 then
+							ofdn_desarmado = -1;
+						elseif desarmado == 7 then
+							ofdn_desarmado = -2;
+						elseif desarmado == 8 then
+							ofdn_desarmado = -2;
+						elseif desarmado == 9 then
+							ofdn_desarmado = -3;
+						elseif desarmado == 10 then
+							ofdn_desarmado = -3;
+												
+						end
+						setValue(ofdn_desarmado);
+					end
+					
+					function onInit()
+						local desarmadoh = window.getDatabaseNode().
+								getChild("desarmado.hab");
+						if desarmadoh then
+							desarmadoh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_desarmado_off" source="desarmado.danooff">
+				<anchored>
+					<to>dar_desarmado_off</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<script>
+					function recalc()
+						local desarmado = window.getDatabaseNode().
+								getChild("desarmado.hab").getValue();
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+						local ofdn_desarmado = 0;
+						if desarmado == 0 then
+							ofdn_desarmado = fuerza;
+						elseif desarmado == 1 then
+							ofdn_desarmado = fuerza;
+						elseif desarmado == 2 then
+							ofdn_desarmado = fuerza;
+						elseif desarmado == 3 then
+							ofdn_desarmado = fuerza;
+						elseif desarmado == 4 then
+							ofdn_desarmado = fuerza;
+						elseif desarmado == 5 then
+							ofdn_desarmado = fuerza;
+						elseif desarmado == 6 then
+							ofdn_desarmado = fuerza + fuerza;
+						elseif desarmado == 7 then
+							ofdn_desarmado = fuerza + fuerza;
+						elseif desarmado == 8 then
+							ofdn_desarmado = fuerza + fuerza;
+						elseif desarmado == 9 then
+							ofdn_desarmado = fuerza + fuerza + fuerza;
+						elseif desarmado == 10 then
+							ofdn_desarmado = fuerza + fuerza + fuerza + fuerza;
+												
+						end
+						setValue(ofdn_desarmado);
+					end
+					
+					function onInit()
+						local desarmadoh = window.getDatabaseNode().
+								getChild("desarmado.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if desarmadoh then
+							desarmadoh.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				<readonly />
+				
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dar_desarmado_def" source="desarmado.dardef">
+				<anchored>
+					<to>dano_desarmado_off</to>
+					<position>righthigh</position>
+					<offset>20,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					<script>
+					function recalc()
+						local desarmado = window.getDatabaseNode().
+								getChild("desarmado.hab").getValue();
+						local ofdn_desarmado = 0;
+						if desarmado == 0 then
+							ofdn_desarmado = 2;
+						elseif desarmado == 1 then
+							ofdn_desarmado = 1;
+						elseif desarmado == 2 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 3 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 4 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 5 then
+							ofdn_desarmado = -1;
+						elseif desarmado == 6 then
+							ofdn_desarmado = -1;
+						elseif desarmado == 7 then
+							ofdn_desarmado = -2;
+						elseif desarmado == 8 then
+							ofdn_desarmado = -3;
+						elseif desarmado == 9 then
+							ofdn_desarmado = -4;
+						elseif desarmado == 10 then
+							ofdn_desarmado = -5;
+												
+						end
+						setValue(ofdn_desarmado);
+					end
+					
+					function onInit()
+						local desarmadoh = window.getDatabaseNode().
+								getChild("desarmado.hab");
+						if desarmadoh then
+							desarmadoh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_desarmado_def" source="desarmado.danodef">
+				<anchored>
+					<to>dar_desarmado_def</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local desarmado = window.getDatabaseNode().
+								getChild("desarmado.hab").getValue();
+								
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+								
+						local ofdn_desarmado = 0;
+						if desarmado == 0 then
+							ofdn_desarmado = fuerza;
+						elseif desarmado == 1 then
+							ofdn_desarmado = fuerza;
+						elseif desarmado == 2 then
+							ofdn_desarmado = fuerza;
+						elseif desarmado == 3 then
+							ofdn_desarmado = fuerza;
+						elseif desarmado == 4 then
+							ofdn_desarmado = fuerza;
+						elseif desarmado == 5 then
+							ofdn_desarmado = fuerza;
+						elseif desarmado == 6 then
+							ofdn_desarmado = fuerza + fuerza;
+						elseif desarmado == 7 then
+							ofdn_desarmado = fuerza + fuerza;
+						elseif desarmado == 8 then
+							ofdn_desarmado = fuerza + fuerza;
+						elseif desarmado == 9 then
+							ofdn_desarmado = fuerza + fuerza + fuerza;
+						elseif desarmado == 10 then
+							ofdn_desarmado = fuerza + fuerza + fuerza + fuerza;
+												
+						end
+						setValue(ofdn_desarmado);
+					end
+					
+					function onInit()
+						local desarmadoh = window.getDatabaseNode().
+								getChild("desarmado.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if desarmadoh then
+							desarmadoh.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="arm_desarmado_def" source="desarmado.arm">
+				<anchored>
+					<to>dano_desarmado_def</to>
+					<position>righthigh</position>
+					<offset>10,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local desarmado = window.getDatabaseNode().
+								getChild("desarmado.hab").getValue();
+						local ofdn_desarmado = 0;
+						if desarmado == 1 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 2 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 3 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 4 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 5 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 6 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 7 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 8 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 9 then
+							ofdn_desarmado = 0;
+						elseif desarmado == 10 then
+							ofdn_desarmado = 0;
+												
+						end
+						
+						
+						
+						setValue(ofdn_desarmado);
+					end
+					
+					function onInit()
+						local desarmadoh = window.getDatabaseNode().
+								getChild("desarmado.hab");
+						if desarmadoh then
+							desarmadoh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			<!--arco-->
+			<checkcounter name="hab_arco" source="arco.hab">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>110,305</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>arco.hab</current>
+					<maximum>arco.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="arcolabel">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>15,305</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Arco</static>
+			</stringcontrol>
+			
+			<sheetnumber name="punt_arco_off" source="arco.punteria">
+				<anchored>
+					<to>hab_arco</to>
+					<position>righthigh</position>
+					<offset>40,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local arco = window.getDatabaseNode().
+								getChild("arco.hab").getValue();
+						local ofdn_arco = 0;
+						if arco == 0 then
+							ofdn_arco = 0;
+						elseif arco == 1 then
+							ofdn_arco = -1;
+						elseif arco == 2 then
+							ofdn_arco = -2;
+						elseif arco == 3 then
+							ofdn_arco = -3;
+						elseif arco == 4 then
+							ofdn_arco = -4;
+						elseif arco == 5 then
+							ofdn_arco = -4;
+						elseif arco == 6 then
+							ofdn_arco = -5;
+						elseif arco == 7 then
+							ofdn_arco = -5;
+						elseif arco == 8 then
+							ofdn_arco = -6;
+						elseif arco == 9 then
+							ofdn_arco = -7;
+						elseif arco == 10 then
+							ofdn_arco = -8;
+												
+						end
+						setValue(ofdn_arco);
+					end
+					
+					function onInit()
+						local arcoh = window.getDatabaseNode().
+								getChild("arco.hab");
+						if arcoh then
+							arcoh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				
+			</sheetnumber>
+			
+			<stringcontrol>
+				<anchored>
+					<to>punt_arco_off</to>
+					<position>above</position>
+					<offset>0,0</offset>
+					<size>
+						<width>70</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Punteria</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_arco_def" source="arco.dardef">
+				<anchored>
+					<to>punt_arco_off</to>
+					<position>righthigh</position>
+					<offset>40,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					<script>
+					function recalc()
+						local arco = window.getDatabaseNode().
+								getChild("arco.hab").getValue();
+						local ofdn_arco = 0;
+						if arco == 0 then
+							ofdn_arco = 0;
+						elseif arco == 1 then
+							ofdn_arco = -1;
+						elseif arco == 2 then
+							ofdn_arco = -1;
+						elseif arco == 3 then
+							ofdn_arco = -1;
+						elseif arco == 4 then
+							ofdn_arco = -1;
+						elseif arco == 5 then
+							ofdn_arco = -1;
+						elseif arco == 6 then
+							ofdn_arco = -2;
+						elseif arco == 7 then
+							ofdn_arco = -2;
+						elseif arco == 8 then
+							ofdn_arco = -3;
+						elseif arco == 9 then
+							ofdn_arco = -3;
+						elseif arco == 10 then
+							ofdn_arco = -4;
+												
+						end
+						setValue(ofdn_arco);
+					end
+					
+					function onInit()
+						local arcoh = window.getDatabaseNode().
+								getChild("arco.hab");
+						if arcoh then
+							arcoh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_arco_def" source="arco.danodef">
+				<anchored>
+					<to>dar_arco_def</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local arco = window.getDatabaseNode().
+								getChild("arco.hab").getValue();
+								
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+								
+						local ofdn_arco = 0;
+						if arco == 0 then
+							ofdn_arco = 0;
+						elseif arco == 1 then
+							ofdn_arco = 0;
+						elseif arco == 2 then
+							ofdn_arco = 0;
+						elseif arco == 3 then
+							ofdn_arco = 0;
+						elseif arco == 4 then
+							ofdn_arco = 0;
+						elseif arco == 5 then
+							ofdn_arco = 5;
+						elseif arco == 6 then
+							ofdn_arco = 5;
+						elseif arco == 7 then
+							ofdn_arco = 5;
+						elseif arco == 8 then
+							ofdn_arco = 5;
+						elseif arco == 9 then
+							ofdn_arco = 5;
+						elseif arco == 10 then
+							ofdn_arco = 5;
+												
+						end
+						setValue(ofdn_arco);
+					end
+					
+					function onInit()
+						local arcoh = window.getDatabaseNode().
+								getChild("arco.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if arcoh then
+							arcoh.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			<!--proyectil-->
+			<checkcounter name="hab_proyectil" source="proyectil.hab">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>110,335</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>proyectil.hab</current>
+					<maximum>proyectil.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="proyectillabel">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>15,335</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Proyectil</static>
+			</stringcontrol>
+			
+			<sheetnumber name="punt_proyectil_off" source="proyectil.punteria">
+				<anchored>
+					<to>hab_proyectil</to>
+					<position>righthigh</position>
+					<offset>40,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local proyectil = window.getDatabaseNode().
+								getChild("proyectil.hab").getValue();
+						local ofdn_proyectil = 0;
+						if proyectil == 0 then
+							ofdn_proyectil = 0;
+						elseif proyectil == 1 then
+							ofdn_proyectil = -1;
+						elseif proyectil == 2 then
+							ofdn_proyectil = -1;
+						elseif proyectil == 3 then
+							ofdn_proyectil = -2;
+						elseif proyectil == 4 then
+							ofdn_proyectil = -3;
+						elseif proyectil == 5 then
+							ofdn_proyectil = -4;
+						elseif proyectil == 6 then
+							ofdn_proyectil = -4;
+						elseif proyectil == 7 then
+							ofdn_proyectil = -5;
+						elseif proyectil == 8 then
+							ofdn_proyectil = -6;
+						elseif proyectil == 9 then
+							ofdn_proyectil = -7;
+						elseif proyectil == 10 then
+							ofdn_proyectil = -8;
+												
+						end
+						setValue(ofdn_proyectil);
+					end
+					
+					function onInit()
+						local proyectilh = window.getDatabaseNode().
+								getChild("proyectil.hab");
+						if proyectilh then
+							proyectilh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				
+			</sheetnumber>
+			
+			
+			
+			
+			
+			<sheetnumber name="dar_proyectil_def" source="proyectil.dardef">
+				<anchored>
+					<to>punt_proyectil_off</to>
+					<position>righthigh</position>
+					<offset>40,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					<script>
+					function recalc()
+						local proyectil = window.getDatabaseNode().
+								getChild("proyectil.hab").getValue();
+						local ofdn_proyectil = 0;
+						if proyectil == 0 then
+							ofdn_proyectil = 0;
+						elseif proyectil == 1 then
+							ofdn_proyectil = -1;
+						elseif proyectil == 2 then
+							ofdn_proyectil = -2;
+						elseif proyectil == 3 then
+							ofdn_proyectil = -2;
+						elseif proyectil == 4 then
+							ofdn_proyectil = -3;
+						elseif proyectil == 5 then
+							ofdn_proyectil = -3;
+						elseif proyectil == 6 then
+							ofdn_proyectil = -3;
+						elseif proyectil == 7 then
+							ofdn_proyectil = -3;
+						elseif proyectil == 8 then
+							ofdn_proyectil = -4;
+						elseif proyectil == 9 then
+							ofdn_proyectil = -4;
+						elseif proyectil == 10 then
+							ofdn_proyectil = -4;
+												
+						end
+						setValue(ofdn_proyectil);
+					end
+					
+					function onInit()
+						local proyectilh = window.getDatabaseNode().
+								getChild("proyectil.hab");
+						if proyectilh then
+							proyectilh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+				</script>
+			</sheetnumber>
+			
+			
+			<sheetnumber name="dano_proyectil_def" source="proyectil.danodef">
+				<anchored>
+					<to>dar_proyectil_def</to>
+					<position>righthigh</position>
+					<offset>15,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local proyectil = window.getDatabaseNode().
+								getChild("proyectil.hab").getValue();
+								
+						local fuerza = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod").getValue();
+								
+						local ofdn_proyectil = 0;
+						if proyectil == 0 then
+							ofdn_proyectil = 0;
+						elseif proyectil == 1 then
+							ofdn_proyectil = 0;
+						elseif proyectil == 2 then
+							ofdn_proyectil = 0;
+						elseif proyectil == 3 then
+							ofdn_proyectil = 0;
+						elseif proyectil == 4 then
+							ofdn_proyectil = 0;
+						elseif proyectil == 5 then
+							ofdn_proyectil = 0;
+						elseif proyectil == 6 then
+							ofdn_proyectil = 0;
+						elseif proyectil == 7 then
+							ofdn_proyectil = 5;
+						elseif proyectil == 8 then
+							ofdn_proyectil = 5;
+						elseif proyectil == 9 then
+							ofdn_proyectil = 10;
+						elseif proyectil == 10 then
+							ofdn_proyectil = 10;
+												
+						end
+						setValue(ofdn_proyectil);
+					end
+					
+					function onInit()
+						local proyectilh = window.getDatabaseNode().
+								getChild("proyectil.hab");
+						local efue = window.getDatabaseNode().
+								getChild("atributo.fuerza.mod");
+						local eagi = window.getDatabaseNode().
+								getChild("atributo.agilidad.mod");
+						if proyectilh then
+							proyectilh.onUpdate = recalc;
+						recalc();
+						end
+						
+						if efue then
+							efue.onUpdate = recalc;
+						recalc();
+						end
+						
+						if eagi then
+							eagi.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			<!--escudo-->
+			<checkcounter name="hab_escudo" source="escudo.hab">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>110,365</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>escudo.hab</current>
+					<maximum>escudo.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="escudolabel">
+				<anchored>
+					<to>weaponprofframe</to>
+					<position>insidetopleft</position>
+					<offset>15,365</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Escudo</static>
+			</stringcontrol>
+			
+			<sheetnumber name="arm_escudo_of" source="escudo.of">
+				<anchored>
+					<to>hab_escudo</to>
+					<position>righthigh</position>
+					<offset>45,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local escudo = window.getDatabaseNode().
+								getChild("escudo.hab").getValue();
+						local ofdn_escudo = 0;
+						if escudo == 1 then
+							ofdn_escudo = 1;
+						elseif escudo == 2 then
+							ofdn_escudo = 1;
+						elseif escudo == 3 then
+							ofdn_escudo = 1;
+						elseif escudo == 4 then
+							ofdn_escudo = 1;
+						elseif escudo == 5 then
+							ofdn_escudo = 1;
+						elseif escudo == 6 then
+							ofdn_escudo = 2;
+						elseif escudo == 7 then
+							ofdn_escudo = 2;
+						elseif escudo == 8 then
+							ofdn_escudo = 2;
+						elseif escudo == 9 then
+							ofdn_escudo = 3;
+						elseif escudo == 10 then
+							ofdn_escudo = 3;
+												
+						end
+						
+						
+						
+						setValue(ofdn_escudo);
+					end
+					
+					function onInit()
+						local escudoh = window.getDatabaseNode().
+								getChild("escudo.hab");
+						if escudoh then
+							escudoh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			<sheetnumber name="arm_escudo_def" source="escudo.def">
+				<anchored>
+					<to>arm_escudo_of</to>
+					<position>righthigh</position>
+					<offset>55,0</offset>
+					<size>
+						<width>40</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<displaysign />
+				<readonly />
+				<script>
+					function recalc()
+						local escudo = window.getDatabaseNode().
+								getChild("escudo.hab").getValue();
+						local ofdn_escudo = 0;
+						if escudo == 1 then
+							ofdn_escudo = 3;
+						elseif escudo == 2 then
+							ofdn_escudo = 3;
+						elseif escudo == 3 then
+							ofdn_escudo = 3;
+						elseif escudo == 4 then
+							ofdn_escudo = 4;
+						elseif escudo == 5 then
+							ofdn_escudo = 4;
+						elseif escudo == 6 then
+							ofdn_escudo = 5;
+						elseif escudo == 7 then
+							ofdn_escudo = 5;
+						elseif escudo == 8 then
+							ofdn_escudo = 6;
+						elseif escudo == 9 then
+							ofdn_escudo = 7;
+						elseif escudo == 10 then
+							ofdn_escudo = 8;
+												
+						end
+						
+						setFont("charsheet_bloodied")
+						
+						setValue(ofdn_escudo);
+					end
+					
+					function onInit()
+						local escudoh = window.getDatabaseNode().
+								getChild("escudo.hab");
+						if escudoh then
+							escudoh.onUpdate = recalc;
+						recalc();
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			<!--Orbe-->
+			<genericcontrol name="orbeframe">
+				<bounds>15,465,480,120</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<center />
+				<static>Orbes de magia</static>
+			</stringcontrol>
+			
+			<sheetnumber name="orbe_puntos" source="orbe.puntos">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>95,10</offset>
+					<size>
+						<width>45</width>
+						<height>20</height>
+					</size>
+				</anchored>	
+				
+				<font>sheetnumber</font>
+			</sheetnumber>
+			
+			<stringcontrol name="orbelabel">
+				<anchored>
+					<to>orbe_puntos</to>
+					<position>left</position>
+					<offset>0,-2</offset>
+					<size>
+						<width>83</width>
+					</size>
+				</anchored>
+				
+				<font>sheetlabelsmall</font>
+				<static>Puntos sin gastar</static>
+			</stringcontrol>
+			
+			<checkcounter name="orb_fuego" source="fuego.orb">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>110,30</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>fuego.hab</current>
+					<maximum>fuego.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="orb_fuegolabel">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>15,30</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Fuego</static>
+			</stringcontrol>
+			
+			<checkcounter name="orb_agua" source="agua.orb">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>110,60</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>agua.hab</current>
+					<maximum>agua.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="orb_agualabel">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>15,60</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Agua</static>
+			</stringcontrol>
+			
+			<checkcounter name="orb_aire" source="aire.orb">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>110,90</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>aire.hab</current>
+					<maximum>aire.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="orb_airelabel">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>15,90</offset>
+					<size>
+						<width>90</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Aire</static>
+			</stringcontrol>
+			
+			<checkcounter name="orb_tierra" source="tierra.orb">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>335,30</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>tierra.hab</current>
+					<maximum>tierra.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="orb_tierralabel">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>260,30</offset>
+					<size>
+						<width>80</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Tierra</static>
+			</stringcontrol>
+			
+			<checkcounter name="orb_luz" source="luz.orb">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>335,60</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>luz.hab</current>
+					<maximum>luz.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="orb_luzlabel">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>260,60</offset>
+					<size>
+						<width>80</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Luz</static>
+			</stringcontrol>
+			
+			<checkcounter name="orb_oscuridad" source="oscuridad.orb">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>335,90</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<sourcefields>
+					<current>oscuridad.hab</current>
+					<maximum>oscuridad.habmax</maximum>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						setMaxValue(10);
+					end
+				</script>
+			</checkcounter>
+			
+			<stringcontrol name="orb_oscuridadlabel">
+				<anchored>
+					<to>orbeframe</to>
+					<position>insidetopleft</position>
+					<offset>260,90</offset>
+					<size>
+						<width>80</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Oscuridad</static>
+			</stringcontrol>
+
+		</sheetdata>
+	</windowclass>
+</root>

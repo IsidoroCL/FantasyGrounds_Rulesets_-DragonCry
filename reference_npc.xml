@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="npctemplate_combat">
+		<datasource>reference_npctemplate</datasource>
+		<sheetdata>
+			<radiogroup name="npctype_radio">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<height>20</height>
+					</size>
+				</anchored>
+				<sourcefields>
+					<optionwidth>90</optionwidth>
+					<labels>Creature|Trap|Vehicle</labels>
+					<values>Creature|Trap|Vehicle</values>
+					<srcnode>npctype</srcnode>
+				</sourcefields>
+				<script>
+					function onValueChanged()
+						window.updateDisplay();
+					end
+				</script>
+				<invisible />
+			</radiogroup>
+
+			<columnstringfield name="levelrole">
+				<anchor>npctype_radio</anchor>
+				<tabtarget next="type" prev="name" />
+			</columnstringfield>
+			<columnfieldlabel name="levelrole_label">
+				<anchor>levelrole</anchor>
+				<static>Level / Role</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="type">
+				<anchor>levelrole</anchor>
+				<tabtarget next="cost" prev="levelrole" />
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>type</anchor>
+				<static>Type</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="cost">
+				<anchor>levelrole</anchor>
+				<tabtarget next="space" prev="type" />
+			</columnstringfield>
+			<columnfieldlabel name="cost_label">
+				<anchor>cost</anchor>
+				<static>Cost</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="space">
+				<anchor>levelrole</anchor>
+				<tabtarget next="init" prev="cost" />
+			</columnstringfield>
+			<columnfieldlabel name="space_label">
+				<anchor>space</anchor>
+				<static>Space</static>
+			</columnfieldlabel>
+
+			<columnnumberfield name="init">
+				<anchor>levelrole</anchor>
+				<displaysign />
+				<tabtarget next="xp" prev="space" />
+				<script>
+					function onDoubleClick(x,y)	
+						ChatManager.DoubleClickNPC("init", getValue(), "Initiative", {npc = window.getDatabaseNode()});
+					end
+				</script>
+			</columnnumberfield>
+			<columnfieldlabel name="init_label">
+				<anchor>init</anchor>
+				<static>Initiative</static>
+			</columnfieldlabel>
+	
+			<stringfield name="xp">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+						<offset>-7</offset>
+					</right>
+					<top>
+						<parent>init</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<noreset />
+				<font>sheettextsmall</font>
+				<frame>
+					<name>modifier</name>
+					<offset>7,4,7,5</offset>
+				</frame>
+				<tabtarget next="senses" prev="init" />
+				<script>
+					function updateVisibility(val)
+						setVisible(val);
+					end
+				</script>
+			</stringfield>
+			<stringcontrol name="xp_label">
+				<anchor>xp</anchor>
+				<font>sheetlabelsmallbold</font>
+				<static>XP</static>
+				<script>
+					function updateVisibility()
+						if anchor and not window[anchor[1]].isVisible() then
+							setVisible(false);
+						else
+							setVisible(true);
+						end
+					end
+				
+					function onInit()
+						if anchor then
+							if window[anchor[1]].getDatabaseNode().isStatic() then
+								setAnchor("top", anchor[1], "top", "absolute", 2);
+							else
+								setAnchor("top", anchor[1], "top", "absolute", 4);
+							end
+							setAnchor("left", anchor[1], "left", "absolute", -30);
+
+							if not window[anchor[1]].isVisible() then
+								setVisible(false);
+							end
+						end
+					end
+				</script>
+			</stringcontrol>
+
+			<columnstringfield name="trapdesc">
+				<anchor>levelrole</anchor>
+			</columnstringfield>
+			<columnfieldlabel name="trapdesclabel">
+				<anchor>trapdesc</anchor>
+				<static>GM</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="flavor">
+				<anchor>levelrole</anchor>
+			</columnstringfield>
+			<columnfieldlabel name="flavorlabel">
+				<anchor>flavor</anchor>
+				<static>Player</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="senses">
+				<anchor>levelrole</anchor>
+				<tabtarget next="hp" prev="xp" />
+				<script>
+					function onDoubleClick(x,y)
+						local signval, perceptionval = string.match(getValue(), "([+-–])(%d+)");
+						local perceptionbonus = tonumber(perceptionval) or 0;
+						if signval == "-" or signval == "–" then
+							perceptionbonus = 0 - perceptionbonus;
+						end
+						ChatManager.DoubleClickNPC("dice", perceptionbonus, "Skill [Perception]", {npc = window.getDatabaseNode()});
+						return true;
+					end			
+				</script>
+			</columnstringfield>
+			<columnfieldlabel name="senseslabel">
+				<anchor>senses</anchor>
+				<static>Senses</static>
+			</columnfieldlabel>
+	
+			<columnstringfield name="hp">
+				<anchor>levelrole</anchor>
+				<tabtarget next="ac" prev="senses" />
+			</columnstringfield>
+			<columnfieldlabel name="hplabel">
+				<anchor>hp</anchor>
+				<static>HP</static>
+			</columnfieldlabel>
+
+			<npcdefensefield name="ac">
+				<tabtarget next="fortitude" prev="hp" />
+				<displaysign />
+			</npcdefensefield>
+			<npctoplabel name="aclabel">
+				<anchor>ac</anchor>
+				<static>AC</static>
+			</npctoplabel>
+			<npcdefensefield name="fortitude">
+				<anchor>ac</anchor>
+				<tabtarget next="reflex" prev="ac" />
+				<displaysign />
+			</npcdefensefield>
+			<npctoplabel name="fortitudelabel">
+				<anchor>fortitude</anchor>
+				<static>Fort</static>
+			</npctoplabel>
+			<npcdefensefield name="reflex">
+				<anchor>ac</anchor>
+				<tabtarget next="will" prev="fortitude" />
+				<displaysign />
+			</npcdefensefield>
+			<npctoplabel name="reflexlabel">
+				<anchor>reflex</anchor>
+				<static>Ref</static>
+			</npctoplabel>
+			<npcdefensefield name="will">
+				<anchor>ac</anchor>
+				<tabtarget next="specialdefenses" prev="reflex" />
+				<displaysign />
+			</npcdefensefield>
+			<npctoplabel name="willlabel">
+				<anchor>will</anchor>
+				<static>Will</static>
+			</npctoplabel>
+
+			<columnfieldlabel name="defenseslabel">
+				<anchor>ac</anchor>
+				<static>Defenses</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="specialdefenses">
+				<anchor>levelrole</anchor>
+				<tabtarget next="saves" prev="will" />
+			</columnstringfield>
+			<columnfieldlabel name="specialdefenseslabel">
+				<anchor>specialdefenses</anchor>
+				<static>Imm/Res/Vuln</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="saves">
+				<anchor>levelrole</anchor>
+				<tabtarget next="speed" prev="specialdefenses" />
+				<script>
+					function onInit()
+						if super and super.onInit then
+							super.onInit();
+						end
+						setHoverCursor("hand");
+					end
+					
+					function onDrag(button, x, y, draginfo)
+						if OptionsManager.isOption("DRGR", "on") then
+							draginfo.setType("dice");
+							draginfo.setDieList({ "d20" });
+						else
+							draginfo.setType("number");
+						end
+						draginfo.setDescription("Saving Throw");
+						local save_num = tonumber(getValue()) or 0;
+						draginfo.setNumberData(save_num);
+						draginfo.setShortcutData("npc", window.getDatabaseNode().getNodeName());
+						
+						return true;
+					end
+
+					function onDoubleClick(x,y)
+						local save_num = tonumber(getValue()) or 0;
+						ChatManager.DoubleClickAction("dice", save_num, "Saving Throw", {npc = window.getDatabaseNode()});
+						return true;
+					end
+				</script>
+			</columnstringfield>
+			<columnfieldlabel name="saveslabel">
+				<anchor>saves</anchor>
+				<static>Saving Throws</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="speed">
+				<anchor>levelrole</anchor>
+				<tabtarget next="actionpoints" prev="saves" />
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>speed</anchor>
+				<static>Speed</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="actionpoints">
+				<anchor>levelrole</anchor>
+				<tabtarget next="name" prev="speed" />
+			</columnstringfield>
+			<columnfieldlabel name="actionpointslabel">
+				<anchor>actionpoints</anchor>
+				<static>Action Pts</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="weaponproficiency">
+				<anchor>levelrole</anchor>
+				<tabtarget next="name" prev="speed" />
+			</columnstringfield>
+			<columnfieldlabel name="weaponproficiencylabel">
+				<anchor>weaponproficiency</anchor>
+				<static>Weapon Prof</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="armorproficiency">
+				<anchor>levelrole</anchor>
+				<tabtarget next="name" prev="speed" />
+			</columnstringfield>
+			<columnfieldlabel name="armorproficiencylabel">
+				<anchor>armorproficiency</anchor>
+				<static>Armor Prof</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="trainedskills">
+				<anchor>levelrole</anchor>
+				<tabtarget next="name" prev="speed" />
+			</columnstringfield>
+			<columnfieldlabel name="trainedskillslabel">
+				<anchor>trainedskills</anchor>
+				<static>Trained Skills</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="classfeatures">
+				<anchor>levelrole</anchor>
+				<tabtarget next="name" prev="speed" />
+			</columnstringfield>
+			<columnfieldlabel name="classfeatureslabel">
+				<anchor>classfeatures</anchor>
+				<static>Class Features</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="implement">
+				<anchor>levelrole</anchor>
+				<tabtarget next="name" prev="speed" />
+			</columnstringfield>
+			<columnfieldlabel name="implementlabel">
+				<anchor>implement</anchor>
+				<static>Implement</static>
+			</columnfieldlabel>
+
+			<!-- Spacer -->
+			<genericcontrol>
+				<anchored>
+					<to>implement</to>
+					<position>below</position>
+					<size>
+						<height>25</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_npctemplate">
+		<datasource>npc</datasource>
+		<frame>charsheet</frame>
+		<placement>
+			<size>
+				<width>340</width>
+				<height>410</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<minimum>
+				<width>340</width>
+				<height>410</height>
+			</minimum>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_npc</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<!-- NAME -->
+			<genericcontrol name="nameframe">
+				<bounds>38,20,-35,35</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<windowopencontrol>
+				<anchored>
+					<to>nameframe</to>
+					<position>insidetopleft</position>
+					<offset>13,8</offset>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>reference_npctemplate</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowopencontrol>
+			<stringfield name="name">
+				<anchored>
+					<top>
+						<parent>nameframe</parent>
+						<anchor>top</anchor>
+						<offset>9</offset>
+					</top>
+					<left>
+						<parent>nameframe</parent>
+						<anchor>left</anchor>
+						<offset>35</offset>
+					</left>
+					<right>
+						<parent>nameframe</parent>
+						<anchor>right</anchor>
+						<offset>-15</offset>
+					</right>
+				</anchored>
+				<empty>&#171; New Personality &#187;</empty>
+				<font>sheettext</font>
+			</stringfield>
+			<tokenfield name="token">
+				<bounds>13,25,25,25</bounds>
+				<empty>indicator_emptytoken</empty>
+			</tokenfield>
+			<buttoncontrol>
+				<bounds>-36,27,23,22</bounds>
+				<icon>
+					<normal>button_identityactivate</normal>
+					<pressed>button_identityactivate_down</pressed>
+				</icon>
+				<script>
+					function onButtonPress()
+						GmIdentityManager.addIdentity(window.name.getValue());
+					end
+				</script>
+			</buttoncontrol>
+
+			<genericcontrol name="tabcontentframe">
+				<bounds>10,54,-25,-15</bounds>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>0,1,0,0</offset>
+				</frame>
+			</genericcontrol>
+
+			<!-- SUBWINDOWS -->
+			<subwindow name="description">
+				<anchored>
+					<to>tabcontentframe</to>
+					<position>over</position>
+					<offset>-15,-8</offset>
+				</anchored>
+				<class>npc_description</class>
+			</subwindow>
+			<subwindow name="combat">
+				<anchored>
+					<to>tabcontentframe</to>
+					<position>over</position>
+					<offset>-15,-8</offset>
+				</anchored>
+				<class>npctemplate_combat</class>
+			</subwindow>
+			<subwindow name="powers">
+				<anchored>
+					<to>tabcontentframe</to>
+					<position>over</position>
+					<offset>-15,-8</offset>
+				</anchored>
+				<class>npc_powers</class>
+			</subwindow>
+
+			<scrollercontrol name="description_scroller">
+				<bounds>-79,-50,45,27</bounds>
+				<target>description</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+				<invisible />
+			</scrollercontrol>
+			<scrollercontrol name="combat_scroller">
+				<bounds>-79,-50,45,27</bounds>
+				<target>combat</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+				<invisible />
+			</scrollercontrol>
+			<scrollercontrol name="powers_scroller">
+				<bounds>-79,-50,45,27</bounds>
+				<target>powers</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+				<invisible />
+			</scrollercontrol>
+
+			<tabcontrol name="tabs">
+				<bounds>-22,50,18,223</bounds>
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>combat</subwindow>
+					<scroller>combat_scroller</scroller>
+				</tab>
+				<tab>
+					<icon>tab_powers</icon>
+					<subwindow>powers</subwindow>
+					<scroller>powers_scroller</scroller>
+				</tab>
+				<tab>
+					<icon>tab_other</icon>
+					<subwindow>description</subwindow>
+					<scroller>description_scroller</scroller>
+				</tab>
+			</tabcontrol>
+			
+			<closebutton_charsheetmini />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_npcaltpower_stats">
+		<sheetdata>
+			<stringfield name="name">
+				<invisible />
+				<bounds>0,0,1,1</bounds>
+			</stringfield>
+			
+			<genericcontrol name="spacer_top">
+				<anchored>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<bottom>
+						<anchor>top</anchor>
+						<offset>8</offset>
+					</bottom>
+				</anchored>
+			</genericcontrol>
+			
+			<npcpowerstringmultiline name="recharge">
+				<anchored>
+					<top>
+						<parent>spacer_top</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+						<offset>5</offset>
+					</top>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-5</offset>
+					</right>
+				</anchored>
+				<empty>&#171; Recharge &#187;</empty>
+				<tabtarget>
+					<next>action</next>
+					<prev>name</prev>
+				</tabtarget>
+			</npcpowerstringmultiline>
+			<npcpowerstringmultiline name="action">
+				<empty>&#171; Action &#187;</empty>
+				<tabtarget>
+					<next>range</next>
+					<prev>name</prev>
+				</tabtarget>
+				<anchored>
+					<top>
+						<parent>spacer_top</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+						<offset>5</offset>
+					</top>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-5</offset>
+					</right>
+				</anchored>
+			</npcpowerstringmultiline>
+			<npcpowerstringmultiline name="range">
+				<empty>&#171; Range &#187;</empty>
+				<tabtarget>
+					<next>keywords</next>
+					<prev>action</prev>
+				</tabtarget>
+				<anchored>
+					<top>
+						<parent>spacer_top</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+						<offset>5</offset>
+					</top>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-5</offset>
+					</right>
+				</anchored>
+			</npcpowerstringmultiline>
+			
+			<npcpowerstringmultiline name="keywords">
+				<empty>&#171; Keywords &#187;</empty>
+				<tabtarget>
+					<next>shortdescription</next>
+					<prev>range</prev>
+				</tabtarget>
+				<anchored>
+					<top>
+						<parent>spacer_top</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+						<offset>5</offset>
+					</top>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-5</offset>
+					</right>
+				</anchored>
+			</npcpowerstringmultiline>
+			
+			<diecontrol name="dice">
+				<anchored>
+					<top>
+						<parent>spacer_top</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+						<offset>4</offset>
+					</top>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<size>
+						<width>80</width>
+						<height>18</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>6,5,5,5</offset>
+				</frame>
+				<invisible />
+				<noreset />
+				<script file="scripts/npc_powerdice.lua" />
+			</diecontrol>
+			
+			<powerdescfieldnpc name="shortdescription">
+				<anchored>
+					<top>
+						<parent>spacer_top</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+						<offset>5</offset>
+					</top>
+					<left>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-5</offset>
+					</right>
+				</anchored>
+				<tabtarget>
+					<next>name</next>
+					<prev>keywords</prev>
+				</tabtarget>
+				<script>
+					function onInit()
+						super.onInit();
+						
+						if getDatabaseNode().isStatic() then
+							if getValue() == "" then
+								setVisible(false);
+							end
+						end
+					end
+					
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("dice") then
+							window.onDrop(x, y, draginfo);
+							return true;
+						end
+					end
+				</script>
+			</powerdescfieldnpc>
+			<genericcontrol>
+				<anchored>
+					<top>
+						<parent>shortdescription</parent>
+						<anchor>bottom</anchor>
+						<offset>2</offset>
+					</top>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<size>
+						<height>5</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="reference_npcaltpower">
+		<datasource>npc</datasource>
+		<frame>charsheet</frame>
+		<placement>
+			<size>
+				<width>340</width>
+				<height>280</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<minimum>
+				<width>340</width>
+				<height>410</height>
+			</minimum>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_npc</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<script>
+			function onDrop(x, y, draginfo)
+				if draginfo.isType("dice") then
+					dice.enable(false);
+					dice.setSourceValue(draginfo.getDieList());
+					return true;
+				end
+			end
+		</script>
+		<sheetdata>
+			<!-- NAME -->
+			<genericcontrol name="nameframe">
+				<bounds>38,20,-15,35</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<windowopencontrol>
+				<anchored>
+					<to>nameframe</to>
+					<position>insidetopleft</position>
+					<offset>13,8</offset>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>reference_npcaltpower</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowopencontrol>
+			<stringfield name="name">
+				<anchored>
+					<top>
+						<parent>nameframe</parent>
+						<anchor>top</anchor>
+						<offset>9</offset>
+					</top>
+					<left>
+						<parent>nameframe</parent>
+						<anchor>left</anchor>
+						<offset>35</offset>
+					</left>
+					<right>
+						<parent>nameframe</parent>
+						<anchor>right</anchor>
+						<offset>-15</offset>
+					</right>
+				</anchored>
+				<empty>&#171; New Power &#187;</empty>
+				<font>sheettext</font>
+			</stringfield>
+
+			<iconcycler name="powertype">
+				<anchored>
+					<top>
+						<parent>nameframe</parent>
+						<anchor>top</anchor>
+						<offset>7</offset>
+					</top>
+					<left>
+						<anchor>left</anchor>
+						<offset>20</offset>
+					</left>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>6,5,5,5</offset>
+				</frame>
+				<stateframe>
+					<hover>
+						<name>sheetfocus</name>
+						<offset>6,5,6,5</offset>
+					</hover>
+				</stateframe>
+				<sourcefields>
+					<icons>indicator_powertype_melee|indicator_powertype_meleebasic|indicator_powertype_ranged|indicator_powertype_rangedbasic|indicator_powertype_close|indicator_powertype_closebasic|indicator_powertype_area|indicator_powertype_aura</icons>
+					<values>M|m|R|r|C|c|A|Z</values>
+					<tooltips>Melee|Basic melee|Ranged|Basic ranged|Close|Basic close|Area|Aura</tooltips>
+					<srcnode>powertype</srcnode>
+				</sourcefields>
+				<script>
+					function onInit()
+						super.onInit();
+						
+						if srcnode then
+							if srcnode.isStatic() then
+								lockCycle(true);
+								setStateFrame("hover", nil);
+								if getSourceValue() == "" then
+									setVisible(false);
+								end
+							end
+						end
+					end
+				</script>
+			</iconcycler>
+
+			<genericcontrol name="contentframe">
+				<bounds>10,54,-25,-15</bounds>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>0,1,0,0</offset>
+				</frame>
+			</genericcontrol>
+
+			<subwindow name="power_stats">
+				<anchored>
+					<to>contentframe</to>
+					<position>over</position>
+					<offset>-15,-8</offset>
+				</anchored>
+				<class>reference_npcaltpower_stats</class>
+			</subwindow>
+			
+			<scrollercontrol name="stats_scroller">
+				<bounds>-79,-50,45,27</bounds>
+				<target>power_stats</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+				<invisible />
+			</scrollercontrol>
+
+			<tabcontrol name="tabs">
+				<bounds>-22,50,18,89</bounds>
+				<tab>
+					<icon>tab_powers</icon>
+					<subwindow>power_stats</subwindow>
+					<scroller>stats_scroller</scroller>
+				</tab>
+			</tabcontrol>
+			
+			<closebutton_charsheetmini />
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,795 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="charsheet_magias">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+		</sizelimits>
+		
+		
+		<sheetdata>		
+			
+			<textlistitemvalue name="name">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>37</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-220</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+				</anchored>
+								
+			</textlistitemvalue>
+			
+			<textlistitemvalue name="Invocacion">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<nodelete />
+				<center />
+			</textlistitemvalue>
+			
+			
+			<textlistitemvalue name="Mana">
+				<anchored>
+					<left>
+						<parent>Invocacion</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>30</width>
+					</size>
+				</anchored>
+				<nodelete />
+				<center />
+			</textlistitemvalue>
+			
+			
+			<textlistitemvalue name="Duracion">
+				<anchored>
+					<left>
+						<parent>Mana</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<nodelete />
+				<center />
+			</textlistitemvalue>
+			
+			<sheetnumber name="nivelmagia">
+				<anchored>
+					<position>insidetopleft</position>
+					<offset>6,0</offset>
+					<size>
+						<width>25</width>
+						<height>18</height>
+					</size>
+				</anchored>
+				<center />
+				<noreset />
+				<font>sheetnumbersmall</font>
+				<hideonvalue value="0" />
+				<droptypes>
+					<type>number</type>
+				</droptypes>				
+			</sheetnumber>
+			
+				
+			<tokenfield name="magiatoken">
+				<anchored>
+					<left>
+						<parent>Duracion</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<empty>indicator_emptytoken</empty>
+			</tokenfield>
+			
+			<labelcycler name="orbemagia">
+				<anchored>
+					<left>
+						<parent>magiatoken</parent>
+						<anchor>right</anchor>
+						<offset>0</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>50</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheettext</font>
+				<center />
+				<stateframe>
+					<hover>
+						<name>sheetfocus</name>
+						<offset>2,3,2,2</offset>
+					</hover>
+				</stateframe>
+				<sourcefields>
+					<defaultlabel>Fuego</defaultlabel>
+					<labels>Genérica|Fuego|Agua|Aire|Tierra|Luz|Oscuridad|Druida|Clérigo</labels>
+					<values>Generica|Fuego|Agua|Aire|Tierra|Luz|Oscuridad|Druida|Clerigo</values>
+					<srcnode>orbe</srcnode>
+				</sourcefields>
+			</labelcycler>
+			
+			<button_toggle name="magias_detalle">
+				<anchored>
+					<left>
+						<parent>orbemagia</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>15</width>
+						<height>15</height>
+					</size>
+				</anchored>
+				<icon>indicator_expanddown</icon>
+				<tooltip>
+					<text>Detalles</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local dal = getValue();
+						window.efecto.setVisible(dal);
+						window.efectolabel.setVisible(dal);
+						window.magiadice.setVisible(dal);
+						window.danno_magia.setVisible(dal);
+						window.spacer.setVisible(dal);						
+						
+					end
+					
+					
+				</script>
+				
+			</button_toggle>
+			
+			<windowreferencefield name="magiashortcut">
+				<anchored>
+					<position>insidetopright</position>
+					<offset>3,0</offset>
+					<size>
+						<width>20</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+				
+			<powerdescfieldpc name="efecto">
+				<anchored>
+					<top>
+						<parent>name</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+						<offset>12</offset>
+					</top>
+					<left>
+						<parent>name</parent>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-130</offset>
+					</right>
+				</anchored>
+				<font>sheettextsmall</font>
+				
+			</powerdescfieldpc>
+			
+			<genericcontrol name="spacer">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>efecto</parent>
+						<anchor>bottom</anchor>
+						<offset>2</offset>
+					</top>
+					<size>
+						<height>5</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+			
+			<stringcontrol name="efectolabel">
+				<anchored>
+					<to>efecto</to>
+					<position>above</position>
+					<offset>0,-8</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Efecto</static>
+			</stringcontrol>
+			
+			<diefield name="magiadice" source="magia.dados">
+				<anchored>
+					<to>efecto</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<height>30</height>
+						<width>50</width>
+					</size>
+				</anchored>
+				<noreset />
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<stateframe>
+					<drophilight>
+						<name>sheetfocus</name>
+						<offset>0,3,0,3</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>dice</type>
+				</droptypes>
+				<script>
+					function onDoubleClick(x,y)
+						local damage_name = CharSheetCommon.getWeaponDamage(window.getDatabaseNode());
+						local damage_mod = window.getDatabaseNode().
+								getChild("magia.danno").getValue();
+						local damage_dice = window.getDatabaseNode().
+								getChild("magia.dados").getValue();
+						ChatManager.DoubleClickDieControl("damage", damage_mod, damage_name, {pc = window.getDatabaseNode().getParent().getParent()}, damage_dice);
+
+						return true;
+					end			
+
+					function onDrag(button, x, y, draginfo)
+						local damage_name = CharSheetCommon.getWeaponDamage(window.getDatabaseNode());
+						local damage_mod = window.getDatabaseNode().
+								getChild("magia.danno").getValue();
+						local damage_dice = window.getDatabaseNode().
+								getChild("magia.dados").getValue();
+						draginfo.setType("damage");
+						draginfo.setDieList(damage_dice);
+						draginfo.setNumberData(damage_mod);
+						draginfo.setDescription(damage_name);
+						draginfo.setShortcutData("charsheet", window.getDatabaseNode().getParent().getParent().getNodeName());
+
+						return true;
+					end
+				</script>
+			</diefield>
+			
+			<sheetnumber name="danno_magia" source="magia.danno">
+				<anchored>
+					<to>magiadice</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>35</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				<hideonvalue value="0" />
+				<displaysign />
+				
+			</sheetnumber>
+		
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="charsheet_habarma">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+		</sizelimits>
+		
+		<sheetdata>		
+			
+			<textlistitemvalue name="nameAr">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>37</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-160</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+				</anchored>
+			</textlistitemvalue>
+			
+			<textlistitemvalue name="Arma">
+				<anchored>
+					<left>
+						<parent>nameAr</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>100</width>
+					</size>
+				</anchored>
+				<nodelete />
+				<center />
+			</textlistitemvalue>
+			
+			<sheetnumber name="nivelarma">
+				<anchored>
+					<position>insidetopleft</position>
+					<offset>6,0</offset>
+					<size>
+						<width>25</width>
+						<height>18</height>
+					</size>
+				</anchored>
+				<center />
+				<noreset />
+				<font>sheetnumbersmall</font>
+				<hideonvalue value="0" />
+				<droptypes>
+					<type>number</type>
+				</droptypes>				
+			</sheetnumber>
+			
+			<button_toggle name="habarma_detalle">
+				<anchored>
+					<left>
+						<parent>Arma</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>15</width>
+						<height>15</height>
+					</size>
+				</anchored>
+				<icon>indicator_expanddown</icon>
+				<tooltip>
+					<text>Detalles</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local val = getValue();
+						window.efectoAr.setVisible(val);
+						window.Aefectolabel.setVisible(val);
+						window.spacerAr.setVisible(val);						
+						
+					end
+					
+				</script>
+				
+			</button_toggle>
+			
+			<windowreferencefield name="habarmshortcut">
+				<anchored>
+					<position>insidetopright</position>
+					<offset>3,0</offset>
+					<size>
+						<width>20</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+				
+			<powerdescfieldpc name="efectoAr">
+				<anchored>
+					<top>
+						<parent>nameAr</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+						<offset>12</offset>
+					</top>
+					<left>
+						<parent>nameAr</parent>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-30</offset>
+					</right>
+				</anchored>
+				<font>sheettextsmall</font>
+				
+			</powerdescfieldpc>
+			
+			<genericcontrol name="spacerAr">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>efectoAr</parent>
+						<anchor>bottom</anchor>
+						<offset>2</offset>
+					</top>
+					<size>
+						<height>5</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+			
+			<stringcontrol name="Aefectolabel">
+				<anchored>
+					<to>efectoAr</to>
+					<position>above</position>
+					<offset>0,-8</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Efecto</static>
+			</stringcontrol>
+			
+		</sheetdata>
+			
+	</windowclass>
+
+
+	<windowclass name="charsheet_powers">
+		<datasource>charsheet</datasource>
+		<placement>
+			<size>
+				<width>252</width>
+				<height>641</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<maximum>
+				<height>100000</height>
+			</maximum>
+		</sizelimits>
+		<nodelete />
+		<sheetdata>
+			<!-- NAME / RACE -->
+			<genericcontrol name="overviewframe">
+				<bounds>15,20,480,45</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<labeledstring name="name">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>15,10</offset>
+					<size>
+						<width>250</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<label>Nombre</label>
+				<tabtarget>
+					<next>race</next>
+					<prev>notes</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="race">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>275,10</offset>
+					<size>
+						<width>195</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>Raza</label>
+				<tabtarget>
+					<next>gender</next>
+					<prev>name</prev>
+				</tabtarget>
+			</labeledstring>
+			
+			<genericcontrol name="powerframe">
+				<bounds>15,65,480,520</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol name="nivellabel">
+				<anchored>
+					<to>powerframe</to>
+					<position>insidetopleft</position>
+					<offset>15,40</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Nvl</static>
+				<center />
+			</stringcontrol>
+			
+			<stringcontrol name="namelabel">
+				<anchored>
+					<to>powerframe</to>
+					<position>insidetopleft</position>
+					<offset>45,40</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Nombre</static>
+				<center />
+			</stringcontrol>
+			
+			<stringcontrol name="invocalabel">
+				<anchored>
+					<to>powerframe</to>
+					<position>insidetopleft</position>
+					<offset>254,40</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Inv</static>
+				<center />
+			</stringcontrol>
+			
+			<stringcontrol name="manalabel">
+				<anchored>
+					<to>powerframe</to>
+					<position>insidetopleft</position>
+					<offset>283,40</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Mana</static>
+				<center />
+			</stringcontrol>
+			
+			<stringcontrol name="duralabel">
+				<anchored>
+					<to>powerframe</to>
+					<position>insidetopleft</position>
+					<offset>319,40</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Dur</static>
+				<center />
+			</stringcontrol>
+			
+			<stringcontrol name="tarmalabel">
+				<anchored>
+					<to>powerframe</to>
+					<position>insidetopleft</position>
+					<offset>330,40</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Tipo de Arma</static>
+				<center />
+			</stringcontrol>
+			
+			<windowlist name="magiaslist">
+				<anchored>
+					<to>powerframe</to>
+					<position>over</position>
+					<offset>-8,-8</offset>
+					<top>
+						<parent>powerframe</parent>
+						<offset>60</offset>
+					</top>
+					<bottom>
+						<offset>-5</offset>
+					</bottom>
+				</anchored>
+				<datasource>.magia</datasource>
+				<class>charsheet_magias</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_magialist.lua" />
+			</windowlist>
+			
+			<windowlist name="hab_armaslist">
+				<anchored>
+					<to>powerframe</to>
+					<position>over</position>
+					<offset>-8,-8</offset>
+					<top>
+						<parent>powerframe</parent>
+						<offset>60</offset>
+					</top>
+					<bottom>
+						<offset>-5</offset>
+					</bottom>
+				</anchored>
+				<datasource>.habarm</datasource>
+				<class>charsheet_habarma</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_armaslist.lua" />
+			</windowlist>
+			
+			<button_toggle name="magias_visible">
+				<anchored>
+					<to>powerframe</to>
+					<position>insidetopleft</position>
+					<offset>30,10</offset>
+					
+					<size>
+						<width>220</width>
+						<height>40</height>
+					</size>
+				</anchored>
+				<icon>magia_on</icon>
+				<tooltip>
+					<text>Ver Magias</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local val = getValue();
+						window.magiaslist.setVisible(val);
+						
+						window.invocalabel.setVisible(val);
+						window.duralabel.setVisible(val);
+						window.manalabel.setVisible(val);
+						
+						if val == true then 
+							window.habarmas_visible.setValue(false);
+						end
+						
+					end
+				</script>
+				
+			</button_toggle>
+			
+			<button_toggle name="habarmas_visible">
+				<anchored>
+					<to>powerframe</to>
+					<position>insidetopleft</position>
+					<offset>260,10</offset>
+					
+					<size>
+						<width>140</width>
+						<height>40</height>
+					</size>
+				</anchored>
+				<icon>hab_arma_on</icon>
+				<tooltip>
+					<text>Ver Habilidades de Armas</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local fal = getValue();
+						window.hab_armaslist.setVisible(fal);
+						window.tarmalabel.setVisible(fal);
+						
+						if fal == true then 
+							window.magias_visible.setValue(false);
+						end 
+						
+						
+					end
+				</script>
+				
+			</button_toggle>
+				
+		</sheetdata>
+	</windowclass>
+</root>

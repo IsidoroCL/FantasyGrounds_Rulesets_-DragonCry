@@ -1,0 +1,1184 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	
+	
+	<template name="linkednumber">
+		<jpgnumberfield>
+			<source mergerule="resetandadd" />
+			<script file="scripts/template_linkednumber.lua" />
+		</jpgnumberfield>
+	</template>
+	
+	<template name="modifiernumber">
+		<linkednumber>
+			<nokeyedit />
+			<script file="scripts/template_modifiernumber.lua" />
+			<noreset />
+		</linkednumber>
+	</template>
+	
+	<template name="sheetbonus">
+		<modifiernumber>
+			<frame>
+				<name>bonus_mod</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<font>sheetnumber</font>
+			<readonly />
+			<displaysign />
+			<modifiersize>mini</modifiersize>
+		</modifiernumber>
+	</template>
+
+	<template name="sheetnumber">
+		<linkednumber>
+			<frame>
+				<name>modifier</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<keyeditframe>
+				<name>sheetfocus</name>
+				<offset>5,5,5,5</offset>
+			</keyeditframe>
+			<stateframe>
+				<drophilight>
+					<name>sheetfocus</name>
+					<offset>5,5,5,5</offset>
+				</drophilight>
+			</stateframe>
+			<droptypes>
+				<type>number</type>
+			</droptypes>
+			<font>sheetnumber</font>
+		</linkednumber>
+	</template>
+
+	<template name="sheetmodifier">
+		<linkednumber>
+			<frame>
+				<name>modifier</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<keyeditframe>
+				<name>sheetfocus</name>
+				<offset>5,5,5,5</offset>
+			</keyeditframe>
+			<stateframe>
+				<drophilight>
+					<name>sheetfocus</name>
+					<offset>5,5,5,5</offset>
+				</drophilight>
+			</stateframe>
+			<droptypes>
+				<type>number</type>
+			</droptypes>
+			<font>sheetnumber</font>
+			<displaysign />
+		</linkednumber>
+	</template>
+
+	<template name="sheetreadonlymodifier">
+		<linkednumber>
+			<frame>
+				<name>modifier</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<font>sheetnumber</font>
+			<readonly />
+			<displaysign />
+		</linkednumber>
+	</template>
+
+	<template name="abilityscore">
+		<jpgnumberfield>
+			<noreset />
+			<anchored>
+				<position>belowleft</position>
+				<offset>0,8</offset>
+				<size>
+					<width>32</width>
+					<height>20</height>
+				</size>
+			</anchored>
+			<frame>
+				<name>bonus</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<keyeditframe>
+				<name>sheetfocus</name>
+				<offset>5,5,5,5</offset>
+			</keyeditframe>
+			<font>sheetnumber</font>
+		</jpgnumberfield>
+	</template>
+	
+	<template name="abilitylabel">
+		<stringcontrol>
+			<anchored>
+				<position>lefthigh</position>
+				<offset>0,4</offset>
+				<size>
+					<width>90</width>
+					<height>20</height>
+				</size>
+			</anchored>
+			<static />
+			<font>sheetlabel</font>
+		</stringcontrol>
+	</template>
+
+	<template name="abilitycheckbonus">
+		<linkednumber>
+			<noreset />
+			<anchored>
+				<position>right</position>
+				<offset>145,0</offset>
+				<size>
+					<width>32</width>
+				</size>
+			</anchored>
+			<frame>
+				<name>modifier</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<readonly />
+			<font>sheetnumber</font>
+			<hideonvalue value="0" />
+			<displaysign />
+			<script>
+				function onSourceUpdate()
+					setValue(sources[abilitybonusfield[1]].getValue() );
+				end
+
+				function onInit()
+					addSource(abilitybonusfield[1]);
+					
+					super.onInit();
+				end
+
+				function onDoubleClick(x,y)
+					ChatManager.DieControlThrow("dice", getValue(), self.description[1].text[1], {pc = window.getDatabaseNode()},{"d6","d6"});
+					return true;
+				end			
+				
+				function onDrag(button, x, y, draginfo)
+					if OptionsManager.isOption("DRGR", "on") then
+						draginfo.setType("dice");
+						draginfo.setDieList({ "d6","d6" });
+					else
+						draginfo.setType("number");
+					end
+					draginfo.setDescription(self.description[1].text[1]);
+					draginfo.setNumberData(getValue());
+					draginfo.setShortcutData("charsheet", window.getDatabaseNode().getNodeName());
+
+					return true;
+				end
+			</script>
+		</linkednumber>
+	</template>
+	
+	<template name="abilitybonus">
+		<sheetbonus>
+			<anchored>
+				<position>right</position>
+				<offset>100,0</offset>
+				<size>
+					<width>36</width>
+				</size>
+			</anchored>
+			<frame>
+				<name>bonus_mod</name>
+				<offset>3,5,3,5</offset>
+			</frame>
+			<hideonvalue value="0" />
+			<script>
+				function onSourceUpdate()
+					setValue(math.floor((sources[scorefield[1]].getValue() - 10) / 2) + getModifier());
+				end
+
+				function onInit()
+					addSource(scorefield[1]);
+
+					super.onInit();
+				end
+			</script>
+		</sheetbonus>
+	</template>
+
+	<template name="hitpointfield">
+		<jpgnumberfield>
+			<noreset />
+			<frame>
+				<name>bonus</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<keyeditframe>
+				<name>sheetfocus</name>
+				<offset>5,5,5,5</offset>
+			</keyeditframe>
+			<font>sheetnumber</font>
+			<stateframe>
+				<drophilight>
+					<name>sheetfocusplus</name>
+					<offset>5,5,5,5</offset>
+				</drophilight>
+			</stateframe>
+			<droptypes>
+				<type>number</type>
+			</droptypes>
+			<script>
+				function onDrop(x, y, draginfo)
+					if draginfo.isType("number") then
+						setValue(getValue() + draginfo.getNumberData());
+						return true;
+					end
+				end
+			</script>
+		</jpgnumberfield>
+	</template>
+
+	<template name="speedfield">
+		<modifiernumber>
+			<frame>
+				<name>bonus_mod</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<font>sheetnumber</font>
+			<readonly />
+			<modifiersize>mini</modifiersize>
+			<source>
+				<name>speed.base</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>speed.armor</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>speed.misc</name>
+				<op>+</op>
+			</source>
+			<modifierfield>speed.temporary</modifierfield>
+		</modifiernumber>
+	</template>
+
+	<template name="savefield">
+		<sheetbonus>
+			<description>
+				<text>Saving Throw</text>
+			</description>
+			<source>
+				<name>defenses.save.base</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>defenses.save.misc</name>
+				<op>+</op>
+			</source>
+			<modifierfield>defenses.save.temporary</modifierfield>
+			<script>
+				function onDoubleClick(x,y)
+					ChatManager.DoubleClickAction("save", getValue(), self.description[1].text[1], {pc = window.getDatabaseNode()});
+					return true;
+				end			
+
+				function onDrag(button, x, y, draginfo)
+					if OptionsManager.isOption("DRGR", "on") then
+						draginfo.setType("save");
+						draginfo.setDieList({ "d12" });
+					else
+						draginfo.setType("number");
+					end
+					draginfo.setDescription(self.description[1].text[1]);
+					draginfo.setNumberData(getValue());
+					draginfo.setShortcutData("charsheet", window.getDatabaseNode().getNodeName());
+
+					return true;
+				end
+			</script>
+		</sheetbonus>
+	</template>
+
+	<template name="init">
+		<sheetbonus>
+			<description>
+				<text>Initiative</text>
+			</description>
+			<source>
+				<name>abilities.dexterity.bonus</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>levelbonus</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>initiative.misc</name>
+				<op>+</op>
+			</source>
+			<modifiersize>mini</modifiersize>
+			<modifierfield>initiative.temporary</modifierfield>
+			<script>
+				function onDoubleClick(x,y)
+					ChatManager.DoubleClickAction("init", getValue(), self.description[1].text[1], {pc = window.getDatabaseNode()});
+					return true;
+				end			
+
+				function onDrag(button, x, y, draginfo)
+					if OptionsManager.isOption("DRGR", "on") then
+						draginfo.setType("init");
+						draginfo.setDieList({ "d12" });
+					else
+						draginfo.setType("number");
+					end
+					draginfo.setDescription(self.description[1].text[1]);
+					draginfo.setNumberData(getValue());
+					draginfo.setShortcutData("charsheet", window.getDatabaseNode().getNodeName());
+
+					return true;
+				end
+			</script>
+		</sheetbonus>
+	</template>
+
+	<template name="attackbonus_combat">
+		<sheetbonus>
+			<modifierfield>attacks.base.temporary</modifierfield>
+			<source>
+				<name>levelbonus</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.base.misc</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.base.temporary</name>
+				<op>+</op>
+			</source>
+		</sheetbonus>
+	</template>
+	<template name="damagebonus_combat">
+		<sheetbonus>
+			<modifierfield>attacks.damage.temporary</modifierfield>
+			<source>
+				<name>attacks.damage.misc</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.damage.temporary</name>
+				<op>+</op>
+			</source>
+		</sheetbonus>
+	</template>
+	
+	<template name="attack_combat">
+		<sheetbonus>
+			<script>
+				function onDoubleClick(x,y)
+					ChatManager.DoubleClickAction("attack", getValue(), self.description[1].text[1], {pc = window.getDatabaseNode()});
+					return true;
+				end			
+
+				function onDrag(button, x, y, draginfo)
+					if OptionsManager.isOption("DRGR", "on") then
+						draginfo.setType("attack");
+						draginfo.setDieList({ "d12" });
+					else
+						draginfo.setType("number");
+					end
+					draginfo.setDescription(self.description[1].text[1]);
+					draginfo.setNumberData(getValue());
+					draginfo.setShortcutData("charsheet", window.getDatabaseNode().getNodeName());
+
+					return true;
+				end
+			</script>
+		</sheetbonus>
+	</template>
+	<template name="melee_combat">
+		<attack_combat>
+			<description>
+				<text>Melee attack</text>
+			</description>
+			<modifierfield>attacks.melee.temporary</modifierfield>
+			<source>
+				<name>levelbonus</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.base.misc</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.base.temporary</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.melee.ability</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.melee.misc</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.melee.temporary</name>
+				<op>+</op>
+			</source>
+		</attack_combat>
+	</template>
+	<template name="ranged_combat">
+		<attack_combat>
+			<description>
+				<text>Ranged attack</text>
+			</description>
+			<modifierfield>attacks.ranged.temporary</modifierfield>
+			<source>
+				<name>levelbonus</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.base.misc</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.base.temporary</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.ranged.ability</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.ranged.misc</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.ranged.temporary</name>
+				<op>+</op>
+			</source>
+		</attack_combat>
+	</template>
+
+	<template name="attackabilitybonus">
+		<jpgnumberfield>
+			<anchored>
+				<position>right</position>
+				<offset>8,0</offset>
+				<size>
+					<width>32</width>
+				</size>
+			</anchored>
+			<frame>
+				<name>modifier</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<font>sheetnumber</font>
+			<displaysign />
+			<hideonvalue>0</hideonvalue>
+			<readonly />
+			<nodrag />
+			<script>
+				selectorNode = nil;
+				defaultNode = nil;
+			
+				function update(source)
+					local ability = "";
+					if selectorNode then
+						ability = selectorNode.getValue();
+					end
+					if ability == "" then
+						ability = defaultval[1];
+					end
+
+					setValue(NodeManager.getSafeChildValue(window.getDatabaseNode(), "abilities." .. ability .. ".bonus", 0));
+				end
+
+				function onInit()
+					local selnode = NodeManager.createSafeChild(window.getDatabaseNode(), selectfield[1], "string");
+					if selnode then
+						selectorNode = selnode;
+						selnode.onUpdate = update;
+					end
+
+					local defnode = NodeManager.createSafeChild(window.getDatabaseNode(), "abilities." .. defaultval[1] .. ".bonus", "number");
+					if defnode then
+						defaultNode = defnode;
+						defnode.onUpdate = update;
+					end
+
+					update();
+				end
+			</script>
+		</jpgnumberfield>
+	</template>
+	
+	<template name="attack_main">
+		<sheetbonus>
+			<script>
+				selectorNode = nil;
+				defaultNode = nil;
+				
+				function onDoubleClick(x,y)
+					ChatManager.DoubleClickAction("attack", getValue(), self.description[1].text[1], {pc = window.getDatabaseNode()});
+					return true;
+				end			
+
+				function onDrag(button, x, y, draginfo)
+					if OptionsManager.isOption("DRGR", "on") then
+						draginfo.setType("attack");
+						draginfo.setDieList({ "d12" });
+					else
+						draginfo.setType("number");
+					end
+					draginfo.setDescription(self.description[1].text[1]);
+					draginfo.setNumberData(getValue());
+					draginfo.setShortcutData("charsheet", window.getDatabaseNode().getNodeName());
+
+					return true;
+				end
+				
+				function onSourceUpdate(source)
+					local val = calculateSources();
+					
+					if selectorNode then
+						if selectorNode.getValue() ~= "" then
+							local selectorStatNode = NodeManager.createSafeChild(window.getDatabaseNode(), "abilities." .. selectorNode.getValue() .. ".bonus", "number");
+							if selectorStatNode then
+								selectorStatNode.onUpdate = sourceUpdate;
+								setValue(val + selectorStatNode.getValue());
+							end
+							return;
+						end
+					end
+					
+					if defaultNode then
+						setValue(val + defaultNode.getValue());
+						return;
+					end
+					
+					setValue(val);
+				end
+					
+				function onInit()
+					super.onInit();
+					
+					local selnode = NodeManager.createSafeChild(window.getDatabaseNode(), selectfield[1], "string");
+					if selnode then
+						selectorNode = selnode;
+						selnode.onUpdate = sourceUpdate;
+					end
+
+					local defnode = NodeManager.createSafeChild(window.getDatabaseNode(), "abilities." .. defaultval[1] .. ".bonus", "number");
+					if defnode then
+						defaultNode = defnode;
+						defnode.onUpdate = sourceUpdate;
+					end
+					
+					sourceUpdate();
+				end
+			</script>
+		</sheetbonus>
+	</template>
+	<template name="melee_main">
+		<attack_main>
+			<description>
+				<text>Melee attack</text>
+			</description>
+			<modifierfield>attacks.melee.temporary</modifierfield>
+			<selectfield>attacks.melee.abilityname</selectfield>
+			<defaultval>strength</defaultval>
+			<source>
+				<name>levelbonus</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.base.misc</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.base.temporary</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.melee.misc</name>
+				<op>+</op>
+			</source>
+		</attack_main>
+	</template>
+	<template name="ranged_main">
+		<attack_main>
+			<description>
+				<text>Ranged attack</text>
+			</description>
+			<modifierfield>attacks.ranged.temporary</modifierfield>
+			<selectfield>attacks.ranged.abilityname</selectfield>
+			<defaultval>dexterity</defaultval>
+			<source>
+				<name>levelbonus</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.base.misc</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.base.temporary</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>attacks.ranged.misc</name>
+				<op>+</op>
+			</source>
+		</attack_main>
+	</template>
+
+	<template name="defense">
+		<modifiernumber>
+			<anchored>
+				<position>belowleft</position>
+				<offset>0,8</offset>
+				<size>
+					<width>32</width>
+					<height>20</height>
+				</size>
+			</anchored>
+			<frame>
+				<name>bonus_mod</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<font>sheetnumber</font>
+			<readonly />
+			<modifiersize>mini</modifiersize>
+		</modifiernumber>
+	</template>
+	<template name="defenseac">
+		<defense>
+			<modifierfield>defenses.ac.temporary</modifierfield>
+			<source>
+				<name>defenses.ac.base</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>defenses.ac.ability</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>defenses.ac.armor</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>defenses.ac.misc</name>
+				<op>+</op>
+			</source>
+		</defense>
+	</template>
+	<template name="defensefortitude">
+		<defense>
+			<modifierfield>defenses.fortitude.temporary</modifierfield>
+			<source>
+				<name>defenses.fortitude.base</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>defenses.fortitude.ability</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>defenses.fortitude.misc</name>
+				<op>+</op>
+			</source>
+		</defense>
+	</template>
+	<template name="defensereflex">
+		<defense>
+			<modifierfield>defenses.reflex.temporary</modifierfield>
+			<source>
+				<name>defenses.reflex.base</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>defenses.reflex.ability</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>defenses.reflex.armor</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>defenses.reflex.misc</name>
+				<op>+</op>
+			</source>
+		</defense>
+	</template>
+	<template name="defensewill">
+		<defense>
+			<modifierfield>defenses.will.temporary</modifierfield>
+			<source>
+				<name>defenses.will.base</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>defenses.will.ability</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>defenses.will.misc</name>
+				<op>+</op>
+			</source>
+		</defense>
+	</template>
+	
+	<template name="defenselabel">
+		<stringcontrol>
+			<anchored>
+				<position>lefthigh</position>
+				<offset>0,4</offset>
+				<size>
+					<width>85</width>
+					<height>20</height>
+				</size>
+			</anchored>
+			<font>sheetlabel</font>
+			<static />
+		</stringcontrol>
+	</template>
+
+	<template name="defensebase">				
+		<linkednumber>
+			<anchored>
+				<position>right</position>
+				<offset>15,0</offset>
+				<size>
+					<width>32</width>
+				</size>
+			</anchored>
+			<frame>
+				<name>modifier</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<font>sheetnumber</font>
+			<nodrag />
+			<readonly />
+			<source>
+				<name>levelbonus</name>
+				<op>+</op>
+			</source>
+			<script>
+				function onSourceUpdate()
+					setValue(10 + calculateSources());
+				end
+			</script>
+		</linkednumber>
+	</template>
+
+	<template name="abilityselector">
+		<labelcycler>
+			<anchored>
+				<position>right</position>
+				<offset>3,0</offset>
+				<size>
+					<width>32</width>
+				</size>
+			</anchored>
+			<frame>
+				<name>modifier</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<center />
+			<sourcefields>
+				<labels>Str|Con|Dex|Int|Wis|Cha</labels>
+				<values>strength|constitution|dexterity|intelligence|wisdom|charisma</values>
+			</sourcefields>
+		</labelcycler>
+	</template>
+	
+	<template name="defenseabilitybonus">
+		<jpgnumberfield>
+			<anchored>
+				<position>right</position>
+				<offset>8,0</offset>
+				<size>
+					<width>32</width>
+				</size>
+			</anchored>
+			<frame>
+				<name>modifier</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<font>sheetnumber</font>
+			<displaysign />
+			<hideonvalue>0</hideonvalue>
+			<readonly />
+			<nodrag />
+			<script>
+				statNode1 = nil;
+				statNode2 = nil;
+				flagNode = nil;
+				selectorNode = nil;
+			
+				function update(source)
+					if flagNode then
+						if flagNode.getValue() ~= 0 then
+							setValue(0);
+							return;
+						end
+					end
+					
+					if selectorNode then
+						if selectorNode.getValue() ~= "" then
+							setValue(NodeManager.getSafeChildValue(window.getDatabaseNode(), "abilities." .. selectorNode.getValue() .. ".bonus", 0));
+							return;
+						end
+					end
+					
+					if statNode1 and statNode2 then
+						setValue(math.max(statNode1.getValue(), statNode2.getValue()));
+					end
+				end
+
+				function onInit()
+					if flag then
+						local fnode = NodeManager.createSafeChild(window.getDatabaseNode(), flag[1], "number");
+						if fnode then
+							flagNode = fnode;
+							fnode.onUpdate = update;
+						end
+					end
+					
+					local node1 = NodeManager.createSafeChild(window.getDatabaseNode(), bonusfield1[1], "number");
+					local node2 = NodeManager.createSafeChild(window.getDatabaseNode(), bonusfield2[1], "number");
+					if node1 and node2 then
+						statNode1 = node1;
+						statNode2 = node2;
+						node1.onUpdate = update;
+						node2.onUpdate = update;
+					end
+					
+					local selnode = NodeManager.createSafeChild(window.getDatabaseNode(), selectfield[1], "string");
+					if selnode then
+						selectorNode = selnode;
+						selnode.onUpdate = update;
+					end
+
+					update();
+				end
+			</script>
+		</jpgnumberfield>
+	</template>
+
+	<template name="defensemodifier">
+		<sheetmodifier>
+			<anchored>
+				<position>right</position>
+				<offset>8,0</offset>
+				<size>
+					<width>32</width>
+				</size>
+			</anchored>
+			<hideonvalue>0</hideonvalue>
+			<nodrag />
+		</sheetmodifier>
+	</template>
+
+	<template name="defensemain">
+		<modifiernumber>
+			<frame>
+				<name>bonus_mod</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<font>sheetnumber</font>
+			<readonly />
+			<modifiersize>mini</modifiersize>
+			<script>
+				statNode1 = nil;
+				statNode2 = nil;
+				flagNode = nil;
+				selectorNode = nil;
+			
+				function onSourceUpdate(source)
+					local val = 10 + calculateSources();
+					
+					if flagNode then
+						if flagNode.getValue() ~= 0 then
+							setValue(val);
+							return;
+						end
+					end
+					
+					if selectorNode then
+						if selectorNode.getValue() ~= "" then
+							local selectorStatNode = NodeManager.createSafeChild(window.getDatabaseNode(), "abilities." .. selectorNode.getValue() .. ".bonus", "number");
+							if selectorStatNode then
+								selectorStatNode.onUpdate = sourceUpdate;
+								setValue(val + selectorStatNode.getValue());
+							end
+							return;
+						end
+					end
+					
+					if statNode1 and statNode2 then
+						setValue(val + math.max(statNode1.getValue(), statNode2.getValue()));
+						return;
+					end
+
+					setValue(val);
+				end
+					
+				function onInit()
+					super.onInit();
+
+					if flag then
+						local fnode = NodeManager.createSafeChild(window.getDatabaseNode(), flag[1], "number");
+						if fnode then
+							flagNode = fnode;
+							fnode.onUpdate = sourceUpdate;
+						end
+					end
+					
+					local node1 = NodeManager.createSafeChild(window.getDatabaseNode(), bonusfield1[1], "number");
+					local node2 = NodeManager.createSafeChild(window.getDatabaseNode(), bonusfield2[1], "number");
+					if node1 and node2 then
+						statNode1 = node1;
+						statNode2 = node2;
+						node1.onUpdate = sourceUpdate;
+						node2.onUpdate = sourceUpdate;
+					end
+					
+					local selnode = NodeManager.createSafeChild(window.getDatabaseNode(), selectfield[1], "string");
+					if selnode then
+						selectorNode = selnode;
+						selnode.onUpdate = sourceUpdate;
+					end
+					
+					sourceUpdate();
+				end
+			</script>
+		</modifiernumber>
+	</template>
+
+	<template name="specialabilitynumber">
+		<numbercontrol>
+			<noreset />
+			<invisible />
+			<script>
+				function enable(state)
+					if state then
+						source = NodeManager.createSafeChild(window.getDatabaseNode(), "number", "number");
+						if source then
+							source.onDelete = onDelete;
+							source.onUpdate = onUpdate;
+							setValue(source.getValue());
+						end
+					else
+						source.delete();
+						source = nil;
+					end
+
+					setVisible(state);
+				end
+				
+				function checkSource()
+					source = window.getDatabaseNode().getChild("number");
+					if source then
+						enable(true);
+					end
+				end
+				
+				function setSourceValue(value)
+					if source then
+						source.setValue(value);
+					end
+				end
+				
+				function onDelete()
+					source = nil;
+					setVisible(false);
+				end
+				
+				function onUpdate()
+					if source then
+						setValue(source.getValue());
+					end
+				end
+			
+				function onValueChanged()
+					if source then
+						source.setValue(getValue());
+					end
+					if window.use_button then
+						window.updateVisibility();
+					end
+				end
+				
+				function onInit()
+					registerMenuItem("Delete number value", "delete", 4);
+					
+					--[[ Set up monitoring for the creation of the data node ]]
+					window.getDatabaseNode().onChildAdded = checkSource;
+					checkSource();
+				end
+				
+				function onMenuSelection(selection)
+					if selection == 4 then
+						enable(false);
+					end
+				end
+				
+				function onDrag(button, x, y, draginfo)
+					if source then
+						draginfo.setType("number");
+						draginfo.setDescription(window.value.getValue());
+						draginfo.setNumberData(getValue());
+						return true;
+					end
+				end
+			</script>
+		</numbercontrol>
+	</template>
+
+	<template name="specialabilitydice">
+		<diecontrol>
+			<invisible />
+			<noreset />
+			<script>
+				function enable(state)
+					if state then
+						source = NodeManager.createSafeChild(window.getDatabaseNode(), "dice", "dice");
+						if source then
+							source.onDelete = onDelete;
+							source.onUpdate = onUpdate;
+							setDice(source.getValue());
+						end
+					else
+						source.delete();
+						source = nil;
+					end
+
+					setVisible(state);
+				end
+				
+				function checkSource()
+					source = window.getDatabaseNode().getChild("dice");
+					if source then
+						enable(true);
+					end
+				end
+				
+				function setSourceValue(value)
+					local dietypetable = {};
+					
+					--[[ Allow both dragdata style and database style die lists ]]
+					for k,v in ipairs(value) do
+						if type(v) == "table" then
+							table.insert(dietypetable, v.type);
+						else
+							table.insert(dietypetable, v);
+						end
+					end
+				
+					if source then
+						source.setValue(dietypetable);
+					end
+				end
+				
+				function onDelete()
+					source = nil;
+					setVisible(false);
+				end
+				
+				function onUpdate()
+					if source then
+						setDice(source.getValue());
+					end
+				end
+			
+				function onValueChanged()
+					if source then
+						source.setValue(getValue());
+					end
+				end
+				
+				function onInit()
+					registerMenuItem("Delete dice", "delete", 3);
+					
+					--[[ Set up monitoring for the creation of the data node ]]
+					window.getDatabaseNode().onChildAdded = checkSource;
+					checkSource();
+				end
+				
+				function onMenuSelection(selection)
+					if selection == 3 then
+						enable(false);
+					end
+				end
+				
+				function getDescriptionString()
+					local desc = "Ability [" .. window.value.getValue() .. "]";
+					return desc;
+				end
+				
+				function onDrag(button, x, y, draginfo)
+					if source then
+						draginfo.setType("dice");
+						draginfo.setDescription(getDescriptionString());
+						draginfo.setDieList(getDice());
+						draginfo.setShortcutData("charsheet", window.getDatabaseNode().getParent().getParent().getNodeName());
+						return true;
+					end
+				end
+
+				function onDoubleClick(x,y)
+					ChatManager.DoubleClickDieControl("dice", 0, getDescriptionString(), {pc = window.getDatabaseNode().getParent().getParent()}, getDice());
+					return true;
+				end			
+			</script>
+		</diecontrol>
+	</template>
+
+	<template name="passiveskill">
+		<linkednumber>
+			<frame>
+				<name>modifier</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<font>sheetnumber</font>
+			<readonly />
+			<script file="scripts/template_passiveskill.lua" />
+		</linkednumber>
+	</template>
+	
+	<template name="armaduratotal2">
+		<linkednumber>
+			<frame>
+				<name>bonus_mod</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<font>sheetnumber</font>
+			<readonly />
+			
+			<source>
+				<name>cabeza.armor2</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>torso.armor2</name>
+				<op>+</op>
+			</source>
+			<source>
+				<name>brazos.armor2</name>
+				<op>+</op>
+			</source>
+			<modifiersize>mini</modifiersize>
+		</linkednumber>
+	</template>
+	
+</root>

@@ -1,0 +1,1110 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<template name="referenceformattedtextfield">
+		<formattedtextfield>
+			<font>
+				<normal>chatfont</normal>
+				<bold>narratorfont</bold>
+				<italic>chatitalicfont</italic>
+				<bolditalic>chatbolditalicfont</bolditalic>
+				<title>sheetlabel</title>
+			</font>
+			<linkicon>
+				<link>button_openwindow</link>
+				<emptylink>button_emptytarget</emptylink>
+			</linkicon>
+			<selectioncolor>#FFD296</selectioncolor>
+		</formattedtextfield>
+	</template>
+	
+	<windowclass name="referencetext">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>400</width>
+				<height>650</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<windowreferencecontrol>
+				<bounds>20,18,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+				</icon>
+				<class>encounter</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowreferencecontrol>
+			<stringfield name="name">
+				<bounds>45,22,-25,20</bounds>
+				<font>sheetlabel</font>
+			</stringfield>
+			<referenceformattedtextfield name="text">
+				<bounds>25,44,-25,-14</bounds>
+				<footer>footer_wide</footer>
+			</referenceformattedtextfield>
+			<scrollercontrol>
+				<anchored>
+					<to>text</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>text</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="referencetextwide">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>650</width>
+				<height>650</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic>
+				<resize>vertical</resize>
+			</dynamic>
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<windowreferencecontrol>
+				<bounds>20,18,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+				</icon>
+				<class>referencetextwide</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowreferencecontrol>
+			<stringfield name="name">
+				<bounds>45,22,-25,20</bounds>
+				<font>sheetlabel</font>
+			</stringfield>
+			<referenceformattedtextfield name="text">
+				<bounds>25,44,-25,-14</bounds>
+				<footer>footer_wide</footer>
+			</referenceformattedtextfield>
+			<scrollercontrol>
+				<anchored>
+					<to>text</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>text</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- Skills -->
+	<windowclass name="referenceskillcontent">
+		<sheetdata>
+			<stringcontrol name="typeleftbracket">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<height>20</height>
+						<width>5</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>[</static>
+			</stringcontrol>
+			<stringcontrol name="ability">
+				<anchored>
+					<to>typeleftbracket</to>
+					<position>right</position>
+				</anchored>
+				<font>sheetlabel</font>
+				<script>
+					function onInit()
+						abilitynode = window.getDatabaseNode().getChild("ability");
+						trainednode = window.getDatabaseNode().getChild("trained");
+						armorchecknode = window.getDatabaseNode().getChild("armorcheckpenalty");
+						
+						local value = abilitynode.getValue();
+						
+						if trainednode and trainednode.getValue() ~= 0 then
+							value = value .. "; Trained only";
+						end
+						if armorchecknode and armorchecknode.getValue() ~= 0 then
+							value = value .. "; Armor check penalty";
+						end
+						
+						setValue(value);
+					end
+				</script>
+			</stringcontrol>
+			<stringcontrol name="typerightbracket">
+				<anchored>
+					<to>ability</to>
+					<position>right</position>
+				</anchored>
+				<font>sheetlabel</font>
+				<size>
+					<width>10</width>
+				</size>
+				<static>]</static>
+			</stringcontrol>
+
+			<referenceformattedtextfield name="text">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>ability</parent>
+						<anchor>bottom</anchor>
+					</top>
+				</anchored>
+			</referenceformattedtextfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="referenceskill">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>400</width>
+				<height>350</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<windowreferencecontrol>
+				<bounds>20,16,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+				</icon>
+				<class>referenceskill</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowreferencecontrol>
+			<stringfield name="name">
+				<bounds>45,20,-25,20</bounds>
+				<font>sheetlabel</font>
+			</stringfield>
+
+			<subwindow name="content">
+				<bounds>20,40,-25,-14</bounds>
+				<class>referenceskillcontent</class>
+				<activate />
+			</subwindow>
+
+			<scrollercontrol>
+				<anchored>
+					<to>content</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>content</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- Generic lists -->
+	<windowclass name="referenceindexitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<windowreferencefield name="listlink">
+				<bounds>0,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<description>
+					<field>name</field>
+				</description>
+			</windowreferencefield>
+			<staticlinkstringfield name="name">
+				<bounds>25,4,-1,15</bounds>
+				<font>sheetlabel</font>
+				<linktarget>listlink</linktarget>
+			</staticlinkstringfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="referenceindexcontent">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+			<maximum>
+				<height>10000</height>
+			</maximum>
+		</sizelimits>
+		<sheetdata>
+			<stringfield name="name">
+				<bounds>0,10,-1,20</bounds>
+				<font>sheetlabel</font>
+				<center />
+				<nodrag />
+			</stringfield>
+			
+			<referenceformattedtextfield name="description">
+				<anchored>
+					<to>name</to>
+					<position>below</position>
+				</anchored>
+				<script>
+					function onInit()
+						if isEmpty() then
+							setVisible(false);
+						end
+					end
+				</script>
+			</referenceformattedtextfield>
+
+			<windowlist name="index">
+				<anchored>
+					<to>description</to>
+					<position>below</position>
+					<right>
+						<parent>name</parent>
+						<anchor>right</anchor>
+					</right>
+				</anchored>
+				<datasource>.index</datasource>
+				<class>referenceindexitem</class>
+				<noscroll />
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="referenceindex">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>350</width>
+				<height>450</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<subwindow name="content">
+				<class>referenceindexcontent</class>
+				<bounds>20,9,-22,-14</bounds>
+				<activate />
+			</subwindow>
+			<scrollercontrol>
+				<anchored>
+					<to>content</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>content</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- Inline text list -->
+	<windowclass name="referenceinlineindexitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+			<maximum>
+				<height>10000</height>
+			</maximum>
+		</sizelimits>
+		<sheetdata>
+			<stringfield name="name">
+				<bounds>0,4,-1,15</bounds>
+				<font>sheetlabel</font>
+				<static />
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						window.text.setVisible(not window.text.isVisible());
+						return true;
+					end
+				</script>
+			</stringfield>
+			<referenceformattedtextfield name="text">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>name</parent>
+						<anchor>bottom</anchor>
+						<offset>3</offset>
+					</top>
+				</anchored>
+				<invisible />
+			</referenceformattedtextfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="referenceinlineindex">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>300</width>
+				<height>450</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>description</field>
+		</tooltip>
+		<sheetdata>
+			<stringfield name="name">
+				<bounds>25,20,-25,20</bounds>
+				<font>sheetlabel</font>
+				<center />
+				<nodrag />
+			</stringfield>
+
+			<windowlist name="index">
+				<bounds>20,40,-20,-14</bounds>
+				<datasource>.index</datasource>
+				<class>referenceinlineindexitem</class>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>index</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>index</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- DISEASE -->
+	<windowclass name="reference_disease">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>800</width>
+				<height>300</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic>
+				<resize>vertical</resize>
+			</dynamic>
+			<minimum>
+				<width>750</width>
+			</minimum>
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<stringfield name="name">
+				<bounds>20,20,220,20</bounds>
+				<font>sheetlabel</font>
+				<static />
+			</stringfield>
+			<stringfield name="levellab">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<anchor>right</anchor>
+						<offset>10</offset>
+					</left>
+					<right>
+						<parent>name</parent>
+						<anchor>right</anchor>
+						<offset>40</offset>
+					</right>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+
+				<font>sheetlabel</font>
+				<static>Level</static>
+			</stringfield>
+			<jpgnumberfield name="level">
+				<anchored>
+					<left>
+						<parent>levellab</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<parent>levellab</parent>
+						<anchor>right</anchor>
+						<offset>30</offset>
+					</right>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+			</jpgnumberfield>
+
+			<stringfield name="diseaselab">
+				<anchored>
+					<left>
+						<parent>level</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<parent>level</parent>
+						<anchor>right</anchor>
+						<offset>80</offset>
+					</right>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Disease</static>
+			</stringfield>
+
+			<stringfield name="stablelab">
+				<anchored>
+					<left>
+						<parent>diseaselab</parent>
+						<anchor>right</anchor>
+						<offset>20</offset>
+					</left>
+					<right>
+						<parent>diseaselab</parent>
+						<anchor>right</anchor>
+						<offset>145</offset>
+					</right>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Endurance stable DC</static>
+			</stringfield>
+			<jpgnumberfield name="stable">
+				<anchored>
+					<left>
+						<parent>stablelab</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<parent>stablelab</parent>
+						<anchor>right</anchor>
+						<offset>30</offset>
+					</right>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+			</jpgnumberfield>
+
+			<stringfield name="improvelab">
+				<anchored>
+					<left>
+						<parent>stable</parent>
+						<anchor>right</anchor>
+						<offset>10</offset>
+					</left>
+					<right>
+						<parent>stable</parent>
+						<anchor>right</anchor>
+						<offset>100</offset>
+					</right>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>improve DC</static>
+			</stringfield>
+			<jpgnumberfield name="improve">
+				<anchored>
+					<left>
+						<parent>improvelab</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<right>
+						<parent>improvelab</parent>
+						<anchor>right</anchor>
+						<offset>30</offset>
+					</right>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+			</jpgnumberfield>
+
+			<stringfield name="flavor">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<anchor>left</anchor>
+						<offset>10</offset>
+					</left>
+					<right>
+						<parent>name</parent>
+						<anchor>left</anchor>
+						<offset>400</offset>
+					</right>
+					<top>
+						<parent>name</parent>
+						<anchor>bottom</anchor>
+						<offset>10</offset>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+				<multilinespacing>20</multilinespacing>
+			</stringfield>
+
+			<!-- ATTACK -->
+			<stringcontrol name="atklabel">
+				<anchored>
+					<top>
+						<parent>flavor</parent>
+						<anchor>top</anchor>
+					</top>
+					<left>
+						<parent>flavor</parent>
+						<anchor>right</anchor>
+						<offset>20</offset>
+					</left>
+					<size>
+						<height>20</height>
+						<width>40</width>
+					</size>
+				</anchored>
+				<right />
+				<font>sheetlabel</font>
+				<static>Attack</static>
+			</stringcontrol>
+			<genericcontrol name="attackframe">
+				<anchored>
+					<top>
+						<parent>flavor</parent>
+						<anchor>top</anchor>
+					</top>
+					<left>
+						<parent>atklabel</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<size>
+						<height>20</height>
+						<width>140</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>bonus</name>
+					<offset>0,3,0,3</offset>
+				</frame>
+			</genericcontrol>
+			<genericcontrol name="attackicon">
+				<anchored>
+					<to>attackframe</to>
+					<position>insidetopleft</position>
+					<offset>5,1</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>d20icon</icon>
+				<script>
+					function simpleAttack(powerattacknode)
+						local attack_name = "";
+						local attack_mod = 0;
+						attack_name = attack_name .. window.name.getValue();
+						local defval = NodeManager.getSafeChildValue(powerattacknode, "attackdef", "");
+						if defval == "ac" then
+							attack_name = attack_name .. " (vs. AC)";
+						elseif defval == "fortitude" then
+							attack_name = attack_name .. " (vs. Fort)";
+						elseif defval == "reflex" then
+							attack_name = attack_name .. " (vs. Ref)";
+						elseif defval == "will" then
+							attack_name = attack_name .. " (vs. Will)";
+						end
+	
+						attack_mod = attack_mod + NodeManager.getSafeChildValue(powerattacknode, "attackstatmodifier", 0);
+
+						return attack_name,attack_mod;
+					end			
+
+					function onInit()
+						setHoverCursor("hand");
+					end
+					
+					function onDoubleClick(x,y)
+						local powerattacknode = window.getDatabaseNode().getChild("attacks").getChild("id-00001")
+						local attack_name, attack_mod = simpleAttack(powerattacknode);
+
+						ChatManager.DoubleClickAction("attack", attack_mod, attack_name, {pc = window.getDatabaseNode().getParent()}, { "d20" });
+
+						return true;
+					end			
+
+					function onDrag(button, x, y, draginfo)
+						local powerattacknode = window.getDatabaseNode().getChild("attacks").getChild("id-00001")
+						local attack_name, attack_mod = simpleAttack(powerattacknode);
+						
+						draginfo.setType("attack");
+						draginfo.setDieList({ "d20" });
+						draginfo.setNumberData(attack_mod);
+						draginfo.setDescription(attack_name);
+						draginfo.setShortcutData("charsheet", window.getDatabaseNode().getParent().getParent().getNodeName());
+
+						return true;
+					end
+				</script>
+			</genericcontrol>
+			<labelcyclerwithmod name="attackstatlabel">
+				<anchored>
+					<to>attackframe</to>
+					<position>insidetopleft</position>
+					<offset>25,2</offset>
+					<size>
+						<width>30</width>
+					</size>
+				</anchored>
+				<center />
+				<sourcefields>
+					<labels>Str|Con|Dex|Int|Wis|Cha</labels>
+					<values>strength|constitution|dexterity|intelligence|wisdom|charisma</values>
+					<srcnode>attacks.id-00001.attackstat</srcnode>
+					<modnode>attacks.id-00001.attackstatmodifier</modnode>
+				</sourcefields>
+			</labelcyclerwithmod>
+			<stringcontrol name="attackvslabel">
+				<anchored>
+					<to>attackframe</to>
+					<position>insidetopleft</position>
+					<offset>88,2</offset>
+					<size>
+						<width>15</width>
+					</size>
+				</anchored>
+				<font>sheettext</font>
+				<static>vs.</static>
+			</stringcontrol>
+			<labelcycler name="attackdeflabel">
+				<anchored>
+					<to>attackframe</to>
+					<position>insidetopleft</position>
+					<offset>105,2</offset>
+					<size>
+						<width>30</width>
+					</size>
+				</anchored>
+				<center />
+				<sourcefields>
+					<labels>AC|Fort|Ref|Will</labels>
+					<values>ac|fortitude|reflex|will</values>
+					<srcnode>attacks.id-00001.attackdef</srcnode>
+				</sourcefields>
+			</labelcycler>
+
+			<stringfield name="stage000">
+				<anchored>
+					<left>
+						<parent>flavor</parent>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<parent>flavor</parent>
+						<anchor>left</anchor>
+						<offset>160</offset>
+					</right>
+					<top>
+						<parent>flavor</parent>
+						<anchor>bottom</anchor>
+						<offset>20</offset>
+					</top>
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>sheetlabel</font>
+			</stringfield>
+			<stringfield name="stage001">
+				<anchored>
+					<left>
+						<parent>stage000</parent>
+						<anchor>right</anchor>
+						<offset>30</offset>
+					</left>
+					<right>
+						<parent>stage000</parent>
+						<anchor>right</anchor>
+						<offset>170</offset>
+					</right>
+					<top>
+						<parent>flavor</parent>
+						<anchor>bottom</anchor>
+						<offset>20</offset>
+					</top>
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>sheetlabel</font>
+			</stringfield>
+			<stringfield name="stage002">
+				<anchored>
+					<left>
+						<parent>stage001</parent>
+						<anchor>right</anchor>
+						<offset>50</offset>
+					</left>
+					<right>
+						<parent>stage001</parent>
+						<anchor>right</anchor>
+						<offset>170</offset>
+					</right>
+					<top>
+						<parent>flavor</parent>
+						<anchor>bottom</anchor>
+						<offset>20</offset>
+					</top>
+				</anchored>
+				<font>sheetlabel</font>
+				<multilinespacing>20</multilinespacing>
+			</stringfield>
+			<stringfield name="stage003">
+				<anchored>
+					<left>
+						<parent>stage002</parent>
+						<anchor>right</anchor>
+						<offset>30</offset>
+					</left>
+					<right>
+						<parent>stage002</parent>
+						<anchor>right</anchor>
+						<offset>170</offset>
+					</right>
+					<top>
+						<parent>flavor</parent>
+						<anchor>bottom</anchor>
+						<offset>20</offset>
+					</top>
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>sheetlabel</font>
+			</stringfield>
+
+			<genericcontrol name="left1">
+				<anchored>
+					<left>
+						<parent>stage000</parent>
+						<anchor>right</anchor>
+					</left>
+					<top>
+						<parent>stage000</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<height>25</height>
+						<width>25</width>
+					</size>
+				</anchored>
+				<icon>arrowleft</icon>
+			</genericcontrol>
+			<genericcontrol name="left2">
+				<anchored>
+					<left>
+						<parent>stage001</parent>
+						<anchor>right</anchor>
+					</left>
+					<top>
+						<parent>stage001</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<height>25</height>
+						<width>25</width>
+					</size>
+				</anchored>
+				<icon>arrowleft</icon>
+			</genericcontrol>
+			<genericcontrol name="right1">
+				<anchored>
+					<left>
+						<parent>left2</parent>
+						<anchor>right</anchor>
+					</left>
+					<top>
+						<parent>left2</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<height>25</height>
+						<width>25</width>
+					</size>
+				</anchored>
+				<icon>arrowright</icon>
+			</genericcontrol>
+			<genericcontrol name="right2">
+				<anchored>
+					<left>
+						<parent>stage002</parent>
+						<anchor>right</anchor>
+					</left>
+					<top>
+						<parent>stage002</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<height>25</height>
+						<width>25</width>
+					</size>
+				</anchored>
+				<icon>arrowright</icon>
+			</genericcontrol>
+
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- POISON -->
+	<windowclass name="poisondesc">
+		<sheetdata>
+			<!-- Fields -->
+			<stringfield name="flavor">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-7</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>chatitalicfont</font>
+				<multilinespacing>15</multilinespacing>
+				<linkicon>
+					<link>button_openwindow</link>
+					<emptylink>button_emptytarget</emptylink>
+				</linkicon>
+				<footer>footer_wide</footer>
+				<selectioncolor>#FFD296</selectioncolor>
+			</stringfield>
+
+			<columnnumberfield name="level">
+				<anchor>flavor</anchor>
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>level</anchor>
+				<static>Level</static>
+			</columnfieldlabel>			
+
+			<columnnumberfield name="cost">
+				<anchor>level</anchor>
+			</columnnumberfield>
+			<columnfieldlabel>
+				<anchor>cost</anchor>
+				<static>Cost</static>
+			</columnfieldlabel>
+			<columnstringfield name="attack">
+				<anchor>cost</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>attack</anchor>
+				<static>Attack</static>
+			</columnfieldlabel>
+			<referenceformattedtextfield name="formattedpoisonblock">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<top>
+						<parent>attack</parent>
+						<anchor>bottom</anchor>
+						<offset>5</offset>
+					</top>
+					<right>
+						<anchor>right</anchor>
+						<offset>-5</offset>
+					</right>
+				</anchored>
+			</referenceformattedtextfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_poison">
+		<frame>charsheet</frame>
+		<placement>
+			<size>
+				<width>300</width>
+				<height>370</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<!-- Name -->
+			<genericcontrol name="nameframe">
+				<bounds>10,20,-15,35</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<windowopencontrol>
+				<anchored>
+					<to>nameframe</to>
+					<position>insidetopleft</position>
+					<offset>13,8</offset>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>reference_poison</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowopencontrol> 
+			<stringfield name="name">
+				<anchored>
+					<top>
+						<parent>nameframe</parent>
+						<anchor>top</anchor>
+						<offset>9</offset>
+					</top>
+					<left>
+						<parent>nameframe</parent>
+						<anchor>left</anchor>
+						<offset>35</offset>
+					</left>
+					<right>
+						<parent>nameframe</parent>
+						<anchor>right</anchor>
+						<offset>-15</offset>
+					</right>
+				</anchored>
+				<empty>&#171; New Poison &#187;</empty>
+				<font>sheettext</font>
+			</stringfield>
+
+			<!-- Frame -->		
+			<genericcontrol name="contentframe">
+				<bounds>10,54,-15,-13</bounds>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>0,1,0,0</offset>
+				</frame>
+			</genericcontrol>
+			<subwindow name="stats">
+				<bounds>22,61,-25,-21</bounds>
+				<class>poisondesc</class>
+				<activate />
+			</subwindow>
+			<scrollercontrol name="stats_scroller">
+				<anchored>
+					<to>stats</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>stats</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+
+			<closebutton_charsheetmini />
+		</sheetdata>
+	</windowclass>
+</root>

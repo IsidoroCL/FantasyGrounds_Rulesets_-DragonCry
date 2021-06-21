@@ -1,0 +1,1264 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="charsheet_inventoryitem">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		
+		<sheetdata>
+			
+			<textlistitemvalue name="nombreI">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>4</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-65</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				
+				<script>
+						
+					function onLoseFocus()
+						super.onLoseFocus();
+						window.windowlist.applySort();
+					end
+				</script>
+			</textlistitemvalue>
+			
+			<sheetnumber name="weight" source="item.cantidad">
+				<anchored>
+					<left>
+						<parent>nombreI</parent>
+						<anchor>right</anchor>
+						<offset>7</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>2</offset>
+					</top>
+					<size>
+						<width>30</width>
+						<height>14</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>6,5,6,5</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>6,5,6,5</offset>
+				</keyeditframe>
+				<stateframe>
+					<drophilight>
+						<name>sheetfocus</name>
+						<offset>6,5,6,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<nodrag />
+				<delaykeyupdate />
+				<script>
+					function onValueChanged()
+						window.windowlist.updateEncumbrance();
+					end
+				</script>
+			</sheetnumber>
+			
+			<windowreferencefield name="shortcut">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="charsheet_cinturon">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<windowreferencefield name="detalles_otros">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+
+			<textlistitemvalue name="value">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>2</offset>
+					</left>
+					<right>
+						<parent>detalles_otros</parent>
+						<anchor>left</anchor>
+						<offset>-3</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+			</textlistitemvalue>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_inventory">
+		<placement>
+			<size>
+				<width>252</width>
+				<height>611</height>
+			</size>
+		</placement>
+		<nodelete />
+		<sheetdata>
+			<!-- NAME / RACE -->
+			<genericcontrol name="overviewframe">
+				<bounds>15,20,480,45</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<labeledstring name="name">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>15,10</offset>
+					<size>
+						<width>250</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<label>Nombre</label>
+				<tabtarget>
+					<next>race</next>
+					<prev>notes</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="race">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>275,10</offset>
+					<size>
+						<width>195</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>Raza</label>
+				<tabtarget>
+					<next>gender</next>
+					<prev>name</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<!-- Inventory -->
+			<genericcontrol name="inventoryframe">
+				<bounds>195,65,310,360</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<genericcontrol name="contenedorframe">
+				<bounds>15,65,180,220</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<genericcontrol name="otrosframe">
+				<bounds>15,285,180,140</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<genericcontrol name="cinturonframe">
+				<bounds>15,425,300,165</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<center />
+				<font>sheetlabel</font>
+				<static>Mochilas</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>otrosframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<center />
+				<font>sheetlabel</font>
+				<static>Otros contenedores</static>
+			</stringcontrol>
+			
+			<windowlist name="otroslist">
+				<anchored>
+					<to>otrosframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>otrosframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.otrosCONTlist</datasource>
+				<class>charsheet_cinturon</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_abilities.lua" />
+			</windowlist>
+			
+			<stringcontrol name="cinturon_titulo">
+				<anchored>
+					<to>cinturonframe</to>
+					<position>insidetopleft</position>
+					<offset>25,15</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Cinturon</static>
+			</stringcontrol>
+			
+			<labeledstring name="tipo_cin">
+				<anchored>
+					<to>cinturon_titulo</to>
+					<position>right</position>
+					<offset>15,3</offset>
+					
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Tipo</label>
+			</labeledstring>
+			
+			<sheetnumber name="huec_cint">
+				<anchored>
+					<to>tipo_cin</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>30</width>
+					</size>
+				</anchored>
+			</sheetnumber>
+
+			<stringcontrol>
+				<anchored>
+					<to>inventoryframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<center />
+				<font>sheetlabel</font>
+				<static>Inventario</static>
+			</stringcontrol>
+				
+			<stringcontrol>
+				<anchored>
+					<to>inventoryframe</to>
+					<position>insidetopleft</position>
+					<offset>15,17</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Nombre</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>inventoryframe</to>
+					<position>insidetopleft</position>
+					<offset>230,17</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Cantidad</static>
+			</stringcontrol>
+			
+			<windowlist name="cinturonlist">
+				<anchored>
+					<to>cinturonframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>cinturonframe</parent>
+						<offset>40</offset>
+					</top>
+				</anchored>
+				<datasource>.cinturonlist</datasource>
+				<class>charsheet_cinturon</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_abilities.lua" />
+			</windowlist>
+				
+			<windowlist name="inventorylist1">
+				<anchored>
+					<to>inventoryframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>inventoryframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.inventorylist1</datasource>
+				<class>charsheet_inventoryitem</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_inventorylist.lua" />
+			</windowlist>
+			
+			<scrollercontrol name="scroller1">
+				<anchored>
+					<to>inventorylist1</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>inventorylist1</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<sheetnumber name="TOTALload1">
+				<anchored>
+					<to>inventorylist1</to>
+					<position>insidebottomleft</position>
+					<offset>5,5</offset>
+					<size>
+						<width>40</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<readonly />
+			</sheetnumber>
+			
+			<stringcontrol name="TOTALlabel1">
+				<anchored>
+					<to>TOTALload1</to>
+					<position>above</position>
+					<offset>0,3</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Usados</static>
+				<center />
+			</stringcontrol>
+			
+			<windowlist name="inventorylist2">
+				<anchored>
+					<to>inventoryframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>inventoryframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.inventorylist2</datasource>
+				<class>charsheet_inventoryitem</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_inventorylist2.lua" />
+			</windowlist>
+			
+			<scrollercontrol name="scroller2">
+				<anchored>
+					<to>inventorylist2</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>inventorylist2</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<sheetnumber name="TOTALload2">
+				<anchored>
+					<to>inventorylist2</to>
+					<position>insidebottomleft</position>
+					<offset>5,5</offset>
+					<size>
+						<width>40</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<readonly />
+			</sheetnumber>
+			
+			<stringcontrol name="TOTALlabel2">
+				<anchored>
+					<to>TOTALload2</to>
+					<position>above</position>
+					<offset>0,3</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Usados</static>
+				<center />
+			</stringcontrol>
+			
+			<windowlist name="inventorylist3">
+				<anchored>
+					<to>inventoryframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>inventoryframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.inventorylist3</datasource>
+				<class>charsheet_inventoryitem</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_inventorylist3.lua" />
+			</windowlist>
+			
+			<scrollercontrol name="scroller3">
+				<anchored>
+					<to>inventorylist3</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>inventorylist3</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<sheetnumber name="TOTALload3">
+				<anchored>
+					<to>inventorylist3</to>
+					<position>insidebottomleft</position>
+					<offset>5,5</offset>
+					<size>
+						<width>40</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<readonly />
+			</sheetnumber>
+			
+			<stringcontrol name="TOTALlabel3">
+				<anchored>
+					<to>TOTALload3</to>
+					<position>above</position>
+					<offset>0,3</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Usados</static>
+				<center />
+			</stringcontrol>
+			
+			<windowlist name="inventorylist4">
+				<anchored>
+					<to>inventoryframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>inventoryframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.inventorylist4</datasource>
+				<class>charsheet_inventoryitem</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_inventorylist4.lua" />
+			</windowlist>
+			
+			<scrollercontrol name="scroller4">
+				<anchored>
+					<to>inventorylist4</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>inventorylist4</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<sheetnumber name="TOTALload4">
+				<anchored>
+					<to>inventorylist4</to>
+					<position>insidebottomleft</position>
+					<offset>5,5</offset>
+					<size>
+						<width>40</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<readonly />
+			</sheetnumber>
+			
+			<stringcontrol name="TOTALlabel4">
+				<anchored>
+					<to>TOTALload4</to>
+					<position>above</position>
+					<offset>0,3</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Usados</static>
+				<center />
+			</stringcontrol>
+			
+			<windowlist name="inventorylist5">
+				<anchored>
+					<to>inventoryframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>inventoryframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.inventorylist5</datasource>
+				<class>charsheet_inventoryitem</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_inventorylist5.lua" />
+			</windowlist>
+			
+			<scrollercontrol name="scroller5">
+				<anchored>
+					<to>inventorylist5</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>inventorylist5</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<sheetnumber name="TOTALload5">
+				<anchored>
+					<to>inventorylist5</to>
+					<position>insidebottomleft</position>
+					<offset>5,5</offset>
+					<size>
+						<width>40</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<readonly />
+			</sheetnumber>
+			
+			<stringcontrol name="TOTALlabel5">
+				<anchored>
+					<to>TOTALload5</to>
+					<position>above</position>
+					<offset>0,3</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Usados</static>
+				<center />
+			</stringcontrol>
+			
+			<windowlist name="inventorylist6">
+				<anchored>
+					<to>inventoryframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>inventoryframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.inventorylist6</datasource>
+				<class>charsheet_inventoryitem</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_inventorylist6.lua" />
+			</windowlist>
+			
+			<scrollercontrol name="scroller6">
+				<anchored>
+					<to>inventorylist6</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>inventorylist6</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<sheetnumber name="TOTALload6">
+				<anchored>
+					<to>inventorylist6</to>
+					<position>insidebottomleft</position>
+					<offset>5,5</offset>
+					<size>
+						<width>40</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<readonly />
+			</sheetnumber>
+			
+			<stringcontrol name="TOTALlabel6">
+				<anchored>
+					<to>TOTALload6</to>
+					<position>above</position>
+					<offset>0,3</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Usados</static>
+				<center />
+			</stringcontrol>
+			
+			<labeledstring name="nombre_con1">
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetopleft</position>
+					<offset>20,30</offset>
+					<size>
+						<width>120</width>
+					</size>
+				</anchored>
+				<label>I</label>
+			</labeledstring>
+			
+			<button_toggle name="contenedor1" source="cont1">
+				<anchored>
+					<to>nombre_con1</to>
+					<position>left</position>
+					<offset>2,3</offset>
+					<size>
+						<width>10</width>
+					</size>
+				</anchored>
+				<icon>punto_rojo</icon>
+				<tooltip>
+					<text>Pulsa para ver mochila 1</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local conval = getValue();
+						
+						if conval == true then 
+							window.contenedor2.setValue(false);
+							window.contenedor3.setValue(false);
+							window.contenedor4.setValue(false);
+							window.contenedor5.setValue(false);
+							window.contenedor6.setValue(false);
+							window.inventorylist1.setVisible(true);
+							window.scroller1.setVisible(true);
+							window.TOTALload1.setVisible(true);
+							window.TOTALlabel1.setVisible(true);
+							
+						end
+						
+						if conval == false then
+							window.inventorylist1.setVisible(false);
+							window.scroller1.setVisible(false);
+							window.TOTALload1.setVisible(false);
+							window.TOTALlabel1.setVisible(false);
+						end
+						
+					end
+					
+				</script>
+			</button_toggle>
+			
+			<sheetnumber name="Hueco_cont1" source="cont1.huecos">
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetopright</position>
+					<offset>10,30</offset>
+					
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+					
+			</sheetnumber>
+			
+			<labeledstring name="nombre_con2">
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetopleft</position>
+					<offset>20,60</offset>
+					<size>
+						<width>120</width>
+					</size>
+				</anchored>
+				<label>II</label>
+			</labeledstring>
+			
+			<button_toggle name="contenedor2">
+				<anchored>
+					<to>nombre_con2</to>
+					<position>left</position>
+					<offset>2,3</offset>
+					<size>
+						<width>10</width>
+					</size>
+				</anchored>
+				<icon>punto_rojo</icon>
+				<tooltip>
+					<text>Pulsa para ver mochila 2</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local conval = getValue();
+							
+						if conval == true then 
+							window.contenedor1.setValue(false);
+							window.contenedor3.setValue(false);
+							window.contenedor4.setValue(false);
+							window.contenedor5.setValue(false);
+							window.contenedor6.setValue(false);
+							window.inventorylist2.setVisible(true);
+							window.scroller2.setVisible(true);
+							window.TOTALload2.setVisible(true);
+							window.TOTALlabel2.setVisible(true);
+							
+						end
+						
+						if conval == false then
+							window.inventorylist2.setVisible(false);
+							window.scroller2.setVisible(false);
+							window.TOTALload2.setVisible(false);
+							window.TOTALlabel2.setVisible(false);
+						end
+						
+					end
+				</script>
+			</button_toggle>
+			
+			<sheetnumber name="Hueco_cont2" source="cont2.huecos">
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetopright</position>
+					<offset>10,60</offset>
+					
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+					
+			</sheetnumber>
+			
+			<labeledstring name="nombre_con3">
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetopleft</position>
+					<offset>20,90</offset>
+					<size>
+						<width>120</width>
+					</size>
+				</anchored>
+				<label>III</label>
+			</labeledstring>
+			
+			<button_toggle name="contenedor3">
+				<anchored>
+					<to>nombre_con3</to>
+					<position>left</position>
+					<offset>2,3</offset>
+					<size>
+						<width>10</width>
+					</size>
+				</anchored>
+				<icon>punto_rojo</icon>
+				<tooltip>
+					<text>Pulsa para ver mochila 3</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local conval = getValue();
+						
+						if conval == true then 
+							window.contenedor2.setValue(false);
+							window.contenedor1.setValue(false);
+							window.contenedor4.setValue(false);
+							window.contenedor5.setValue(false);
+							window.contenedor6.setValue(false);
+							window.inventorylist3.setVisible(true);
+							window.scroller3.setVisible(true);
+							window.TOTALload3.setVisible(true);
+							window.TOTALlabel3.setVisible(true);
+							
+						end
+						
+						if conval == false then
+							window.inventorylist3.setVisible(false);
+							window.scroller3.setVisible(false);
+							window.TOTALload3.setVisible(false);
+							window.TOTALlabel3.setVisible(false);
+						end
+					end
+				</script>
+			</button_toggle>
+			
+			<sheetnumber name="Hueco_cont3" source="cont3.huecos">
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetopright</position>
+					<offset>10,90</offset>
+					
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+					
+			</sheetnumber>
+			
+			<labeledstring name="nombre_con4">
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetopleft</position>
+					<offset>20,120</offset>
+					<size>
+						<width>120</width>
+					</size>
+				</anchored>
+				<label>IV</label>
+			</labeledstring>
+			
+			<button_toggle name="contenedor4">
+				<anchored>
+					<to>nombre_con4</to>
+					<position>left</position>
+					<offset>2,3</offset>
+					<size>
+						<width>10</width>
+					</size>
+				</anchored>
+				<icon>punto_rojo</icon>
+				<tooltip>
+					<text>Pulsa para ver mochila 4</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local conval = getValue();
+						
+						if conval == true then 
+							window.contenedor2.setValue(false);
+							window.contenedor1.setValue(false);
+							window.contenedor3.setValue(false);
+							window.contenedor5.setValue(false);
+							window.contenedor6.setValue(false);
+							window.inventorylist4.setVisible(true);
+							window.scroller4.setVisible(true);
+							window.TOTALload4.setVisible(true);
+							window.TOTALlabel4.setVisible(true);
+							
+						end
+						
+						if conval == false then
+							window.inventorylist4.setVisible(false);
+							window.scroller4.setVisible(false);
+							window.TOTALload4.setVisible(false);
+							window.TOTALlabel4.setVisible(false);
+						end
+					end
+				</script>
+			</button_toggle>
+			
+			<sheetnumber name="Hueco_cont4" source="cont4.huecos">
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetopright</position>
+					<offset>10,120</offset>
+					
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+					
+			</sheetnumber>
+			
+			<labeledstring name="nombre_con5">
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetopleft</position>
+					<offset>20,150</offset>
+					<size>
+						<width>120</width>
+					</size>
+				</anchored>
+				<label>V</label>
+			</labeledstring>
+			
+			<button_toggle name="contenedor5">
+				<anchored>
+					<to>nombre_con5</to>
+					<position>left</position>
+					<offset>2,3</offset>
+					<size>
+						<width>10</width>
+					</size>
+				</anchored>
+				<icon>punto_rojo</icon>
+				<tooltip>
+					<text>Pulsa para ver mochila 5</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local conval = getValue();
+						
+						if conval == true then 
+							window.contenedor2.setValue(false);
+							window.contenedor1.setValue(false);
+							window.contenedor4.setValue(false);
+							window.contenedor3.setValue(false);
+							window.contenedor6.setValue(false);
+							window.inventorylist5.setVisible(true);
+							window.scroller5.setVisible(true);
+							window.TOTALload5.setVisible(true);
+							window.TOTALlabel5.setVisible(true);
+							
+						end
+						
+						if conval == false then
+							window.inventorylist5.setVisible(false);
+							window.scroller5.setVisible(false);
+							window.TOTALload5.setVisible(false);
+							window.TOTALlabel5.setVisible(false);
+						end
+					end
+				</script>
+			</button_toggle>
+			
+			<sheetnumber name="Hueco_cont5" source="cont5.huecos">
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetopright</position>
+					<offset>10,150</offset>
+					
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+					
+			</sheetnumber>
+			
+			<labeledstring name="nombre_con6">
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetopleft</position>
+					<offset>20,180</offset>
+					<size>
+						<width>120</width>
+					</size>
+				</anchored>
+				<label>VI</label>
+			</labeledstring>
+			
+			<button_toggle name="contenedor6">
+				<anchored>
+					<to>nombre_con6</to>
+					<position>left</position>
+					<offset>2,3</offset>
+					<size>
+						<width>10</width>
+					</size>
+				</anchored>
+				<icon>punto_rojo</icon>
+				<tooltip>
+					<text>Pulsa para ver mochila 6</text>
+				</tooltip>
+				<script>
+					function onInit()
+						super.onInit();
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						local conval = getValue();
+						
+						if conval == true then 
+							window.contenedor2.setValue(false);
+							window.contenedor1.setValue(false);
+							window.contenedor4.setValue(false);
+							window.contenedor5.setValue(false);
+							window.contenedor3.setValue(false);
+							window.inventorylist6.setVisible(true);
+							window.scroller6.setVisible(true);
+							window.TOTALload6.setVisible(true);
+							window.TOTALlabel6.setVisible(true);
+							
+						end
+						
+						if conval == false then
+							window.inventorylist6.setVisible(false);
+							window.scroller6.setVisible(false);
+							window.TOTALload6.setVisible(false);
+							window.TOTALlabel6.setVisible(false);
+						end
+					end
+				</script>
+			</button_toggle>
+			
+			<sheetnumber name="Hueco_cont6" source="cont6.huecos">
+				<anchored>
+					<to>contenedorframe</to>
+					<position>insidetopright</position>
+					<offset>10,180</offset>
+					
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+					
+			</sheetnumber>
+			
+			<genericcontrol name="oroframe">
+				<bounds>315,425,190,160</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<sheetnumber name="gastado_oro">
+				<anchored>
+					<to>oroframe</to>
+					<position>insidetopleft</position>
+					<offset>80,20</offset>
+					<size>
+						<width>45</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				
+			</sheetnumber>
+			
+			<stringcontrol>
+				<anchored>
+					<to>gastado_oro</to>
+					<position>left</position>
+					<offset>5,-2</offset>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Cambio</static>
+			</stringcontrol>
+			
+			<sheetnumber name="oro">
+				<anchored>
+					<to>oroframe</to>
+					<position>insidetopleft</position>
+					<offset>130,60</offset>
+					<size>
+						<width>45</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("number") then
+							setValue(getValue() + draginfo.getNumberData());
+							return true;
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			<stringcontrol>
+				<anchored>
+					<to>oro</to>
+					<position>left</position>
+					<offset>15,0</offset>
+					<size>
+						<width>30</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Oro</static>
+			</stringcontrol>
+			
+			<sheetnumber name="bolsa">
+				<anchored>
+					<to>oroframe</to>
+					<position>insidetopleft</position>
+					<offset>130,90</offset>
+					<size>
+						<width>45</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("number") then
+							setValue(getValue() + draginfo.getNumberData());
+							return true;
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			<stringcontrol>
+				<anchored>
+					<to>bolsa</to>
+					<position>left</position>
+					<offset>15,0</offset>
+					<size>
+						<width>60</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Monedero</static>
+			</stringcontrol>
+			
+			<sheetnumber name="bolsa2">
+				<anchored>
+					<to>oroframe</to>
+					<position>insidetopleft</position>
+					<offset>130,120</offset>
+					<size>
+						<width>45</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("number") then
+							setValue(getValue() + draginfo.getNumberData());
+							return true;
+						end
+					end
+				</script>
+			</sheetnumber>
+			
+			<labeledstring name="bolsa_otro">
+				<anchored>
+					<to>bolsa2</to>
+					<position>left</position>
+					<offset>15,0</offset>
+					<size>
+						<width>100</width>
+					</size>
+				</anchored>
+				<label>Otro lugar</label>
+			</labeledstring>
+			
+		</sheetdata>
+	</windowclass>
+</root>

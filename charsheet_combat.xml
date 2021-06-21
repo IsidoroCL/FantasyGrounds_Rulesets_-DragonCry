@@ -1,0 +1,2365 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<template name="weapon_string">
+		<stringfield>
+			<font>sheettext</font>
+			<frame>
+				<name>textline</name>
+				<offset>0,0,0,0</offset>
+			</frame>
+		</stringfield>
+	</template>
+	<template name="weapon_number">
+		<jpgnumberfield>
+			<font>sheetnumbersmall</font>
+			<keyeditframe>
+				<name>sheetfocus</name>
+				<offset>0,3,0,3</offset>
+			</keyeditframe>
+			<stateframe>
+				<drophilight>
+					<name>sheetfocus</name>
+					<offset>0,3,0,3</offset>
+				</drophilight>
+			</stateframe>
+			<droptypes>
+				<type>number</type>
+			</droptypes>
+		</jpgnumberfield>
+	</template>
+	
+	<windowclass name="charsheet_featitem">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<windowreferencefield name="detalles_otros">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+
+			<textlistitemvalue name="value">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>2</offset>
+					</left>
+					<right>
+						<parent>detalles_otros</parent>
+						<anchor>left</anchor>
+						<offset>-3</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+			</textlistitemvalue>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="charsheet_weaponlistitem">
+		<sizelimits>
+			<minimum>
+				<height>80</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<numberfield name="order">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+				<script>
+					function onInit()
+						onValueChanged();
+					end
+					
+					function onValueChanged()
+						window.orderlabel.setValue("" .. getValue() .. ".");
+					end
+				</script>
+			</numberfield>
+			<jpgnumberfield name="carcaj1" source="n1.carcaj">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+				
+			</jpgnumberfield>
+			<stringcontrol name="orderlabel">
+				<anchored>
+					<position>insidetopleft</position>
+					<size>
+						<width>15</width>
+					</size>
+				</anchored>
+				<font>sheettext</font>
+				<static />
+			</stringcontrol>
+			
+			<weapon_string name="name">
+				<anchored>
+					<position>insidetopleft</position>
+					<offset>15,0</offset>
+					<size>
+						<width>220</width>
+					</size>
+				</anchored>
+				<tabtarget next="bonus" prev="properties" />
+			</weapon_string>
+			
+			<sheetnumber name="arma_nivel" source="arma.nivel">
+				<anchored>
+					<to>name</to>
+					<position>right</position>
+					<offset>3,0</offset>
+					<size>
+						<width>25</width>
+						<height>10</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				<hideonvalue value="0" />
+				<displaysign />
+				<static>Nivel</static>
+			</sheetnumber>
+			
+			<!--checkbox name="manos" source="manos.uso">
+				<anchored>
+					<to>arma_nivel</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<stateicons>
+					<on>indicator_ranged</on>
+					<off>indicator_melee</off>
+				</stateicons>
+			</checkbox>
+			
+			<labelcycler name="tipo_arma" source="arma.tipo">
+				<anchored>
+					<to>manos</to>
+					<position>right</position>
+					<offset>3,0</offset>
+					<size>
+						<width>45</width>
+					</size>
+				</anchored>
+				<center />
+				<sourcefields>
+					<defaultlabel>Desarma</defaultlabel>
+					<labels>E.corta|E.larga|Hacha|Martillo|Baston|Lanza|Proyec|Arco|Otras|Desarma</labels>
+					<values>1|2|3|4|5|6|7|8|9|10</values>
+					
+				</sourcefields>
+			</labelcycler-->
+
+			
+			
+			<windowreferencefield name="shortcut">
+				<anchored>
+					<to>arma_nivel</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<!-- BASE-->
+			
+			<stringcontrol name="Base_arma">
+				<anchored>
+					<top>
+						<parent>arma_nivel</parent>
+						<anchor>bottom</anchor>
+						<offset>5</offset>
+					</top>
+					<left>
+						<parent>name</parent>
+						<anchor>left</anchor>
+						<offset>-10</offset>
+					</left>
+					<size>
+						<height>20</height>
+						<width>30</width>
+					</size>
+				</anchored>
+				<right />
+				<font>sheetlabel</font>
+				<static>BASE</static>
+			</stringcontrol>
+			
+			<stringcontrol name="punteria_label">
+				<anchored>
+					<to>Base_arma</to>
+					<position>right</position>
+					<offset>3,-3</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<right />
+				<font>sheetlabelsmall</font>
+				<static>Punt</static>
+			</stringcontrol>
+			
+			<sheetnumber name="punteria_arma" source="arma.punteria">
+				<anchored>
+					<to>punteria_label</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				<displaysign />
+				<script>
+					function onDoubleClick(x,y)
+						local attack_name, attack_mod = CharSheetCommon.getWeaponAttack(window.getDatabaseNode());
+						local carcaj = window.getDatabaseNode().
+								getChild("n1.carcaj").getValue();
+						ChatManager.DoubleClickAction("attack", 0, attack_name, {pc = window.getDatabaseNode().getParent().getParent()});
+						if carcaj then
+							carcaj = carcaj - 1
+						end
+						return true;
+						
+					end
+					
+					function onDrag(button, x, y, draginfo)
+						local attack_name = CharSheetCommon.getWeaponAttack(window.getDatabaseNode());
+						
+						if OptionsManager.isOption("DRGR", "on") then
+							draginfo.setType("dice");
+							draginfo.setDieList({ "d12" });
+						else
+							draginfo.setType("number");
+						end
+						draginfo.setDescription(attack_name);
+						
+
+						return true;
+					end
+				</script>
+				
+			</sheetnumber>
+			
+			<stringcontrol name="dar_label">
+				<anchored>
+					<to>punteria_arma</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<right />
+				<font>sheetlabelsmall</font>
+				<static>Dar</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_arma" source="arma.dar">
+				<anchored>
+					<to>dar_label</to>
+					<position>right</position>
+					<offset>1,0</offset>
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				
+				<displaysign />
+				<script>
+					function onDoubleClick(x,y)
+						local attack_name, attack_mod = CharSheetCommon.getWeaponAttack(window.getDatabaseNode());
+						
+						ChatManager.DoubleClickAction("attack", 0, attack_name, {pc = window.getDatabaseNode().getParent().getParent()});
+
+						return true;
+					end
+					
+					function onDrag(button, x, y, draginfo)
+						local attack_name = CharSheetCommon.getWeaponAttack(window.getDatabaseNode());
+						
+						if OptionsManager.isOption("DRGR", "on") then
+							draginfo.setType("dice");
+							draginfo.setDieList({ "d12" });
+						else
+							draginfo.setType("number");
+						end
+						draginfo.setDescription(attack_name);
+						
+
+						return true;
+					end
+				</script>
+				
+			</sheetnumber>
+			
+			<stringcontrol name="danno_label">
+				<anchored>
+					<to>dar_arma</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<height>20</height>
+						<width>30</width>
+					</size>
+				</anchored>
+				<right />
+				<font>sheetlabelsmall</font>
+				<static>Daño</static>
+			</stringcontrol>
+			
+			
+			<diefield name="damagedice" source="arma.dados">
+				<anchored>
+					<to>danno_label</to>
+					<position>right</position>
+					<offset>0,0</offset>
+					<size>
+						<height>25</height>
+						<width>70</width>
+					</size>
+				</anchored>
+				<noreset />
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<stateframe>
+					<drophilight>
+						<name>sheetfocus</name>
+						<offset>0,3,0,3</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>dice</type>
+				</droptypes>
+				<script>
+					function onDoubleClick(x,y)
+						local damage_name = CharSheetCommon.getWeaponDamage(window.getDatabaseNode());
+						local damage_mod = window.getDatabaseNode().
+								getChild("arma.danno").getValue();
+						local damage_dice = window.getDatabaseNode().
+								getChild("arma.dados").getValue();
+						ChatManager.DoubleClickDieControl("damage", damage_mod, damage_name, {pc = window.getDatabaseNode().getParent().getParent()}, damage_dice);
+
+						return true;
+					end			
+
+					function onDrag(button, x, y, draginfo)
+						local damage_name = CharSheetCommon.getWeaponDamage(window.getDatabaseNode());
+						local damage_mod = window.getDatabaseNode().
+								getChild("arma.danno").getValue();
+						local damage_dice = window.getDatabaseNode().
+								getChild("arma.dados").getValue();
+						draginfo.setType("damage");
+						draginfo.setDieList(damage_dice);
+						draginfo.setNumberData(damage_mod);
+						draginfo.setDescription(damage_name);
+						draginfo.setShortcutData("charsheet", window.getDatabaseNode().getParent().getParent().getNodeName());
+
+						return true;
+					end
+				</script>
+			</diefield>
+			
+			<sheetnumber name="danno_arma" source="arma.danno">
+				<anchored>
+					<to>damagedice</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>35</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				<hideonvalue value="0" />
+				<displaysign />
+				
+			</sheetnumber>
+			
+			<checkbox name="of_def" source="of.def">
+				<anchored>
+					<to>Base_arma</to>
+					<position>below</position>
+					<offset>0,5</offset>
+					<size>
+						<width>30</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<stateicons>
+					<on>indicator_ranged</on>
+					<off>indicator_melee</off>
+				</stateicons>
+			</checkbox>
+			
+		<!--MOD-->	
+			<stringcontrol name="punteria_label2">
+				<anchored>
+					<to>of_def</to>
+					<position>right</position>
+					<offset>3,-3</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<right />
+				<font>sheetlabelsmall</font>
+				<static>Punt</static>
+			</stringcontrol>
+			
+			<sheetnumber name="punteria_arma_mod" source="arma.punteriamod">
+				<anchored>
+					<to>punteria_label2</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				
+				<displaysign />
+				
+				<script>
+					function onDoubleClick(x,y)
+						local attack_name, attack_mod = CharSheetCommon.getWeaponAttack(window.getDatabaseNode());
+						
+						ChatManager.DoubleClickAction("attack", 0, attack_name, {pc = window.getDatabaseNode().getParent().getParent()});
+
+						return true;
+					end
+					
+					function onDrag(button, x, y, draginfo)
+						local attack_name = CharSheetCommon.getWeaponAttack(window.getDatabaseNode());
+						
+						if OptionsManager.isOption("DRGR", "on") then
+							draginfo.setType("dice");
+							draginfo.setDieList({ "d12" });
+						else
+							draginfo.setType("number");
+						end
+						draginfo.setDescription(attack_name);
+						
+
+						return true;
+					end
+					
+					
+				</script>
+			</sheetnumber>
+			
+			<stringcontrol name="dar_label2">
+				<anchored>
+					<to>punteria_arma_mod</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<right />
+				<font>sheetlabelsmall</font>
+				<static>Dar</static>
+			</stringcontrol>
+			
+			<sheetnumber name="dar_arma_mod" source="arma.darmod">
+				<anchored>
+					<to>dar_label2</to>
+					<position>right</position>
+					<offset>1,0</offset>
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				
+				<displaysign />
+				<script>
+					function onDoubleClick(x,y)
+						local attack_name, attack_mod = CharSheetCommon.getWeaponAttack(window.getDatabaseNode());
+						
+						ChatManager.DoubleClickAction("attack", 0, attack_name, {pc = window.getDatabaseNode().getParent().getParent()});
+
+						return true;
+					end
+					
+					function onDrag(button, x, y, draginfo)
+						local attack_name = CharSheetCommon.getWeaponAttack(window.getDatabaseNode());
+						
+						if OptionsManager.isOption("DRGR", "on") then
+							draginfo.setType("dice");
+							draginfo.setDieList({ "d12" });
+						else
+							draginfo.setType("number");
+						end
+						draginfo.setDescription(attack_name);
+						
+
+						return true;
+					end
+					
+					
+				</script>
+			</sheetnumber>
+			
+			<stringcontrol name="danno_label2">
+				<anchored>
+					<to>dar_arma_mod</to>
+					<position>right</position>
+					<offset>8,0</offset>
+					<size>
+						<height>20</height>
+						<width>30</width>
+					</size>
+				</anchored>
+				<right />
+				<font>sheetlabelsmall</font>
+				<static>Daño</static>
+			</stringcontrol>
+			
+			
+			<diefield name="damagedice2" source="arma.dados">
+				<anchored>
+					<to>danno_label2</to>
+					<position>right</position>
+					<offset>0,0</offset>
+					<size>
+						<height>25</height>
+						<width>70</width>
+					</size>
+				</anchored>
+				<noreset />
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<stateframe>
+					<drophilight>
+						<name>sheetfocus</name>
+						<offset>0,3,0,3</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>dice</type>
+				</droptypes>
+				<script>
+					function onDoubleClick(x,y)
+						local damage_name = CharSheetCommon.getWeaponDamage(window.getDatabaseNode());
+						local damage_mod = window.getDatabaseNode().
+								getChild("arma.dannomod").getValue();
+						local damage_dice = window.getDatabaseNode().
+								getChild("arma.dados").getValue();
+						ChatManager.DoubleClickDieControl("damage", damage_mod, damage_name, {pc = window.getDatabaseNode().getParent().getParent()}, damage_dice);
+
+						return true;
+					end			
+
+					function onDrag(button, x, y, draginfo)
+						local damage_name = CharSheetCommon.getWeaponDamage(window.getDatabaseNode());
+						local damage_mod = window.getDatabaseNode().
+								getChild("arma.dannomod").getValue();
+						local damage_dice = window.getDatabaseNode().
+								getChild("arma.dados").getValue();
+						draginfo.setType("damage");
+						draginfo.setDieList(damage_dice);
+						draginfo.setNumberData(damage_mod);
+						draginfo.setDescription(damage_name);
+						draginfo.setShortcutData("charsheet", window.getDatabaseNode().getParent().getParent().getNodeName());
+
+						return true;
+					end
+				</script>
+			</diefield>
+			
+			<sheetnumber name="danno_arma_mod" source="arma.dannomod">
+				<anchored>
+					<to>damagedice2</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>35</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<font>sheetnumbersmall</font>
+				<hideonvalue value="0" />
+				<displaysign />
+				
+			</sheetnumber>
+
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_combat">
+		<placement>
+			<size>
+				<width>252</width>
+				<height>611</height>
+			</size>
+		</placement>
+		<nodelete />
+		<sheetdata>
+		
+		<!-- NAME / RACE -->
+			<genericcontrol name="overviewframe">
+				<bounds>15,20,480,45</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<labeledstring name="name">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>15,10</offset>
+					<size>
+						<width>250</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<label>Nombre</label>
+				<tabtarget>
+					<next>race</next>
+					<prev>notes</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="race">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>275,10</offset>
+					<size>
+						<width>195</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>Raza</label>
+				<tabtarget>
+					<next>gender</next>
+					<prev>name</prev>
+				</tabtarget>
+			</labeledstring>
+
+						
+			<!-- WEAPONS / IMPLEMENTS -->
+			<genericcontrol name="weaponframe">
+				<bounds>15,320,320,270</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>weaponframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<center />
+				<font>sheetlabel</font>
+				<static>Armas</static>
+			</stringcontrol>
+			
+			<windowlist name="weaponlist">
+				<anchored>
+					<to>weaponframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>weaponframe</parent>
+						<offset>35</offset>
+					</top>
+				</anchored>
+				<datasource>.weaponlist</datasource>
+				<class>charsheet_weaponlistitem</class>
+				<allowdelete />
+				<script file="scripts/charsheet_weaponlist.lua" />
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>weaponlist</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>weaponlist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<genericcontrol name="otrosframe">
+				<bounds>335,320,165,175</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>otrosframe</to>
+					<position>insidetop</position>
+					<offset>0,11</offset>
+				</anchored>
+				<center />
+				<font>sheetlabelsmall</font>
+				<static>Anillos y otros</static>
+			</stringcontrol>
+			
+			<windowlist name="otroslist">
+				<anchored>
+					<to>otrosframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>otrosframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+				<datasource>.otroslist</datasource>
+				<class>charsheet_featitem</class>
+				<allowcreate />
+				<allowdelete />
+				<script file="scripts/charsheet_abilities.lua" />
+			</windowlist>
+			
+			<genericcontrol name="carcajframe">
+				<bounds>335,490,165,100</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<jpgnumberfield name="carcaj1" source="n1.carcaj">
+				<anchored>
+					<to>carcajframe</to>
+					<position>insidetopleft</position>
+					<offset>20,20</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<checkcounterold name="carcajselec_1" source="elec1.carcaj">
+				<anchored>
+					<to>carcaj1</to>
+					<position>left</position>
+					<offset>2,3</offset>
+				</anchored>
+				<sourcefields>
+					<current>elec1.carcaj</current>
+					<maximum>elec1.carcajmax</maximum>
+				</sourcefields>
+				<!--script>
+					function recalc()
+						setValue(0)
+					end
+					
+					
+					function onInit()
+						super.onInit();
+						setMaxValue(1);
+							
+						local ba3 = window.getDatabaseNode().
+								getChild("elec3.carcaj");
+						local ba2 = window.getDatabaseNode().
+								getChild("elec2.carcaj");
+						
+						if ba3 then
+							ba3.onUpdate = recalc;
+						recalc();
+						end
+						
+						if ba2 then
+							ba2.onUpdate = recalc;
+						recalc();
+						end
+						
+					end
+				</script-->
+			</checkcounterold>
+			
+			<labeledstring name="carcajlabel1" >
+				<anchored>
+					<to>carcaj1</to>
+					<position>right</position>
+					<offset>5,3</offset>
+					<size>
+						<width>80</width>
+					</size>
+				</anchored>
+				<label>Carcaj 1</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="carcaj1_especial">
+				<anchored>
+					<to>carcajlabel1</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="carcaj2" source="n2.carcaj">
+				<anchored>
+					<to>carcajframe</to>
+					<position>insidetopleft</position>
+					<offset>20,40</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<checkcounterold name="carcajselec_2" source="elec2.carcaj">
+				<anchored>
+					<to>carcaj2</to>
+					<position>left</position>
+					<offset>2,3</offset>
+				</anchored>
+				<sourcefields>
+					<current>elec2.carcaj</current>
+					<maximum>elec2.carcajmax</maximum>
+				</sourcefields>
+				<!--script>
+					function recalc()
+						setValue(0)
+					end
+					
+					
+					function onInit()
+						super.onInit();
+						setMaxValue(1);
+						
+						
+						local aa1 = window.getDatabaseNode().
+								getChild("elec1.carcaj");
+						local aa3 = window.getDatabaseNode().
+								getChild("elec3.carcaj");
+						
+						if aa1 then
+							aa1.onUpdate = recalc;
+						recalc();
+						end
+						
+						if aa3 then
+							aa3.onUpdate = recalc;
+						recalc();
+						end
+						
+					end
+				</script-->
+			</checkcounterold>
+			
+			<labeledstring name="carcajlabel2" >
+				<anchored>
+					<to>carcaj2</to>
+					<position>right</position>
+					<offset>5,3</offset>
+					<size>
+						<width>80</width>
+					</size>
+				</anchored>
+				<label>Carcaj 2</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="carcaj2_especial">
+				<anchored>
+					<to>carcajlabel2</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="carcaj3" source="n3.carcaj">
+				<anchored>
+					<to>carcajframe</to>
+					<position>insidetopleft</position>
+					<offset>20,60</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<checkcounterold name="carcajselec_3" source="elec3.carcaj">
+				<anchored>
+					<to>carcaj3</to>
+					<position>left</position>
+					<offset>2,3</offset>
+				</anchored>
+				<sourcefields>
+					<current>elec3.carcaj</current>
+					<maximum>elec3.carcajmax</maximum>
+				</sourcefields>
+				<!--script>
+					function onClickRelease(button, x, y)
+						local n = getValue();
+						local t = 0
+						
+						t = n -1
+						setValue(t)
+					end
+					
+					function recalc()
+						setValue(0)
+					end
+					
+					
+					function onInit()
+						super.onInit();
+						setMaxValue(1);
+						
+						
+						local ca1 = window.getDatabaseNode().
+								getChild("elec1.carcaj");
+						local ca2 = window.getDatabaseNode().
+								getChild("elec2.carcaj");
+						
+						if ca1 then
+							ca1.onUpdate = recalc;
+						recalc();
+						end
+						
+						if ca2 then
+							ca2.onUpdate = recalc;
+						recalc();
+						end
+						
+					end
+				</script-->
+			</checkcounterold>
+			
+			<labeledstring name="carcajlabel3" >
+				<anchored>
+					<to>carcaj3</to>
+					<position>right</position>
+					<offset>5,3</offset>
+					<size>
+						<width>80</width>
+					</size>
+				</anchored>
+				<label>Carcaj 3</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="carcaj3_especial">
+				<anchored>
+					<to>carcajlabel3</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<!-- Armadura -->
+			<genericcontrol name="armorframe1">
+				<bounds>15,60,235,260</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>armorframe1</to>
+					<position>insidetopleft</position>
+					<offset>15,12</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Armadura 1</static>
+			</stringcontrol>
+
+			<jpgnumberfield name="cabeza_armor1" source="cabeza.armor1">
+				<anchored>
+					<to>armorframe1</to>
+					<position>insidetopleft</position>
+					<offset>15,33</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<tabtarget>
+					<next>cabeza1</next>
+					<prev>armorframe1</prev>
+				</tabtarget>
+			</jpgnumberfield>
+			
+			<labeledstring name="cabeza1" >
+				<anchored>
+					<to>cabeza_armor1</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Cabeza</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="cabeza_especial">
+				<anchored>
+					<to>cabeza1</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="torso_armor1" source="torso.armor1">
+				<anchored>
+					<to>cabeza_armor1</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<labeledstring name="torso1" >
+				<anchored>
+					<to>torso_armor1</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Torso</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="torso_especial">
+				<anchored>
+					<to>torso1</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+								
+			</windowreferencefield>
+			
+			<jpgnumberfield name="brazos_armor1" source="brazos.armor1">
+				<anchored>
+					<to>torso_armor1</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<labeledstring name="brazos1" >
+				<anchored>
+					<to>brazos_armor1</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Brazos</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="brazos_especial">
+				<anchored>
+					<to>brazos1</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="piernas_armor1" source="piernas.armor1">
+				<anchored>
+					<to>brazos_armor1</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<labeledstring name="piernas1" >
+				<anchored>
+					<to>piernas_armor1</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Piernas</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="piernas_especial">
+				<anchored>
+					<to>piernas1</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+						
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="escudo_armor1" source="escudo.armor1">
+				<anchored>
+					<to>piernas_armor1</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<labeledstring name="escudo1" >
+				<anchored>
+					<to>escudo_armor1</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Escudo</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="escudo_especial">
+				<anchored>
+					<to>escudo1</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+						
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="otros_armor1" source="otros.armor1">
+				<anchored>
+					<to>escudo_armor1</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<labeledstring name="otros1" >
+				<anchored>
+					<to>otros_armor1</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Otros</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="otros_especial">
+				<anchored>
+					<to>otros1</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="posicion_armor1" source="posicion.armor1">
+				<anchored>
+					<to>otros_armor1</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<labeledstring name="posicion1" >
+				<anchored>
+					<to>posicion_armor1</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Posicion defensiva/Esquivar</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="posicion_especial">
+				<anchored>
+					<to>posicion1</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="armor1" source="armor1.total">
+				<anchored>
+					<to>posicion_armor1</to>
+					<position>insidetopleft</position>
+					<offset>100,30</offset>
+					<size>
+						<width>35</width>
+						<height>35</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<readonly />
+				<center />
+				<script>
+					function recalc()
+						local cabeza1 = window.getDatabaseNode().
+								getChild("cabeza.armor1").getValue();
+						local torso1 = window.getDatabaseNode().
+								getChild("torso.armor1").getValue();
+						local brazos1 = window.getDatabaseNode().
+								getChild("brazos.armor1").getValue();
+						local piernas1 = window.getDatabaseNode().
+								getChild("piernas.armor1").getValue();
+						local escudo1 = window.getDatabaseNode().
+								getChild("escudo.armor1").getValue();
+						local otros1 = window.getDatabaseNode().
+								getChild("otros.armor1").getValue();
+						local posicion1 = window.getDatabaseNode().
+								getChild("posicion.armor1").getValue();
+						
+						local total1 = cabeza1+torso1+brazos1+piernas1+escudo1+otros1+posicion1
+						
+						setValue(total1)
+					end
+					
+					function onInit()
+						local tor1 = window.getDatabaseNode().
+								getChild("torso.armor1");
+						local cab1 = window.getDatabaseNode().
+								getChild("cabeza.armor1");		
+						local bra1 = window.getDatabaseNode().
+								getChild("brazos.armor1");
+						local pie1 = window.getDatabaseNode().
+								getChild("piernas.armor1");
+						local esc1 = window.getDatabaseNode().
+								getChild("escudo.armor1");
+						local otr1 = window.getDatabaseNode().
+								getChild("otros.armor1");
+						local pos1 = window.getDatabaseNode().
+								getChild("posicion.armor1");
+								
+						if tor1 then
+							tor1.onUpdate = recalc;
+						recalc();
+						end
+						
+						if cab1 then
+							cab1.onUpdate = recalc;
+						recalc();
+						end
+						
+						if bra1 then
+							bra1.onUpdate = recalc;
+						recalc();
+						end
+						
+						if pie1 then
+							pie1.onUpdate = recalc;
+						recalc();
+						end
+						
+						if esc1 then
+							esc1.onUpdate = recalc;
+						recalc();
+						end
+						
+						if otr1 then
+							otr1.onUpdate = recalc;
+						recalc();
+						end
+						
+						if pos1 then
+							pos1.onUpdate = recalc;
+						recalc();
+						end
+					end
+					
+					
+										
+				</script>
+					
+			</jpgnumberfield>
+			
+			<stringcontrol>
+				<anchored>
+					<to>armor1</to>
+					<position>left</position>
+					<offset>15,-10</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>TOTAL</static>
+			</stringcontrol>
+			
+			<!--Armadura 2-->
+			<genericcontrol name="armorframe2">
+				<bounds>265,60,235,260</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>armorframe2</to>
+					<position>insidetopleft</position>
+					<offset>15,12</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Armadura 2</static>
+			</stringcontrol>
+
+			<jpgnumberfield name="cabeza_armor2" source="cabeza.armor2">
+				<anchored>
+					<to>armorframe2</to>
+					<position>insidetopleft</position>
+					<offset>15,33</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<tabtarget>
+					<next>cabeza2</next>
+					<prev>armorframe2</prev>
+				</tabtarget>
+			</jpgnumberfield>
+			
+			<labeledstring name="cabeza2" >
+				<anchored>
+					<to>cabeza_armor2</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Cabeza</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="cabeza_especial2">
+				<anchored>
+					<to>cabeza2</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="torso_armor2" source="torso.armor2">
+				<anchored>
+					<to>cabeza_armor2</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<labeledstring name="torso2" >
+				<anchored>
+					<to>torso_armor2</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Torso</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="torso_especial2">
+				<anchored>
+					<to>torso2</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="brazos_armor2" source="brazos.armor2">
+				<anchored>
+					<to>torso_armor2</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<labeledstring name="brazos2" >
+				<anchored>
+					<to>brazos_armor2</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Brazos</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="brazos_especial2">
+				<anchored>
+					<to>brazos2</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="piernas_armor2" source="piernas.armor2">
+				<anchored>
+					<to>brazos_armor2</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<labeledstring name="piernas2" >
+				<anchored>
+					<to>piernas_armor2</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Piernas</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="piernas_especial2">
+				<anchored>
+					<to>piernas2</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="escudo_armor2" source="escudo.armor2">
+				<anchored>
+					<to>piernas_armor2</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<labeledstring name="escudo2" >
+				<anchored>
+					<to>escudo_armor2</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Escudo</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="escudo_especial2">
+				<anchored>
+					<to>escudo2</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="otros_armor2" source="otros.armor2">
+				<anchored>
+					<to>escudo_armor2</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<labeledstring name="otros2" >
+				<anchored>
+					<to>otros_armor2</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Otros</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="otros_especial2">
+				<anchored>
+					<to>otros2</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+						
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="posicion_armor2" source="posicion.armor2">
+				<anchored>
+					<to>otros_armor2</to>
+					<position>insidetopleft</position>
+					<offset>0,25</offset>
+					<size>
+						<width>25</width>
+						<height>16</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,6</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,6</offset>
+				</keyeditframe>
+				<font>sheetnumbersmall</font>
+				<noreset />
+				<stateframe>
+					<drophilight>
+						<name>sheetfocusplus</name>
+						<offset>5,5,5,5</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				
+			</jpgnumberfield>
+			
+			<labeledstring name="posicion2" >
+				<anchored>
+					<to>posicion_armor2</to>
+					<position>right</position>
+					<offset>10,3</offset>
+					<size>
+						<width>150</width>
+					</size>
+				</anchored>
+				<label>Posicion defensiva/Esquivar</label>
+				
+			</labeledstring>
+			
+			<windowreferencefield name="posicion_especial2">
+				<anchored>
+					<to>posicion2</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+						
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+			
+			<jpgnumberfield name="armor2" source="armor2.total">
+				<anchored>
+					<to>posicion_armor2</to>
+					<position>insidetopleft</position>
+					<offset>100,30</offset>
+					<size>
+						<width>35</width>
+						<height>35</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<readonly />
+				<center />
+				<script>
+					function recalc()
+						local cabeza2 = window.getDatabaseNode().
+								getChild("cabeza.armor2").getValue();
+						local torso2 = window.getDatabaseNode().
+								getChild("torso.armor2").getValue();
+						local brazos2 = window.getDatabaseNode().
+								getChild("brazos.armor2").getValue();
+						local piernas2 = window.getDatabaseNode().
+								getChild("piernas.armor2").getValue();
+						local escudo2 = window.getDatabaseNode().
+								getChild("escudo.armor2").getValue();
+						local otros2 = window.getDatabaseNode().
+								getChild("otros.armor2").getValue();
+						local posicion2 = window.getDatabaseNode().
+								getChild("posicion.armor2").getValue();
+						
+						local total = cabeza2+torso2+brazos2+piernas2+escudo2+otros2+posicion2
+						
+						setValue(total)
+					end
+					
+					function onInit()
+						local tor2 = window.getDatabaseNode().
+								getChild("torso.armor2");
+						local cab2 = window.getDatabaseNode().
+								getChild("cabeza.armor2");		
+						local bra2 = window.getDatabaseNode().
+								getChild("brazos.armor2");
+						local pie2 = window.getDatabaseNode().
+								getChild("piernas.armor2");
+						local esc2 = window.getDatabaseNode().
+								getChild("escudo.armor2");
+						local otr2 = window.getDatabaseNode().
+								getChild("otros.armor2");
+						local pos2 = window.getDatabaseNode().
+								getChild("posicion.armor2");
+								
+						if tor2 then
+							tor2.onUpdate = recalc;
+						recalc();
+						end
+						
+						if cab2 then
+							cab2.onUpdate = recalc;
+						recalc();
+						end
+						
+						if bra2 then
+							bra2.onUpdate = recalc;
+						recalc();
+						end
+						
+						if pie2 then
+							pie2.onUpdate = recalc;
+						recalc();
+						end
+						
+						if esc2 then
+							esc2.onUpdate = recalc;
+						recalc();
+						end
+						
+						if otr2 then
+							otr2.onUpdate = recalc;
+						recalc();
+						end
+						
+						if pos2 then
+							pos2.onUpdate = recalc;
+						recalc();
+						end
+					end
+					
+										
+				</script>
+					
+			</jpgnumberfield>
+			
+			<stringcontrol>
+				<anchored>
+					<to>armor2</to>
+					<position>left</position>
+					<offset>15,-10</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>TOTAL</static>
+			</stringcontrol>
+			
+		</sheetdata>
+		
+	</windowclass>
+</root>

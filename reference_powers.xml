@@ -1,0 +1,1018 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="reference_grantedpower">
+		<sizelimits>
+			<minimum>
+				<height>0</height>
+			</minimum>
+			<maximum>
+				<height>35</height>
+			</maximum>
+		</sizelimits>
+		<script>
+			function onInit()
+				linknode = link.getTargetDatabaseNode();
+				if linknode then
+					if NodeManager.getSafeChildValue(linknode, "class", "") == "Granted" then
+						linkedpowername.setValue(NodeManager.getSafeChildValue(linknode, "action", ""));
+					else
+						linkedpowername.setValue(NodeManager.getSafeChildValue(linknode, "name", ""));
+					end
+				end
+			end
+		</script>
+		<sheetdata>
+			<windowreferencefield name="link">
+				<anchored>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<script>
+					function onDrag(button, x, y, draginfo)
+						draginfo.setType("shortcut");
+						draginfo.setIcon(icon[1].normal[1]);
+						draginfo.setShortcutData(getValue());
+						draginfo.setDescription(getTargetDatabaseNode().getChild("name").getValue());
+						
+						return true;
+					end
+				</script>
+			</windowreferencefield>
+			<staticlinkstringfield name="linkedpowername">
+				<anchored>
+					<top>
+						<parent>link</parent>
+						<anchor>top</anchor>
+					</top>
+					<left>
+						<parent>link</parent>
+						<anchor>right</anchor>
+						<offset>8</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-7</offset>
+					</right>
+				</anchored>
+				<font>narratorfont</font>
+				<linktarget>link</linktarget>
+			</staticlinkstringfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_featlistitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+		</sizelimits>
+		<script>
+			function onInit()
+				local linknode = link.getTargetDatabaseNode();
+
+				if linknode then
+					name.setValue(NodeManager.getSafeChildValue(linknode, "name", ""));
+					prerequisite.setValue(NodeManager.getSafeChildValue(linknode, "prerequisite", ""));
+					shortdescription.setValue(NodeManager.getSafeChildValue(linknode, "shortdescription", ""));
+				end
+
+				myfilter.setValue(0);
+			end
+		</script>
+		<sheetdata>
+			<numberfield name="myfilter">
+				<bounds>5,0,20,20</bounds>
+				<invisible />
+			</numberfield>
+
+			<windowreferencefield name="link">
+				<bounds>5,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<script>
+					function onDrag(button, x, y, draginfo)
+						draginfo.setType("shortcut");
+						draginfo.setIcon(icon[1].normal[1]);
+						draginfo.setShortcutData(getValue());
+						draginfo.setDescription(getTargetDatabaseNode().getChild("name").getValue());
+						
+						return true;
+					end
+				</script>
+			</windowreferencefield>
+
+			<staticlinkstringcontrol name="name">
+				<bounds>30,2,180,15</bounds>
+				<font>chatfont</font>
+				<underlineoffset>0</underlineoffset>
+				<linktarget>link</linktarget>
+			</staticlinkstringcontrol>
+
+			<stringfield name="prerequisite">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>200</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>180</width>
+					</size>
+				</anchored>
+                <left />
+				<font>chatfont</font>
+				<multilinespacing>15</multilinespacing>
+			</stringfield>
+
+			<stringfield name="shortdescription">
+				<anchored>
+					<left>
+						<parent>name</parent>
+						<offset>400</offset>
+					</left>
+					<top>
+						<parent>name</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>300</width>
+					</size>
+				</anchored>
+				<left />
+				<font>chatfont</font>
+				<multilinespacing>15</multilinespacing>
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_featgrouplistitem">
+		<sizelimits>
+			<minimum>
+				<height>0</height>
+			</minimum>
+			<maximum>
+				<height>100000</height>
+			</maximum>
+		</sizelimits>
+		<script>
+			function showFullHeaders(show_flag)
+				description.setVisible(show_flag);
+				spacer.setVisible(show_flag);	
+				labname.setVisible(show_flag);	
+				labprerequisite.setVisible(show_flag);	
+				labshortdescription.setVisible(show_flag);	
+				myfooter.setVisible(show_flag);
+
+				showListHeaders(show_flag);
+			end
+
+			function showList(show_flag)
+				featlist.setVisible(show_flag);
+
+				showListHeaders(show_flag);
+			end
+
+			function showListHeaders(show_flag)
+			end
+		</script>
+		<sheetdata>
+			<genericcontrol name="spacer">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<bottom>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</bottom>
+				</anchored>
+			</genericcontrol>
+			
+			<stringfield name="description">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>spacer</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						window.showList(not window.featlist.isVisible());
+						return true;
+					end
+				</script>
+				<static />
+			</stringfield>
+			
+			<stringfield name="labname">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>left</anchor>
+						<offset>200</offset>
+					</right>
+					<top>
+						<parent>spacer</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						window.showList(not window.featlist.isVisible());
+						return true;
+					end
+				</script>
+				<static>Name</static>
+			</stringfield>
+
+			<stringfield name="labprerequisite">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>220</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>300</offset>
+					</right>
+					<top>
+						<parent>labname</parent>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						window.showList(not window.featlist.isVisible());
+						return true;
+					end
+				</script>
+				<static>Prerequisite</static>
+			</stringfield>
+
+			<stringfield name="labshortdescription">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>415</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>100</offset>
+					</right>
+					<top>
+						<parent>labname</parent>
+						<anchor>top</anchor>
+					</top>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						window.showList(not window.featlist.isVisible());
+						return true;
+					end
+				</script>
+				<static>Benefit</static>
+			</stringfield>
+
+			<windowlist name="featlist">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>spacer</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<datasource>.powers</datasource>
+				<class>reference_featlistitem</class>
+				<noscroll />
+				<script file="scripts/reference_list.lua" />
+			</windowlist>
+
+			<referenceformattedtextfield name="myfooter">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>25</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-25</offset>
+					</right>
+					<top>
+						<parent>featlist</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<footer>footer_wide</footer>
+			</referenceformattedtextfield>
+		</sheetdata>
+	</windowclass>
+
+	<!-- Feat lists -->
+	<windowclass name="reference_classfeatlist">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>800</width>
+				<height>450</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic>
+				<resize>vertical</resize>
+				<resize>horizontal</resize>
+			</dynamic>
+			<maximum>
+				<height>100000</height>
+			</maximum>
+			<minimum>
+				<width>800</width>
+			</minimum>
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>description</field>
+		</tooltip>
+		<sheetdata>
+			<stringfield name="description">
+				<bounds>17,20,-20,20</bounds>
+				<font>sheetlabel</font>
+				<center />
+				<static />
+			</stringfield>
+			
+			<windowlist name="grouplist">
+				<bounds>17,40,-20,-14</bounds>
+				<datasource>.groups</datasource>
+				<class>reference_featgrouplistitem</class>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>grouplist</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>grouplist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<filter name="filter">
+				<bounds>55,-50,-50,20</bounds>
+				<target>grouplist,featlist</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>-43,-83,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>			
+
+			<genericcontrol name="expand">
+				<icon>expand_icon</icon>				
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>20</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Expand All</text>
+				</tooltip>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+  						for k, topwin in pairs(window.grouplist.getWindows()) do
+							topwin.showList(true);
+  						end
+  						return true;
+					end
+				</script>
+			</genericcontrol>
+			<genericcontrol name="collapse">
+				<icon>collapse_icon</icon>
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>40</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Collapse All</text>
+				</tooltip>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+  						for k, topwin in pairs(window.grouplist.getWindows()) do
+							topwin.showList(false);
+  						end
+						return true;
+					end
+				</script>
+			</genericcontrol>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_powerlistitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+		</sizelimits>
+		<script file="scripts/reference_listitem.lua" />
+		<sheetdata>
+			<windowreferencefield name="link">
+				<bounds>5,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<script>
+					function onDrag(button, x, y, draginfo)
+						draginfo.setType("shortcut");
+						draginfo.setIcon(icon[1].normal[1]);
+						draginfo.setShortcutData(getValue());
+						draginfo.setDescription(getTargetDatabaseNode().getChild("name").getValue());
+						
+						return true;
+					end
+				</script>
+			</windowreferencefield>
+
+			<staticlinkstringcontrol name="name">
+				<bounds>30,2,200,15</bounds>
+				<font>chatfont</font>
+				<underlineoffset>0</underlineoffset>
+				<linktarget>link</linktarget>
+			</staticlinkstringcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="reference_powergrouplistitem">
+		<sizelimits>
+			<minimum>
+				<height>0</height>
+			</minimum>
+			<maximum>
+				<height>100000</height>
+			</maximum>
+		</sizelimits>
+		<sheetdata>
+			<genericcontrol name="spacer">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<bottom>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</bottom>
+				</anchored>
+			</genericcontrol>
+			
+			<stringfield name="description">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>1</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-2</offset>
+					</right>
+					<top>
+						<parent>spacer</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						window.powerlist.setVisible(not window.powerlist.isVisible());
+						return true;
+					end
+				</script>
+				<static />
+			</stringfield>
+			
+			<windowlist name="powerlist">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>spacer</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<datasource>.powers</datasource>
+				<class>reference_powerlistitem</class>
+				<noscroll />
+				<script>
+					function onFilter(w)
+						local top = w.windowlist.window;
+						while top.windowlist do
+							top = top.windowlist.window;
+						end
+						local f = string.lower(top.filter.getValue());
+						
+						if f == "" then
+							w.windowlist.window.description.setVisible(true);
+							w.windowlist.window.spacer.setVisible(true);
+							return true;
+						end
+						
+						w.windowlist.window.description.setVisible(false);
+						w.windowlist.window.spacer.setVisible(false);
+						w.windowlist.setVisible(true);
+						if string.find(string.lower(w.name.getValue()), f, 0, true) then
+							return true;
+						end
+						
+						return false;
+					end
+				</script>
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<!-- Class power lists -->
+	<windowclass name="reference_classpowerlist">
+		<frame>referencebox</frame>
+		<placement>
+			<size>
+				<width>400</width>
+				<height>450</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic>
+				<resize>vertical</resize>
+			</dynamic>
+			<maximum>
+				<height>100000</height>
+			</maximum>
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>description</field>
+		</tooltip>
+		<sheetdata>
+			<stringfield name="description">
+				<bounds>17,20,-20,20</bounds>
+				<font>sheetlabel</font>
+				<center />
+				<static />
+			</stringfield>
+			
+			<windowlist name="grouplist">
+				<bounds>17,40,-20,-14</bounds>
+				<datasource>.groups</datasource>
+				<class>reference_powergrouplistitem</class>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>grouplist</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>grouplist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<filter name="filter">
+				<bounds>55,-50,-50,20</bounds>
+				<target>grouplist,powerlist</target>
+				<trigger>filtertrigger</trigger>
+			</filter>
+			<filtertrigger name="filtertrigger">
+				<bounds>-43,-83,21,41</bounds>
+				<target>filter</target>
+			</filtertrigger>			
+
+			<genericcontrol name="expand">
+				<icon>expand_icon</icon>				
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>20</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Expand All</text>
+				</tooltip>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+  						for k, topwin in pairs(window.grouplist.getWindows()) do
+							topwin.powerlist.setVisible(true);
+  						end
+						return true;
+					end
+				</script>
+			</genericcontrol>
+			<genericcontrol name="collapse">
+				<icon>collapse_icon</icon>
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>40</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Collapse All</text>
+				</tooltip>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+  						for k, topwin in pairs(window.grouplist.getWindows()) do
+							topwin.powerlist.setVisible(false);
+  						end
+						return true;
+					end
+				</script>
+			</genericcontrol>
+			
+			<closebutton_reference />
+		</sheetdata>
+	</windowclass>
+
+	<!-- Power description sheet -->
+	<windowclass name="powerdesc_stats">
+		<script>
+			function onInit()
+				linknode = link.getTargetDatabaseNode();
+				if linknode then
+					linkedpowername.setValue(NodeManager.getSafeChildValue(linknode, "name", ""));
+				end
+			end
+		</script>
+		<sheetdata>
+			<!-- Fields -->
+			<columnstringfield name="source">
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>source</anchor>
+				<static>Source</static>
+			</columnfieldlabel>
+			
+			<columnstringfield name="keywords">
+				<anchor>source</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>keywords</anchor>
+				<static>Keywords</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="recharge">
+				<anchor>keywords</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>recharge</anchor>
+				<static>Recharge</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="action">
+				<anchor>recharge</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>action</anchor>
+				<static>Action</static>
+			</columnfieldlabel>
+
+			<columnstringfield name="range">
+				<anchor>action</anchor>
+			</columnstringfield>
+			<columnfieldlabel>
+				<anchor>range</anchor>
+				<static>Range</static>
+			</columnfieldlabel>
+
+			<referenceformattedtextfield name="description">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-7</offset>
+					</right>
+					<top>
+						<parent>range</parent>
+						<anchor>bottom</anchor>
+						<offset>8</offset>
+					</top>
+				</anchored>
+				<footer>footer_wide</footer>
+			</referenceformattedtextfield>
+			
+			<windowlist name="grantlist">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+					</left>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<parent>description</parent>
+						<anchor>bottom</anchor>
+						<relation>relative</relation>
+					</top>
+				</anchored>
+				<datasource>.linkedpowers</datasource>
+				<class>reference_grantedpower</class>
+				<noscroll />
+			</windowlist>
+
+			<windowreferencefield name="link">
+				<anchored>
+					<top>
+						<parent>grantlist</parent>
+						<anchor>bottom</anchor>
+						<offset>8</offset>
+					</top>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<script>
+					function onDrag(button, x, y, draginfo)
+						draginfo.setType("shortcut");
+						draginfo.setIcon(icon[1].normal[1]);
+						draginfo.setShortcutData(getValue());
+						draginfo.setDescription(getTargetDatabaseNode().getChild("name").getValue());
+						
+						return true;
+					end
+				</script>
+			</windowreferencefield>
+			<staticlinkstringfield name="linkedpowername">
+				<anchored>
+					<top>
+						<parent>link</parent>
+						<anchor>top</anchor>
+					</top>
+					<left>
+						<parent>link</parent>
+						<anchor>right</anchor>
+						<offset>8</offset>
+					</left>
+					<right>
+						<anchor>right</anchor>
+						<offset>-7</offset>
+					</right>
+				</anchored>
+				<font>narratorfont</font>
+				<linktarget>link</linktarget>
+			</staticlinkstringfield>
+
+			<!-- Spacer -->
+			<genericcontrol>
+				<anchored>
+					<to>link</to>
+					<position>below</position>
+					<size>
+						<height>15</height>
+					</size>
+				</anchored>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="powerdesc">
+		<frame>charsheet</frame>
+		<placement>
+			<size>
+				<width>300</width>
+				<height>370</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<sheetdata>
+			<!-- Name -->
+			<genericcontrol name="nameframe">
+				<bounds>10,20,-15,35</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<windowopencontrol>
+				<anchored>
+					<to>nameframe</to>
+					<position>insidetopleft</position>
+					<offset>13,8</offset>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>powerdesc</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowopencontrol>
+			<stringfield name="name">
+				<anchored>
+					<top>
+						<parent>nameframe</parent>
+						<anchor>top</anchor>
+						<offset>9</offset>
+					</top>
+					<left>
+						<parent>nameframe</parent>
+						<anchor>left</anchor>
+						<offset>35</offset>
+					</left>
+					<right>
+						<parent>nameframe</parent>
+						<anchor>right</anchor>
+						<offset>-15</offset>
+					</right>
+				</anchored>
+				<empty>&#171; New Power &#187;</empty>
+				<font>sheettext</font>
+			</stringfield>
+
+			<!-- Frame -->		
+			<genericcontrol name="contentframe">
+				<bounds>10,54,-15,-13</bounds>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>0,1,0,0</offset>
+				</frame>
+			</genericcontrol>
+
+			<subwindow name="stats">
+				<bounds>22,61,-25,-21</bounds>
+				<class>powerdesc_stats</class>
+				<activate />
+			</subwindow>
+			<scrollercontrol name="stats_scroller">
+				<anchored>
+					<to>stats</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>stats</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			
+			<closebutton_charsheetmini />
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="skillchallengetracker_rollitem">
+		<sizelimits>
+			<minimum>
+				<height>25</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<stringfield name="actor">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>15</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>8</offset>
+					</top>
+					<size>
+						<width>100</width>
+					</size>
+				</anchored>
+				<font>chatfont</font>
+				<static />
+			</stringfield>
+
+			<jpgnumberfield name="roll">
+				<anchored>
+					<left>
+						<parent>actor</parent>
+						<anchor>right</anchor>
+						<offset>5</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>8</offset>
+					</top>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<font>chatfont</font>
+				<static />
+			</jpgnumberfield>
+			<checkbox name="success">
+				<anchored>
+					<to>roll</to>
+					<position>right</position>
+					<offset>40,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						setState(true);
+						window.failure.setState(false);
+						window.windowlist.window.windowlist.calcTotals();
+						return true;
+					end
+				</script>
+			</checkbox>
+			<checkbox name="failure">
+				<anchored>
+					<to>success</to>
+					<position>right</position>
+					<offset>47,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						setState(true);
+						window.success.setState(false);
+						window.windowlist.window.windowlist.calcTotals();
+						return true;
+					end
+				</script>
+			</checkbox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="skillchallengetracker_skilllistitem">
+		<sizelimits>
+			<minimum>
+				<height>25</height>
+			</minimum>
+		</sizelimits>
+		<script>
+			local iscustom = true;
+			
+			function onInit()
+				setRadialDeleteOption();
+			end
+			
+			function setCustom(flag)
+				iscustom = flag;
+				
+				if not iscustom then
+					label.setEnabled(false);
+					label.setFrame(nil);
+				end
+
+				setRadialDeleteOption();
+			end
+			
+			function setRadialDeleteOption()
+				resetMenuItems();
+				
+				if iscustom then
+					registerMenuItem("Delete", "delete", 6);
+				end
+			end
+			
+			function onMenuSelection(selection)
+				if selection == 6 then
+					getDatabaseNode().delete();
+					
+					windowlist.calcTotals();
+				end
+			end
+		</script>
+		<sheetdata>
+			<stringfield name="label">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>10</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>8</offset>
+					</top>
+					<size>
+						<width>100</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<frame>
+					<name>textline</name>
+					<offset>0,1,0,0</offset>
+				</frame>
+			</stringfield>
+
+			<jpgnumberfield name="DC">
+				<anchored>
+					<left>
+						<parent>label</parent>
+						<anchor>right</anchor>
+						<offset>20</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<font>chatfont</font>
+				<frame>
+					<name>bonus</name>
+					<offset>1,1,1,1</offset>
+				</frame>
+				<keyeditframe>
+					<name>rowshade</name>
+					<offset>2,2,2,2</offset>
+				</keyeditframe>
+				<stateframe>
+					<drophilight>
+						<name>sheetfocus</name>
+						<offset>1,1,1,1</offset>
+					</drophilight>
+				</stateframe>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<hideonvalue>0</hideonvalue>
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.getType() == "number" then
+							setValue(draginfo.getNumberData());
+						end
+
+						return true;
+					end
+				</script>
+			</jpgnumberfield>
+
+			<jpgnumberfield name="success">
+				<anchored>
+					<left>
+						<parent>DC</parent>
+						<anchor>right</anchor>
+						<offset>25</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<font>chatfont</font>
+				<frame>
+					<name>modifier</name>
+					<offset>1,1,1,1</offset>
+				</frame>
+				<hideonvalue>0</hideonvalue>
+				<readonly />
+				<script>
+					function onDrop(x, y, draginfo)
+						return false;
+					end
+				</script>
+			</jpgnumberfield>
+			<jpgnumberfield name="failure">
+				<anchored>
+					<left>
+						<parent>success</parent>
+						<anchor>right</anchor>
+						<offset>18</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<font>chatfont</font>
+				<frame>
+					<name>modifier</name>
+					<offset>1,1,1,1</offset>
+				</frame>
+				<hideonvalue>0</hideonvalue>
+				<readonly />
+				<script>
+					function onDrop(x, y, draginfo)
+						return false;
+					end
+				</script>
+			</jpgnumberfield>
+
+			<button_toggle name="activate_results">
+				<anchored>
+					<left>
+						<parent>failure</parent>
+						<anchor>right</anchor>
+						<offset>4</offset>
+					</left>
+					<bottom>
+						<parent>failure</parent>
+						<anchor>bottom</anchor>
+						<offset>-4</offset>
+					</bottom>
+					<size>
+						<width>10</width>
+						<height>10</height>
+					</size>
+				</anchored>
+				<icon>indicator_quicklist</icon>
+				<script>
+					function onValueChanged()
+						window.results.setVisible(getValue());
+					end
+				</script>
+			</button_toggle>
+
+			<windowlist name="results">
+				<anchored>
+					<left>
+						<parent>label</parent>
+						<anchor>left</anchor>
+					</left>
+					<top>
+						<parent>label</parent>
+						<anchor>bottom</anchor>
+					</top>
+					<size>
+						<width>350</width>
+					</size>
+				</anchored>
+				<datasource>.rolls</datasource>
+				<class>skillchallengetracker_rollitem</class>
+				<invisible />
+				<noscroll />
+				<script>
+					function altColor()
+						local alt = true;
+
+						for i, wnd in ipairs(getWindows()) do
+							if alt then
+								wnd.setFrame("rowshade",0,0,0,0);
+							else
+								wnd.setFrame(nil)
+							end		
+							alt = not alt;
+						end
+					end
+
+					function onListRearranged(listchange)
+						altColor();
+					end
+				</script>
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="skillchallenge_tracker">
+		<placement>
+			<size>
+				<width>400</width>
+				<height>600</height>
+			</size>
+		</placement>
+		<nodelete />
+		<softclose />
+		<sheetdata>
+			<!-- OVERVIEW -->
+			<genericcontrol name="overviewframe">
+				<bounds>5,5,-5,-5</bounds>				
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<stringcontrol name="titlename">
+				<bounds>140,22,-25,20</bounds>
+				<font>sheetlabel</font>
+				<static>Skill Challenge Tracker</static>
+			</stringcontrol>
+
+			<stringcontrol name="DClabel">
+				<anchored>
+					<left>
+						<parent>titlename</parent>
+						<anchor>left</anchor>
+						<offset>17</offset>
+					</left>
+					<top>
+						<parent>titlename</parent>
+						<anchor>bottom</anchor>
+					</top>
+					<size>
+						<width>57</width>
+						<height>15</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>DC</static>
+			</stringcontrol>
+			<stringcontrol name="successlabel">
+				<anchored>
+					<left>
+						<parent>DClabel</parent>
+						<anchor>right</anchor>
+						<offset>2</offset>
+					</left>
+					<top>
+						<parent>DClabel</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>15</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Success</static>
+			</stringcontrol>
+			<stringcontrol name="failurelabel">
+				<anchored>
+					<left>
+						<parent>successlabel</parent>
+						<anchor>right</anchor>
+						<offset>20</offset>
+					</left>
+					<top>
+						<parent>DClabel</parent>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>50</width>
+						<height>15</height>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Failure</static>
+			</stringcontrol>
+
+			<windowlist name="skilllist">
+				<anchored>
+					<to>overviewframe</to>
+					<position>over</position>
+					<offset>-5,-50</offset>
+				</anchored>
+				<datasource>.skills</datasource>
+				<class>skillchallengetracker_skilllistitem</class>
+				<allowcreate />
+				<script file="scripts/skillchallenge.lua" />
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>skilllist</to>
+					<position>insidebottomright</position>
+				</anchored>
+				<target>skilllist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+
+			<!-- TOTALS -->
+			<genericcontrol name="totalframe">
+				<bounds>5,545,-5,-5</bounds>				
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol name="totals">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>137</offset>
+					</left>
+					<top>
+						<parent>skilllist</parent>
+						<anchor>bottom</anchor>
+						<offset>15</offset>
+					</top>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Totals:</static>
+			</stringcontrol>
+
+			<jpgnumberfield name="totalsuccess">
+				<anchored>
+					<left>
+						<parent>totals</parent>
+						<anchor>right</anchor>
+						<offset>25</offset>
+					</left>
+					<top>
+						<parent>totals</parent>
+						<anchor>top</anchor>
+						<offset>-5</offset>
+					</top>
+					<size>
+						<width>50</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<font>chatfont</font>
+				<frame>
+					<name>modifier</name>
+					<offset>1,1,1,1</offset>
+				</frame>
+				<readonly />
+			</jpgnumberfield>
+			<jpgnumberfield name="totalfailure">
+				<anchored>
+					<left>
+						<parent>totalsuccess</parent>
+						<anchor>right</anchor>
+						<offset>18</offset>
+					</left>
+					<top>
+						<parent>totals</parent>
+						<anchor>top</anchor>
+						<offset>-5</offset>
+					</top>
+					<size>
+						<width>50</width>
+						<height>25</height>
+					</size>
+				</anchored>
+				<font>chatfont</font>
+				<frame>
+					<name>modifier</name>
+					<offset>1,1,1,1</offset>
+				</frame>
+				<readonly />
+			</jpgnumberfield>
+
+			<buttoncontrol name="clear">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>30</offset>
+					</left>
+					<top>
+						<parent>totals</parent>
+						<anchor>top</anchor>
+						<offset>-5</offset>
+					</top>
+					<size>
+						<width>33</width>
+						<height>26</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_ctnextround</normal>
+					<pressed>button_ctnextround_down</pressed>
+				</icon>
+				<tooltip>
+					<text>Clear</text>
+				</tooltip>
+				<script>
+					function onButtonPress()						
+						for k1, w1 in pairs(window.skilllist.getWindows()) do
+							for k2, w2 in pairs(w1.results.getWindows()) do
+								w2.getDatabaseNode().delete();
+							end
+							w1.success.setValue(0)
+							w1.failure.setValue(0)
+							w1.DC.setValue(0)
+						end
+						window.totalsuccess.setValue(0)
+						window.totalfailure.setValue(0)
+					end
+				</script>
+			</buttoncontrol>
+
+			<closebutton_skillchallengetracker />
+		</sheetdata>
+	</windowclass>
+</root>

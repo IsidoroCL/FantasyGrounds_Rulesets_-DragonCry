@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<font name="chatfont">
+		<fgffile name="fonts/regular.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="chatitalicfont">
+		<fgffile name="fonts/regularitalic.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="chatbolditalicfont">
+		<fgffile name="fonts/regularbolditalic.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="charsheet_light">
+		<fgffile name="fonts/sheetnumber.fgf" />
+		<color value="#6b8e23" />
+	</font>
+
+	<font name="charsheet_bloodied">
+		<fgffile name="fonts/sheetnumber.fgf" />
+		<color value="#cd2626" />
+	</font>
+
+	<font name="charsheet_dead">
+		<fgffile name="fonts/sheetnumber.fgf" />
+		<color value="#7f7f7f" />
+	</font>
+
+	<font name="ct_healthy_font">
+		<fgffile name="fonts/sheetnumbersmall.fgf" />
+		<color value="#008b00" />
+	</font>
+
+	<font name="ct_ltwound_font">
+		<fgffile name="fonts/sheetnumbersmall.fgf" />
+		<color value="#6b8e23" />
+	</font>
+	
+	<font name="ct_bloodied_font">
+		<fgffile name="fonts/sheetnumbersmall.fgf" />
+		<color value="#cd2626" />
+	</font>
+	
+	<font name="ct_dead_font">
+		<fgffile name="fonts/sheetnumbersmall.fgf" />
+		<color value="#7f7f7f" />
+	</font>
+	
+	<font name="npcchatfont">
+		<fgffile name="fonts/regular.fgf" />
+		<color value="#000066" />
+	</font>
+
+	<font name="dmfont">
+		<fgffile name="fonts/regularitalic.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="narratorfont">
+		<fgffile name="fonts/regularbold.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="titlefont">
+		<fgffile name="fonts/title.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="systemfont">
+		<fgffile name="fonts/regular.fgf" />
+		<color value="#660066" />
+	</font>
+
+	<font name="oocfont">
+		<fgffile name="fonts/regular.fgf" />
+		<color value="#005500" />
+	</font>
+
+	<font name="msgfont">
+		<fgffile name="fonts/regularbold.fgf" />
+		<color value="#660066" />
+	</font>
+
+	<font name="emotefont">
+		<fgffile name="fonts/regular.fgf" />
+		<color value="#880000" />
+	</font>
+
+	<font name="draglabel">
+		<fgffile name="fonts/draglabel.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="diemod">
+		<fgffile name="fonts/diemod.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="diemodsmall">
+		<fgffile name="fonts/diemodsmall.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="dieresult">
+		<fgffile name="fonts/regular.fgf" />
+		<color value="#ffffff" />
+	</font>
+
+	<font name="modcollector">
+		<fgffile name="fonts/diemod.fgf" />
+		<color value="#E7CDAC" />
+	</font>
+
+	<font name="modcollectorlabel">
+		<fgffile name="fonts/modcollectorlabel.fgf" />
+		<color value="#E7CDAC" />
+	</font>
+
+	<font name="hotkey">
+		<fgffile name="fonts/regular.fgf" />
+		<color value="#ffffff" />
+	</font>
+
+	<font name="defaultstringcontrol">
+		<fgffile name="fonts/control.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="defaultnumbercontrol">
+		<fgffile name="fonts/control.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="smallcontrol">
+		<fgffile name="fonts/smallcontrol.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="mini_name">
+		<fgffile name="fonts/smallcontrol.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="mini_name_selected">
+		<fgffile name="fonts/smallcontrolbold.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="sheetnumber">
+		<fgffile name="fonts/sheetnumber.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="sheetnumbersmall">
+		<fgffile name="fonts/sheetnumbersmall.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="sheettext">
+		<fgffile name="fonts/sheettext.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="sheettextsmall">
+		<fgffile name="fonts/sheettextsmall.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="sheettextblock">
+		<fgffile name="fonts/sheettextblock.fgf" />
+		<color value="#000000" />
+	</font>
+
+	<font name="sheetlabel">
+		<fgffile name="fonts/sheetlabel.fgf" />
+		<color value="#261A12" />
+	</font>
+
+	<font name="sheetlabelsmall">
+		<fgffile name="fonts/sheetlabelsmall.fgf" />
+		<color value="#261A12" />
+	</font>
+	
+	<font name="sheetlabelsmallbold">
+		<fgffile name="fonts/sheetlabelsmallbold.fgf" />
+		<color value="#261A12" />
+	</font>
+	
+	<font name="sheetlabelinline">
+		<fgffile name="fonts/sheetlabelsmall.fgf" />
+		<color value="#A08564" />
+	</font>
+</root>

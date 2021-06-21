@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<template name="jpgnumberfield">
+		<numberfield>
+			<noreset />
+			<script>
+				function onInit()
+					if gmonly and not User.isHost() then
+						setReadOnly(true);
+					end
+				end
+				
+				function onWheel(n)
+					if not OptionsManager.isMouseWheelEditEnabled() then
+						return false;
+					end
+					
+					if isReadOnly() then
+						return false;
+					end
+				end
+			</script>
+		</numberfield>
+	</template>
+
+	<template name="basicnumberfield">
+		<jpgnumberfield>
+			<frame>
+				<name>modifier</name>
+				<offset>5,5,5,5</offset>
+			</frame>
+			<keyeditframe>
+				<name>sheetfocus</name>
+				<offset>5,5,5,5</offset>
+			</keyeditframe>
+			<stateframe>
+				<drophilight>
+					<name>sheetfocus</name>
+					<offset>5,5,5,5</offset>
+				</drophilight>
+			</stateframe>
+			<droptypes>
+				<type>number</type>
+			</droptypes>
+			<font>sheetnumber</font>
+		</jpgnumberfield>
+	</template>
+
+	<template name="jpglist">
+		<windowlist>
+			<skipempty />
+			<noscroll />
+			<script file="scripts/template_jpglist.lua" />
+		</windowlist>
+	</template>
+	
+	<template name="jpglistitemlabel">
+		<stringfield name="label">
+			<font>sheettextsmall</font>
+			<frame>
+				<name>textline</name>
+				<offset>0,1,0,0</offset>
+			</frame>
+			<script file="scripts/template_jpglistitemlabel.lua" />
+		</stringfield>
+	</template>
+	
+	<template name="textlistitemvalue">
+		<stringfield name="value">
+			<font>sheettext</font>
+			<multilinespacing>20</multilinespacing>
+			<frame>
+				<name>textline</name>
+			</frame>
+			<script file="scripts/template_textlistitemvalue.lua" />
+		</stringfield>
+	</template>
+
+	<template name="button_toggle">
+		<genericcontrol>
+			<script file="scripts/template_button_toggle.lua" />
+		</genericcontrol>
+	</template>
+	
+	<template name="ctnumberfield">
+		<jpgnumberfield>
+			<font>sheetnumbersmall</font>
+			<frame>
+				<name>modifier</name>
+				<offset>2,2,2,2</offset>
+			</frame>
+			<keyeditframe>
+				<name>sheetfocus</name>
+				<offset>2,2,2,2</offset>
+			</keyeditframe>
+			<gmonly />
+			<script file="scripts/template_ctnumberfield.lua" />
+		</jpgnumberfield>
+	</template>
+	
+	<template name="ctstringfield">
+		<stringfield>
+			<font>sheettextsmall</font>
+			<frame>
+				<name>textlinesmall</name>
+				<offset>0,-1,0,0</offset>
+			</frame>
+			<script file="scripts/template_ctstringfield.lua" />
+		</stringfield>
+	</template>
+	
+	<template name="ctrollfield">
+		<ctnumberfield>
+			<script>
+				function onDrag(button, x, y, draginfo)
+					if OptionsManager.isOption("DRGR", "on") then
+						draginfo.setType(self.description[1].type[1]);
+						draginfo.setDieList({ "d20" });
+					else
+						draginfo.setType("number");
+					end
+					draginfo.setDescription(self.description[1].text[1]);
+					draginfo.setNumberData(getValue());
+
+					draginfo.setShortcutData("npc", window.getDatabaseNode().getNodeName());
+
+					return true;
+				end
+
+				function onDoubleClick(x,y)
+					local custom = {};
+					custom["npc"] = window.getDatabaseNode();
+
+					ChatManager.DoubleClickAction(self.description[1].type[1], getValue(), self.description[1].text[1], custom);
+					return true;
+				end
+			</script>
+		</ctnumberfield>
+	</template>
+	
+	<template name="combattrackerffsource">
+		<genericcontrol>
+			<script>
+				function onInit()
+					setHoverCursor("hand");
+				end
+			
+				function onDrag(button, x, y, draginfo)
+					draginfo.setType("combattrackerff");
+
+					draginfo.setIcon(icon[1]);
+					draginfo.setStringData(value[1]);
+
+					return true;
+				end
+			</script>
+		</genericcontrol>
+	</template>
+
+	<template name="powerstring">
+		<stringfield>
+			<font>sheettextsmall</font>
+			<frame>
+				<name>modifier</name>
+				<offset>6,5,5,5</offset>
+			</frame>
+			<nodrag />
+			<script>
+				function onInit()
+					if gmonly and not User.isHost() then
+						setReadOnly(true);
+					end
+				end
+				
+				function onEnter()
+					window.windowlist.onEnter();
+				end
+				
+				function onDrop(x, y, draginfo)
+					if draginfo.isType("dice") or draginfo.isType("number") then
+						return window.onDrop(x, y, draginfo);
+					end
+				end
+			</script>
+		</stringfield>
+	</template>
+
+	<template name="powerdescfield">
+		<stringfield>
+			<frame>
+				<name>modifier</name>
+				<offset>6,5,5,5</offset>
+			</frame>
+			<nodrag />
+			<font>sheettextsmall</font>
+			<multilinespacing>15</multilinespacing>
+			<script file="scripts/template_powerdescfield.lua" />
+		</stringfield>
+	</template>
+	
+	<template name="powerdescfieldpc">
+		<powerdescfield>
+			<script file="scripts/template_powerdescfieldpc.lua" />
+		</powerdescfield>
+	</template>
+	
+	<template name="powerdescfieldnpc">
+		<powerdescfield>
+			<script file="scripts/template_powerdescfieldnpc.lua" />
+		</powerdescfield>
+	</template>
+	
+	<template name="iconcycler">
+		<genericcontrol>
+			<static />
+			<script file="scripts/template_iconcycler.lua" />
+		</genericcontrol>
+	</template>
+
+	<template name="checkcounter">
+		<genericcontrol>
+			<stateicons>
+				<on>indicator_checkon_pers</on>
+				<off>indicator_checkoff_pers</off>
+			</stateicons>
+			<spacing>10</spacing>
+			<script file="scripts/template_checkcounter.lua" />
+		</genericcontrol>
+	</template>
+	
+	<template name="checkcounter12">
+		<genericcontrol>
+			<stateicons>
+				<on>indicator_2</on>
+				<off>indicator_1</off>
+			</stateicons>
+			<spacing>10</spacing>
+			<script file="scripts/template_checkcounter.lua" />
+		</genericcontrol>
+	</template>
+	
+	<template name="checkcounterold">
+		<genericcontrol>
+			<stateicons>
+				<on>indicator_checkon</on>
+				<off>indicator_checkoff</off>
+			</stateicons>
+			<spacing>10</spacing>
+			<script file="scripts/template_checkcounter.lua" />
+		</genericcontrol>
+	</template>
+	
+	<template name="labelcycler">
+		<stringcontrol>
+			<stateframe>
+				<hover>
+					<name>sheetfocus</name>
+					<offset>6,5,6,5</offset>
+				</hover>
+			</stateframe>
+			<font>sheettext</font>
+			<static />
+			<script file="scripts/template_labelcycler.lua" />
+		</stringcontrol>
+	</template>
+
+	<template name="labelcyclerwithmod">
+		<labelcycler>
+			<script file="scripts/template_labelcyclerwithmod.lua" />
+		</labelcycler>
+	</template>
+
+	<template name="labeledstring">
+		<stringfield>
+			<font>sheettext</font>
+			<frame>
+				<name>textline</name>
+			</frame>
+			<script>
+				labelwidget = nil;
+			
+				function onInit()
+					labelwidget = addTextWidget("sheetlabelinline", string.upper(label[1]));
+					
+					local w,h = labelwidget.getSize();
+					labelwidget.setPosition("bottomleft", w/2, h/2-5);
+				end
+			</script>
+		</stringfield>
+	</template>
+	
+	<template name="checkbox">
+		<genericcontrol>
+			<stateicons>
+				<on>indicator_checkon</on>
+				<off>indicator_checkoff</off>
+			</stateicons>
+			<script file="scripts/template_checkbox.lua" />
+		</genericcontrol>
+	</template>
+	
+	<template name="radiogroup">
+		<genericcontrol>
+			<stateicons>
+				<on>indicator_checkon</on>
+				<off>indicator_checkoff</off>
+			</stateicons>
+			<script file="scripts/template_radiogroup.lua" />
+		</genericcontrol>
+	</template>
+
+	<template name="tabcontrol">
+		<genericcontrol>
+			<tab mergerule="resetandadd" />
+			<frame>
+				<name>tabs</name>
+			</frame>
+			<script file="scripts/template_tabcontrol.lua" />
+		</genericcontrol>
+	</template>
+	
+	<template name="viewerlist">
+		<genericcontrol>
+			<invalididentityicon>miniportrait_base</invalididentityicon>
+			<portraitset>miniportrait</portraitset>
+			<portraitspacing>21</portraitspacing>
+			<script file="scripts/template_viewerlist.lua" />
+		</genericcontrol>
+	</template>
+
+	<!-- Templates for a column layout on NPC, monster, item, spell sheets -->
+	<template name="columnstringfield">
+		<stringfield>
+			<font>sheettextsmall</font>
+			<frame>
+				<name>modifier</name>
+				<offset>7,5,7,5</offset>
+			</frame>
+			<multilinespacing>15</multilinespacing>
+			<selectioncolor>90ffffff</selectioncolor>
+			<script>
+				function updateVisibility(val)
+					if val then
+						if getDatabaseNode().isStatic() and getValue() == "" then
+							setVisible(false);
+						else
+							setVisible(true);
+						end
+					else
+						setVisible(false);
+					end
+				end
+				
+				function onInit()
+					if anchor then
+						setAnchor("top", anchor[1], "bottom", "relative", 6);
+					else
+						setAnchor("top", "", "top", "absolute", 5);
+					end
+					
+					setAnchor("left", "", "left", "absolute", 85);
+					setAnchor("right", "", "right", "absolute", -7);
+					
+					if getDatabaseNode().isStatic() then
+						setFrame(nil);
+						setFont("chatfont");
+						if getValue() == "" then
+							setVisible(false);
+						end
+					end
+					
+					if gmonly and not User.isHost() then
+						setReadOnly(true);
+					end
+				end
+			</script>
+		</stringfield>
+	</template>
+
+	<template name="columnnumberfield">
+		<jpgnumberfield>
+			<noreset />
+			<font>sheettextsmall</font>
+			<frame>
+				<name>modifier</name>
+				<offset>7,4,7,5</offset>
+			</frame>
+			<keyeditframe>
+				<name>sheetfocus</name>
+				<offset>7,4,7,5</offset>
+			</keyeditframe>
+			<script>
+				function updateVisibility(val)
+					setVisible(val);
+				end
+				
+				function onInit()
+					if anchor then
+						setAnchor("top", anchor[1], "bottom", "relative", 6);
+					else
+						setAnchor("top", "", "top", "absolute", 5);
+					end
+					
+					setAnchor("left", "", "left", "absolute", 85);
+					setAnchoredWidth(40);
+					setAnchoredHeight(16);
+					
+					if getDatabaseNode().isStatic() then
+						setFont("chatfont");
+					end
+					
+					if gmonly and not User.isHost() then
+						setReadOnly(true);
+					end
+				end
+			</script>
+		</jpgnumberfield>
+	</template>
+	
+	<template name="columnfieldlabel">
+		<stringcontrol>
+			<font>sheetlabelsmallbold</font>
+			<script>
+				function updateVisibility()
+					if anchor and not window[anchor[1]].isVisible() then
+						setVisible(false);
+					else
+						setVisible(true);
+					end
+				end
+				
+				function onInit()
+					if anchor then
+						if window[anchor[1]].getDatabaseNode().isStatic() then
+							setAnchor("top", anchor[1], "top", "absolute", 2);
+						else
+							setAnchor("top", anchor[1], "top", "absolute", 4);
+						end
+						setAnchor("left", "", "left", "absolute", 0);
+						
+						if not window[anchor[1]].isVisible() then
+							setVisible(false);
+						end
+					end
+				end
+			</script>
+		</stringcontrol>
+	</template>
+
+	<template name="filtertrigger">
+		<genericcontrol>
+			<icon>search_icon</icon>
+			<widgetposition>
+				<anchor>bottomleft</anchor>
+				<offsetx>5</offsetx>
+				<offsety>-5</offsety>
+			</widgetposition>
+			<script>
+				function onInit()
+					window[target[1]].setVisible(false);
+				end
+				
+				function onClickDown(button, x, y)
+					return true;
+				end
+				
+				function onClickRelease(button, x, y)
+					if button == 1 then
+						setVisible(false);
+						window[target[1]].setVisible(true);
+						window[target[1]].setFocus();
+					elseif button == 2 then
+						window[target[1]].setValue("");
+					end
+
+					return true;
+				end
+				
+				function updateWidget(state)
+					if widget and not state then
+						widget.destroy();
+						widget = nil;
+					elseif not widget and state then
+						widget = addBitmapWidget("indicator_checkon");
+						widget.setPosition(widgetposition[1].anchor[1], widgetposition[1].offsetx[1], widgetposition[1].offsety[1]);
+					end
+				end
+			</script>
+		</genericcontrol>
+	</template>
+	
+	<template name="filter">
+		<stringcontrol>
+			<frame>
+				<name>searchframe</name>
+				<offset>37,45,3,12</offset>
+			</frame>
+			<font>sheettext</font>
+			<script file="scripts/template_filter.lua" />
+		</stringcontrol>
+	</template>
+	
+	<template name="linkstringfield">
+		<stringfield>
+			<underlineoffset>-3</underlineoffset>
+			<nodrag />
+			<script file="scripts/template_linkstringfield.lua" />
+		</stringfield>
+	</template>
+	
+	<template name="staticlinkstringfield">
+		<stringfield>
+			<underlineoffset>-3</underlineoffset>
+			<nodrag />
+			<static />
+			<script file="scripts/template_staticlinkstringfield.lua" />
+		</stringfield>
+	</template>
+	
+	<template name="staticlinkstringcontrol">
+		<stringcontrol>
+			<underlineoffset>-3</underlineoffset>
+			<nodrag />
+			<static />
+			<script file="scripts/template_staticlinkstringfield.lua" />
+		</stringcontrol>
+	</template>
+
+	<template name="closebutton">
+		<buttoncontrol>
+			<anchored>
+				<top>
+					<anchor>top</anchor>
+				</top>
+				<right>
+					<anchor>right</anchor>
+				</right>
+				<size>
+					<height>20</height>
+					<width>20</width>
+				</size>
+			</anchored>
+			<icon>
+				<normal>button_close</normal>
+				<pressed>button_close</pressed>
+			</icon>
+			<script>
+				function onClickDown(button, x, y)
+					if button == 1 then
+						return true;
+					end
+				end
+
+				function onClickRelease(button, x, y)
+					if button == 1 then
+						window.close();
+						return true;
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<template name="closebutton_charsheet">
+		<closebutton>
+			<anchored>
+				<top>
+					<offset>0</offset>
+				</top>
+				<right>
+					<offset>-12</offset>
+				</right>
+			</anchored>
+		</closebutton>
+	</template>
+	
+	<template name="closebutton_charsheetmini">
+		<closebutton>
+			<anchored>
+				<top>
+					<offset>0</offset>
+				</top>
+				<right>
+					<offset>-12</offset>
+				</right>
+			</anchored>
+		</closebutton>
+	</template>
+	
+	<template name="closebutton_charsheetselect">
+		<closebutton>
+			<anchored>
+				<top>
+					<offset>0</offset>
+				</top>
+				<right>
+					<offset>-25</offset>
+				</right>
+			</anchored>
+		</closebutton>
+	</template>
+
+	<template name="closebutton_combattracker">
+		<closebutton>
+			<anchored>
+				<top>
+					<offset>0</offset>
+				</top>
+				<right>
+					<offset>-5</offset>
+				</right>
+			</anchored>
+		</closebutton>
+	</template>
+
+	<template name="closebutton_skillchallengetracker">
+		<closebutton>
+			<anchored>
+				<top>
+					<offset>8</offset>
+				</top>
+				<right>
+					<offset>-8</offset>
+				</right>
+			</anchored>
+		</closebutton>
+	</template>
+
+	<template name="closebutton_library">
+		<closebutton>
+			<anchored>
+				<top>
+					<offset>0</offset>
+				</top>
+				<right>
+					<offset>-5</offset>
+				</right>
+			</anchored>
+		</closebutton>
+	</template>
+
+	<template name="closebutton_tokenbag">
+		<closebutton>
+			<anchored>
+				<top>
+					<offset>0</offset>
+				</top>
+				<right>
+					<offset>-20</offset>
+				</right>
+			</anchored>
+		</closebutton>
+	</template>
+
+	<template name="closebutton_scrollbox">
+		<closebutton>
+			<anchored>
+				<top>
+					<offset>0</offset>
+				</top>
+				<right>
+					<offset>-15</offset>
+				</right>
+			</anchored>
+		</closebutton>
+	</template>
+
+	<template name="closebutton_storybox">
+		<closebutton>
+			<anchored>
+				<top>
+					<offset>0</offset>
+				</top>
+				<right>
+					<offset>-10</offset>
+				</right>
+			</anchored>
+		</closebutton>
+	</template>
+
+	<template name="closebutton_reference">
+		<closebutton>
+			<anchored>
+				<top>
+					<offset>0</offset>
+				</top>
+				<right>
+					<offset>-10</offset>
+				</right>
+			</anchored>
+		</closebutton>
+	</template>
+</root>

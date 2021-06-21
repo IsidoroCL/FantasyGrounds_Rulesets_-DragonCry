@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<template name="option_radio">
+		<radiogroup>
+			<script>
+				enable_update = true;
+
+				function onInit()
+					if anchor then
+						setAnchor("top", anchor[1], "bottom", "relative", 10);
+					else
+						setAnchor("top", "", "top", "absolute", 10);
+					end
+					setAnchor("left", "", "left", "absolute", 200);
+					setAnchoredHeight(20);
+					
+					super.onInit();
+					
+					update();
+				end
+
+				function update()
+					if option then
+						enable_update = false;
+						setSourceValue(OptionsManager.getOption(option[1]));
+						enable_update = true;
+					end
+				end
+
+				function onValueChanged()
+					if option then
+						if enable_update then
+							OptionsManager.setOption(option[1], getSourceValue());
+						end
+					end
+				end
+			</script>
+		</radiogroup>
+	</template>
+	<template name="option_label">
+		<stringcontrol>
+			<font>sheetlabel</font>
+			<script>
+				function onInit()
+					if anchor then
+						setAnchor("top", anchor[1], "top", "absolute", 0);
+						setAnchor("left", "", "left", "absolute", 15);
+					end
+				end
+			</script>
+		</stringcontrol>
+	</template>
+
+	<windowclass name="options_personal">
+		<nodelete />
+		<sheetdata>
+			<option_radio name="DCLK_radio">
+				<sourcefields>
+					<optionwidth>70</optionwidth>
+					<labels>Roll|Mod|Off</labels>
+					<values>on|mod|off</values>
+				</sourcefields>
+				<option>DCLK</option>
+			</option_radio>
+			<option_label name="DCLK_label">
+				<anchor>DCLK_radio</anchor>
+				<static>PC double click action</static>
+			</option_label>
+			<option_radio name="DRGR_radio">
+				<anchor>DCLK_radio</anchor>
+				<sourcefields>
+					<labels>On|Off</labels>
+					<values>on|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>DRGR</option>
+			</option_radio>
+			<option_label name="DRGR_label">
+				<anchor>DRGR_radio</anchor>
+				<static>PC drag rolling</static>
+			</option_label>
+			<option_radio name="MWHL_radio">
+				<anchor>DCLK_radio</anchor>
+				<sourcefields>
+					<labels>Always|Ctrl</labels>
+					<values>on|ctrl</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>MWHL</option>
+			</option_radio>
+			<option_label name="MWHL_label">
+				<anchor>MWHL_radio</anchor>
+				<static>Mouse wheel editing</static>
+			</option_label>
+			<option_radio name="SWPN_radio">
+				<anchor>DCLK_radio</anchor>
+				<sourcefields>
+					<labels>On|Off</labels>
+					<values>on|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>SWPN</option>
+			</option_radio>
+			<option_label name="SWPN_label">
+				<anchor>SWPN_radio</anchor>
+				<static>Show weapon used with power</static>
+			</option_label>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="options_game">
+		<nodelete />
+		<sheetdata>
+			<option_radio name="CTAV_radio">
+				<sourcefields>
+					<labels>On|Off</labels>
+					<values>on|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>CTAV</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="CTAV_label">
+				<anchor>CTAV_radio</anchor>
+				<static>Make active CT the GM voice</static>
+			</option_label>
+			<option_radio name="SHPW_radio">
+				<anchor>CTAV_radio</anchor>
+				<sourcefields>
+					<labels>On|Off</labels>
+					<values>on|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>SHPW</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="SHPW_label">
+				<anchor>SHPW_radio</anchor>
+				<static>Show all whispers to GM</static>
+			</option_label>
+			<option_radio name="TOTL_radio">
+				<anchor>CTAV_radio</anchor>
+				<sourcefields>
+					<labels>On|Off</labels>
+					<values>on|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>TOTL</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="TOTL_label">
+				<anchor>TOTL_radio</anchor>
+				<static>Show dice roll totals</static>
+			</option_label>
+			<option_radio name="REVL_radio">
+				<anchor>CTAV_radio</anchor>
+				<sourcefields>
+					<labels>On|Off</labels>
+					<values>on|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>REVL</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="REVL_label">
+				<anchor>REVL_radio</anchor>
+				<static>Show GM dice rolls</static>
+			</option_label>
+			<option_radio name="SHRL_radio">
+				<anchor>CTAV_radio</anchor>
+				<sourcefields>
+					<labels>All|PC|Off</labels>
+					<values>all|pc|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>SHRL</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="SHRL_label">
+				<anchor>SHRL_radio</anchor>
+				<static>Show name on dice rolls</static>
+			</option_label>
+			<option_radio name="PCHT_radio">
+				<anchor>CTAV_radio</anchor>
+				<sourcefields>
+					<labels>On|Off</labels>
+					<values>on|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>PCHT</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="PCHT_label">
+				<anchor>PCHT_radio</anchor>
+				<static>Show portraits in chat</static>
+			</option_label>
+			<option_radio name="TBOX_radio">
+				<anchor>CTAV_radio</anchor>
+				<sourcefields>
+					<labels>On|Off</labels>
+					<values>on|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>TBOX</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="TBOX_label">
+				<anchor>TBOX_radio</anchor>
+				<static>TheBox (hidden client rolls)</static>
+			</option_label>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="options_combat">
+		<nodelete />
+		<sheetdata>
+			<option_radio name="ESAV_radio">
+				<sourcefields>
+					<labels>On|NPC|Off</labels>
+					<values>on|npc|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>ESAV</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="ESAV_label">
+				<anchor>ESAV_radio</anchor>
+				<static>Auto-roll effect saving throws</static>
+			</option_label>
+			<option_radio name="INIT_radio">
+				<anchor>ESAV_radio</anchor>
+				<sourcefields>
+					<labels>All|Group|Off</labels>
+					<values>all|group|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>INIT</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="INIT_label">
+				<anchor>INIT_radio</anchor>
+				<static>Auto-roll NPC initiatives</static>
+			</option_label>
+			<option_radio name="NNPC_radio">
+				<anchor>ESAV_radio</anchor>
+				<sourcefields>
+					<labels>Append|Random|Off</labels>
+					<values>append|random|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>NNPC</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="NNPC_label">
+				<anchor>NNPC_radio</anchor>
+				<static>Auto NPC numbering</static>
+			</option_label>
+			<option_radio name="SHPH_radio">
+				<anchor>ESAV_radio</anchor>
+				<sourcefields>
+					<labels>On|Off</labels>
+					<values>on|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>SHPH</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="SHPH_label">
+				<anchor>SHPH_radio</anchor>
+				<static>PC health in player view</static>
+			</option_label>
+			<option_radio name="PATK_radio">
+				<anchor>ESAV_radio</anchor>
+				<sourcefields>
+					<labels>On|Report|Off</labels>
+					<values>on|report|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>PATK</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="PATK_label">
+				<anchor>PATK_radio</anchor>
+				<static>Player attack drops</static>
+			</option_label>
+			<option_radio name="PDMG_radio">
+				<anchor>ESAV_radio</anchor>
+				<sourcefields>
+					<labels>On|Report|Off</labels>
+					<values>on|report|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>PDMG</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="PDMG_label">
+				<anchor>PDMG_radio</anchor>
+				<static>Player damage drops</static>
+			</option_label>
+			<option_radio name="PEFF_radio">
+				<anchor>ESAV_radio</anchor>
+				<sourcefields>
+					<labels>On|Report|Off</labels>
+					<values>on|report|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>PEFF</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="PEFF_label">
+				<anchor>PEFF_radio</anchor>
+				<static>Player effect drops</static>
+			</option_label>
+			<option_radio name="RSAV_radio">
+				<anchor>ESAV_radio</anchor>
+				<sourcefields>
+					<labels>On|Off</labels>
+					<values>on|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>RSAV</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="RSAV_label">
+				<anchor>RSAV_radio</anchor>
+				<static>Remove effect on save success</static>
+			</option_label>
+			<option_radio name="RING_radio">
+				<anchor>ESAV_radio</anchor>
+				<sourcefields>
+					<labels>On|Off</labels>
+					<values>on|off</values>
+					<optionwidth>70</optionwidth>
+				</sourcefields>
+				<option>RING</option>
+				<gmonly />
+			</option_radio>
+			<option_label name="RING_label">
+				<anchor>RING_radio</anchor>
+				<static>Ring bell on player turn</static>
+			</option_label>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="options">
+		<frame>charsheet</frame>
+		<playercontrol />
+		<nodelete />
+		<placement>
+			<size>
+				<width>480</width>
+				<height>360</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<minimum>
+				<width>480</width>
+				<height>360</height>
+			</minimum>
+			<maximum>
+				<width>480</width>
+				<height>360</height>
+			</maximum>
+		</sizelimits>
+		<sheetdata>
+			<genericcontrol name="nameframe">
+				<bounds>10,20,-25,35</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol name="name">
+				<anchored>
+					<to>nameframe</to>
+					<position>over</position>
+					<offset>-15,-10</offset>
+				</anchored>
+				<center />
+				<static>OPTIONS</static>
+				<font>narratorfont</font>
+			</stringcontrol>
+
+			<genericcontrol name="tabcontentframe">
+				<bounds>10,54,-25,-15</bounds>
+				<frame>
+					<name>sheetgroup</name>
+					<offset>0,1,0,0</offset>
+				</frame>
+			</genericcontrol>
+
+			<subwindow name="personal">
+				<anchored>
+					<to>tabcontentframe</to>
+					<position>over</position>
+					<offset>-15,-8</offset>
+				</anchored>
+				<class>options_personal</class>
+			</subwindow>
+			<subwindow name="game">
+				<anchored>
+					<to>tabcontentframe</to>
+					<position>over</position>
+					<offset>-15,-8</offset>
+				</anchored>
+				<class>options_game</class>
+			</subwindow>
+			<subwindow name="combat">
+				<anchored>
+					<to>tabcontentframe</to>
+					<position>over</position>
+					<offset>-15,-8</offset>
+				</anchored>
+				<class>options_combat</class>
+			</subwindow>
+
+			<tabcontrol name="tabs">
+				<bounds>-22,50,18,223</bounds>
+				<tab>
+					<icon>tab_personal</icon>
+					<subwindow>personal</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_game</icon>
+					<subwindow>game</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_combat</icon>
+					<subwindow>combat</subwindow>
+				</tab>
+				<activate>1</activate>
+			</tabcontrol>
+			
+			<closebutton_charsheetmini />
+		</sheetdata>
+	</windowclass>
+</root>

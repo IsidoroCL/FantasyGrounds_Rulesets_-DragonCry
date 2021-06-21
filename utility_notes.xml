@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  -- Please see the readme.txt file included with this distribution for 
+  -- attribution and copyright information.
+  -->
+
+<root version="2.0">
+	<windowclass name="note">
+		<frame>storybox</frame>
+		<placement>
+			<size>
+				<width>250</width>
+				<height>306</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_note</minimize>
+		<playercontrol />
+		<sharable />
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+		<script>
+			function update()
+				if User.isHost() then
+					readonlyflag = true;
+
+					local ownername = getDatabaseNode().getOwner();
+					if not ownername then
+						readonlyflag = false;
+					end	
+
+					name.setReadOnly(readonlyflag);
+					text.setReadOnly(readonlyflag);
+				end
+			end
+
+			function onInit()
+				getDatabaseNode().onObserverUpdate = update;
+				update();
+			end
+		</script>
+		<sheetdata>
+			<windowreferencecontrol>
+				<bounds>15,11,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>note</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowreferencecontrol>
+			<stringfield name="name">
+				<bounds>40,13,-15,20</bounds>
+				<empty>&#171; New Note &#187;</empty>
+				<font>sheettext</font>
+				<nodrag />
+				<nodragselect />
+			</stringfield>
+			<stringfield name="text">
+				<bounds>10,40,-15,-15</bounds>
+				<multilinespacing>18</multilinespacing>
+				<font>sheettext</font>
+			</stringfield>
+			
+			<closebutton_storybox />
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="notesmall">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<playercontrol />
+		<sheetdata>
+			<windowreferencecontrol name="open">
+				<bounds>0,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>note</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowreferencecontrol>
+			<linkstringfield name="name">
+				<bounds>25,1,-1,20</bounds>
+				<empty>&#171; New Note &#187;</empty>
+				<selectioncolor>#90ffffff</selectioncolor>
+				<font>sheettext</font>
+				<linktarget>open</linktarget>
+			</linkstringfield>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="notelist">
+		<frame>scrollbox</frame>
+		<dynamic />
+		<placement>
+			<size>
+				<width>275</width>
+				<height>350</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum>
+				<width>200</width>
+				<height>220</height>
+			</minimum>
+		</sizelimits>
+		<softclose />
+		<sheetdata>
+			<windowlist name="list">
+				<bounds>35,25,-30,-34</bounds>
+				<datasource>.</datasource>
+				<class>notesmall</class>
+				<ownedonly />
+				<footer>footer_narrow</footer>
+				<allowcreate />
+				<allowdelete />
+			</windowlist>
+			<scrollercontrol>
+				<bounds>-105,-61,45,27</bounds>
+				<target>list</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			<buttoncontrol>
+				<bounds>-55,-45,34,25</bounds>
+				<icon>
+					<normal>button_newwindow</normal>
+					<pressed>button_newwindowdown</pressed>
+				</icon>
+				<class>note</class>
+				<script>
+					function onButtonPress()
+						Interface.requestNewClientWindow(class[1], window.getDatabaseNode().getNodeName());
+					end
+				</script>
+			</buttoncontrol>
+			
+			<closebutton_scrollbox />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="gm_notesmall">
+		<sizelimits>
+			<minimum>
+				<height>10</height>
+			</minimum>
+		</sizelimits>
+		<playercontrol />
+		<sheetdata>
+			<windowreferencecontrol name="open">
+				<bounds>0,0,20,20</bounds>
+				<icon>
+					<normal>button_openwindow</normal>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<class>note</class>
+				<description>
+					<field>name</field>
+				</description>
+			</windowreferencecontrol>
+			<stringcontrol name="owner">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>1</offset>
+					</top>
+					<size>
+						<height>20</height>
+					</size>
+				</anchored>
+				<font>sheettext</font>
+				<disabled />
+				<script>
+					function update()
+						local ownername = window.getDatabaseNode().getOwner();
+						if not ownername then
+							ownername = "None";
+						end
+						
+						setValue("[" .. ownername .. "]");
+					end
+					
+					function onInit()
+						window.getDatabaseNode().onObserverUpdate = update;
+						update();
+					end
+				</script>
+			</stringcontrol>
+			<linkstringfield name="name">
+				<anchored>
+					<top>
+						<anchor>top</anchor>
+						<offset>1</offset>
+					</top>
+					<left>
+						<anchor>left</anchor>
+						<offset>25</offset>
+					</left>
+					<right>
+						<parent>owner</parent>
+						<anchor>left</anchor>
+						<offset>5</offset>
+					</right>
+					<size>
+						<height>20</height>
+					</size>
+				</anchored>
+				<empty>&#171; New Note &#187;</empty>
+				<selectioncolor>#90ffffff</selectioncolor>
+				<font>sheettext</font>
+				<linktarget>open</linktarget>
+			</linkstringfield>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="gm_notelist">
+		<frame>scrollbox</frame>
+		<dynamic />
+		<placement>
+			<size>
+				<width>275</width>
+				<height>350</height>
+			</size>
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum>
+				<width>200</width>
+				<height>220</height>
+			</minimum>
+		</sizelimits>
+		<softclose />
+		<sheetdata>
+			<windowlist name="list">
+				<bounds>35,25,-30,-34</bounds>
+				<datasource>.</datasource>
+				<class>gm_notesmall</class>
+				<footer>footer_narrow</footer>
+				<allowcreate />
+				<allowdelete />
+			</windowlist>
+			<scrollercontrol>
+				<bounds>-105,-61,45,27</bounds>
+				<target>list</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+			<buttoncontrol>
+				<bounds>-55,-45,34,25</bounds>
+				<icon>
+					<normal>button_newwindow</normal>
+					<pressed>button_newwindowdown</pressed>
+				</icon>
+				<class>note</class>
+				<script>
+					function onButtonPress()
+						local node = NodeManager.createSafeChild(window.getDatabaseNode());
+						if node then
+							Interface.openWindow(class[1], node.getNodeName());
+						end
+					end
+				</script>
+			</buttoncontrol>
+			
+			<closebutton_scrollbox />
+		</sheetdata>
+	</windowclass>
+</root>
